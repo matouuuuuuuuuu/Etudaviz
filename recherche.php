@@ -7,7 +7,7 @@
     require "./include/header.inc.php";
 ?>
 
-    <main class="search-container">
+    <section class="search-container">
         <?php if (!empty($query)) : ?>
             <p>Vous avez recherché : <strong><?php echo htmlspecialchars($query); ?></strong></p>
 
@@ -34,7 +34,7 @@
         <?php else : ?>
             <p>Aucun mot-clé saisi. <a href="index.php">Retour à l'accueil</a></p>
         <?php endif; ?>
-    </main>
+        </section>
 
 <?php
     require "./include/footer.inc.php";

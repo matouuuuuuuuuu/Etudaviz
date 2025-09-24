@@ -5,10 +5,29 @@
     require "./include/header.inc.php";
 ?>
 
-<main>
+    <div class="slideshow-container">
+            <div class="mySlides fade">
+                <div class="numbertext">1 / 3</div>
+                <img src="/images/img1.jpg" style="width:100%" alt="image aletoire">
+            </div>
+
+            <div class="mySlides fade">
+                <div class="numbertext">2 / 3</div>
+                <img src="/images/img2.jpg" style="width:100%" alt="image aletoire">
+            </div>
+
+            <div class="mySlides fade">
+                <div class="numbertext">3 / 3</div>
+                <img src="/images/img3.jpg" style="width:100%" alt="image aletoire">
+            </div>
+
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    </div> 
+
      <section class="hero">
         <div class="hero-text">
-            <h2>Prépare ton avenir dès aujourd’hui 🚀</h1>
+            <h2>Prépare ton avenir dès aujourd’hui 🚀</h2>
             <p>
                 Explore les <strong>formations disponibles</strong>, découvre des <strong>avis d’étudiants</strong> 
                 et accède à des <strong>guides pratiques</strong> pour bien choisir ton futur parcours.
@@ -80,8 +99,8 @@
             leur choix d’études supérieures.
         </p>
     </section>
-</main>
 
+    <script type="module" src="/js/slides.js"></script>
 <?php
     require "./include/footer.inc.php";
 ?>

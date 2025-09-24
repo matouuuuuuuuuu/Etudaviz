@@ -4,7 +4,7 @@
     $h1="Mentions légales";
     require "./include/header.inc.php";
 ?>
-    <main class="legal">
+    <section class="legal">
         <h2>Éditeur du site</h2>
         <p> Etudaviz/ Projet réalisé dans le cadre de notre 3ème année de licence / CY Tech Paris Université
             <br>33 Bd du Port, 95000 Cergy<br>
@@ -22,7 +22,7 @@
 
         <h2>Données personnelles</h2>
         <p>Les informations collectées sont utilisées uniquement à des fins de contact et ne sont jamais transmises à des tiers sans accord.</p>
-    </main>
+    </section>
 <?php
     require "./include/footer.inc.php";
 ?>

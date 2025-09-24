@@ -5,12 +5,10 @@
     require "./include/header.inc.php";
 ?>
 
-<main>
     <div class="login-container">
         <div class="login-box">
             <h2>Connexion</h2>
 
-            <!-- Message d'erreur (optionnel) -->
             <div class="error">Email ou mot de passe incorrect.</div>
 
             <form>
@@ -23,7 +21,6 @@
             <a href="#">Mot de passe oublié ?</a>
         </div>
     </div>
-</main>
 
 <?php
     require "./include/footer.inc.php";

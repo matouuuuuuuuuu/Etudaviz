@@ -64,6 +64,14 @@ nav ul li a:hover {
   color: #D98E73;
 }
 
+.nav-icon {
+  width: 15px;
+  height: 15px;
+  margin-right: 8px;
+  vertical-align: middle;
+  object-fit: contain;
+}
+
 /* ----- TITRES ----- */
 h1, h2 {
   font-weight: 700;
@@ -119,7 +127,6 @@ ul {
 }
 
 ul li::before {
-  content: "✔";
   color: #4A6FA5;
   margin-right: 8px;
 }
@@ -523,3 +530,198 @@ footer {
 .result-item a:hover {
     background: #004c99;
 }
+
+.slideshow-container {
+            max-width: 800px;
+            position: relative;
+            margin: 50px auto;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+            margin: 50px auto; /* réduire la marge verticale */
+        }
+
+        .mySlides {
+            display: none;
+        }
+
+        .fade {
+            animation-name: fade;
+            animation-duration: 1.5s;
+        }
+.numbertext {
+            color: #fff;
+            font-size: 14px;
+            padding: 8px 12px;
+            position: absolute;
+            top: 0;
+        }
+
+        /* Next & previous buttons */
+        .prev, .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            margin-top: -22px;
+            padding: 16px;
+            color: #fff;
+            font-weight: bold;
+            font-size: 24px;
+            transition: 0.3s;
+            border-radius: 0 3px 3px 0;
+            user-select: none;
+            background: rgba(0,0,0,0.3);
+        }
+
+        .next {
+            right: 0;
+            border-radius: 3px 0 0 3px;
+        }
+
+        .prev:hover, .next:hover {
+            background-color: rgba(0,0,0,0.6);
+        }
+
+nav ul.menu {
+  list-style: none;
+  display: flex;
+  gap: 10px;
+  padding: 0;
+}
+
+nav ul.menu li {
+  position: relative;
+}
+
+nav ul.menu li .nav-icon {
+  transition: transform 0.3s ease;
+}
+
+nav ul.menu li:hover .nav-icon {
+  transform: rotate(90deg); /* vers le bas */
+}
+
+nav ul.menu > li > a {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  text-decoration: none;
+}
+
+nav ul.submenu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  list-style: none;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  z-index: 1000;
+  min-width: 180px;
+  padding: 0;
+}
+
+nav ul.submenu li a {
+  display: block;
+  padding: 10px 15px;
+  color: #1A237E;
+  text-decoration: none;
+  font-weight: normal;
+}
+
+nav ul.submenu li a:hover {
+  background-color: #e3f2fd;
+}
+
+nav ul.menu li:hover > ul.submenu {
+  display: block;
+}
+
+
+
+
+
+
+
+
+
+
+/* Recherche */
+.search-bar {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.search-bar input {
+    padding: 10px;
+    width: 60%;
+    border: 1px solid #ccc;
+    border-radius: 6px 0 0 6px;
+    outline: none;
+}
+
+.search-bar button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #1A237E;
+    color: white;
+    border-radius: 0 6px 6px 0;
+    cursor: pointer;
+}
+
+/* Filtres */
+.filters {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.filters select {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+/* Cartes formations */
+.formations-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.formation-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    transition: transform 0.2s;
+}
+
+.formation-card:hover {
+    transform: translateY(-5px);
+}
+
+.formation-card h2 {
+    color: #1A237E;
+    margin-bottom: 10px;
+}
+
+.formation-card a {
+    display: inline-block;
+    margin-top: 10px;
+    color: #1565c0;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.formation-card a:hover {
+    text-decoration: underline;
+}
+
+

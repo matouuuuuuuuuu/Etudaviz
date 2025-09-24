@@ -4,8 +4,7 @@
     $h1="Politique de confidentialité";
     require "./include/header.inc.php";
 ?>
-    <main class="privacy">
-
+    <section>
         <p>La présente politique de confidentialité a pour objectif d’informer les utilisateurs du site sur la manière dont leurs données personnelles peuvent être collectées et traitées.</p>
 
         <h2>1. Responsable du traitement</h2>
@@ -54,7 +53,7 @@
         <p>Cette politique de confidentialité peut être mise à jour en fonction de l’évolution du site ou de la législation. La date de mise à jour sera indiquée en bas de la page.</p>
 
         <p><em>Dernière mise à jour : <?= date("d/m/Y"); ?></em></p>
-    </main>
+</section>
 <?php
     require "./include/footer.inc.php";
 ?>

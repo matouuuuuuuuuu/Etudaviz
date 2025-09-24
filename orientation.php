@@ -5,7 +5,6 @@
     require "./include/header.inc.php";
 ?>
 
-<main>
     <section>
         <figure  style="margin:0; padding:0; display:flex; justify-content:center; align-items:center; height:100vh; box-sizing:border-box;">
 	
@@ -13,8 +12,6 @@
 
 		</figure>
     </section>
-
-</main>
 
 <?php
     require "./include/footer.inc.php";

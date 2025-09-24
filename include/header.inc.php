@@ -30,18 +30,45 @@ if(isset($_COOKIE['visited'])) {
     <header class="<?php echo $headerClass; ?>">
         <!-- Logo -->
         <a href="/index.php" class="logo">
-            <img src="/images/favicon.png" alt="Logo Etudaviz" width="100"/>
+            <img src="/images/favicon.png" alt="Logo personnel"/>
         </a>
 
         <!-- Navigation -->
         <nav>
-            <ul>
-                <li><a href="formations.php">Formations</a></li>
-                <li><a href="orientation.php">Apprendre à s'orienter</a></li>
-                <li><a href="apropos.php">À propos</a></li>
-                <li><a href="contact.php">Contact</a></li>
-            </ul>
-        </nav>
+  <ul class="menu">
+    <li>
+      <a href="formations.php"><img src="images/fleche-droite.png" alt="Flèche" class="nav-icon">Formations</a>
+      <ul class="submenu">
+        <li><a href="#">A définir</a></li>
+        <li><a href="#">A définir</a></li>
+        <li><a href="#">A définir</a></li>
+      </ul>
+    </li>
+
+    <li>
+      <a href="orientation.php"><img src="images/fleche-droite.png" alt="Flèche" class="nav-icon">Apprendre à s'orienter</a>
+      <ul class="submenu">
+        <li><a href="#">A définir</a></li>
+        <li><a href="#">A définir</a></li>
+        <li><a href="#">A définir</a></li>
+      </ul>
+    </li>
+
+    <li>
+      <a href="apropos.php"><img src="images/fleche-droite.png" alt="Flèche" class="nav-icon">À propos</a>
+      <ul class="submenu">
+        <li><a href="#">A définir</a></li>
+        <li><a href="#">A définir</a></li>
+        <li><a href="#">A définir</a></li>
+      </ul>
+    </li>
+
+    <li>
+      <a href="contact.php"><img src="images/fleche-droite.png" alt="Flèche" class="nav-icon">Contact</a>
+    </li>
+  </ul>
+</nav>
+
 
        <!-- Zone droite : recherche + connexion -->
         <div class="header-right">
