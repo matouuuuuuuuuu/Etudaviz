@@ -10,7 +10,6 @@
         Utilisez la barre de recherche ou les filtres pour trouver rapidement ce qui vous intéresse.</p>
     </section>
 
-    <!-- Barre de recherche -->
     <section class="search-section">
         <form class="search-bar" action="#" method="get">
             <input type="text" name="q" placeholder="Rechercher une formation (ex: BTS, Licence, BUT)...">

@@ -12,7 +12,6 @@
             <p>Vous avez recherché : <strong><?php echo htmlspecialchars($query); ?></strong></p>
 
             <div class="results">
-                <!-- Résultats fictifs -->
                 <div class="result-item">
                     <h3>Formation en Informatique</h3>
                     <p>Découvrez nos cursus en développement web, cybersécurité et IA.</p>

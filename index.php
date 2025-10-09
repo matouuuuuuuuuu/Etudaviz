@@ -1,106 +1,132 @@
 <?php
-	$title = "Accueil";
-	$description = "Page d'accueil d'Etudaviz permettant aux lycéens de découvrir des formations, des avis étudiants et des guides pour leur orientation.";
-    $h1 = "Bienvenue sur Etudaviz";
-    require "./include/header.inc.php";
+  $title = "Accueil";
+  $description = "Etudaviz - Trouve ta voie : découvre les formations, les témoignages étudiants et les guides d’orientation pour construire ton avenir.";
+  $h1 = "Bienvenue sur Etudaviz";
+  require "./include/header.inc.php";
 ?>
 
-    <div class="slideshow-container">
-            <div class="mySlides fade">
-                <div class="numbertext">1 / 3</div>
-                <img src="/images/img1.jpg" style="width:100%" alt="image aletoire">
+    <section class="hero-section">
+        <div class="hero-container">
+            <div class="hero-text">
+            <h2>Choisis ton avenir, pas par hasard </h2>
+                <p>
+                    Etudaviz t’aide à <strong>découvrir des formations</strong>,
+                    <strong>comparer les parcours</strong> et lire les
+                    <strong>témoignages d’étudiants</strong> pour trouver la voie qui te correspond.
+                </p>
+                <div class="hero-buttons">
+                    <a href="formations.php" class="btn-primary">Explorer les formations</a>
+                    <a href="orientation.php" class="btn-secondary">Trouver ma voie</a>
+                </div>
             </div>
 
-            <div class="mySlides fade">
-                <div class="numbertext">2 / 3</div>
-                <img src="/images/img2.jpg" style="width:100%" alt="image aletoire">
+            <div class="hero-image">
+                <img src="./images/construction.png" alt="Jeunes étudiants motivés découvrant leur avenir">
             </div>
-
-            <div class="mySlides fade">
-                <div class="numbertext">3 / 3</div>
-                <img src="/images/img3.jpg" style="width:100%" alt="image aletoire">
-            </div>
-
-        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-        <a class="next" onclick="plusSlides(1)">&#10095;</a>
-    </div> 
-
-     <section class="hero">
-        <div class="hero-text">
-            <h2>Prépare ton avenir dès aujourd’hui 🚀</h2>
-            <p>
-                Explore les <strong>formations disponibles</strong>, découvre des <strong>avis d’étudiants</strong> 
-                et accède à des <strong>guides pratiques</strong> pour bien choisir ton futur parcours.
-            </p>
-            <a href="formations.php" class="btn-primary">Découvrir les formations</a>
-        </div>
-        <div class="hero-img">
-            <img src="images/etudiants.jpg" alt="Étudiants en orientation">
         </div>
     </section>
 
-     <section class="services">
-        <h2>Nos Services</h2>
-        <div class="services-grid">
-            <div class="card">
-                <img src="images/formations.jpg" alt="Formations">
+
+    <section class="services">
+        <h2 class="services-title">Explore les rubriques clés 🧭</h2>
+        <div class="service-block">
+                <div class="service-text">
                 <h3>Formations</h3>
-                <p>Un catalogue complet de formations pour t’aider à trouver ta voie.</p>
-                <a href="formations.php">En savoir plus →</a>
+                    <p>Découvre les parcours post-bac : BUT, BTS, licences, écoles spécialisées, alternance…</p>
+                    <a href="formations.php" class="btn-link">Voir les formations →</a>
+                </div>
+                <div class="service-image">
+                    <img src="./images/formations.jpg" alt="Salle de cours avec étudiants">
+                </div>
+        </div>
+
+        <div class="service-block">
+            <div class="service-image">
+                <img src="./images/orientation.jpg" alt="Conseil orientation">
             </div>
-            <div class="card">
-                <img src="images/orientation.jpg" alt="Orientation">
+            <div class="service-text">
                 <h3>Orientation</h3>
-                <p>Des conseils pratiques et outils d’aide à l’orientation adaptés aux lycéens.</p>
-                <a href="orientation.php">En savoir plus →</a>
+                    <p>Mieux te connaître, comprendre les débouchés, poser les bonnes questions à temps.</p>
+                    <a href="orientation.php" class="btn-link">En savoir plus →</a>
             </div>
-            <div class="card">
-                <img src="images/community.jpg" alt="Communauté">
+        </div>
+
+        <div class="service-block">
+            <div class="service-text">
                 <h3>Avis d’étudiants</h3>
-                <p>Découvre les retours d’expérience d’autres étudiants sur leurs parcours.</p>
-                <a href="avis.php">En savoir plus →</a>
+                    <p>Lis des témoignages honnêtes d’autres jeunes et partage ton retour d’expérience.</p>
+                    <a href="avis.php" class="btn-link">Découvrir les avis →</a>
+            </div>
+            <div class="service-image">
+                <img src="./images/community.jpg" alt="Communauté étudiante">
             </div>
         </div>
     </section>
 
-    <!-- Section fonctionnalités -->
-    <section id="features">
-        <h2>Ce que tu trouveras sur Etudaviz</h2>
-        <ul>
-            <li><strong>Fiches Formations</strong> : découvre les parcours possibles après le bac.</li>
-            <li><strong>Avis d’étudiants</strong> : profite de témoignages réels pour te projeter.</li>
-            <li><strong>Guides pratiques</strong> : conseils et astuces pour réussir ton orientation.</li>
-            <li><strong>Ressources utiles</strong> : liens et documents pour approfondir.</li>
-        </ul>
+    <section class="avis">
+        <h2>Ce qu’en disent les étudiants 🎓</h2>
+        <div class="slideshow-container">
+            <div class="mySlides fade">
+                <span class="quote-mark">“</span>
+                <p class="quote">
+                Grâce à Etudaviz, j’ai découvert une école d’ingénieur qui correspondait parfaitement à mon profil !
+                </p>
+                <p class="author">— Léo, ancien lycéen</p>
+            </div>
+
+            <div class="mySlides fade">
+                <span class="quote-mark">“</span>
+                <p class="quote">
+                Les avis des autres étudiants m’ont vraiment aidée à choisir ma licence pro en communication.
+                </p>
+                <p class="author">— Inès, étudiante à CY</p>
+            </div>
+
+            <div class="mySlides fade">
+                <span class="quote-mark">“</span>
+                <p class="quote">
+                J’ai pu comparer les parcours et trouver une formation en alternance près de chez moi.
+                </p>
+                <p class="author">— Thomas, étudiant en BTS</p>
+            </div>
+
+            <div class="slider-controls">
+            <span class="prev" onclick="plusSlides(-1)">&#10094;</span>
+            <span class="next" onclick="plusSlides(1)">&#10095;</span>
+            </div>
+        </div>
     </section>
 
 
-        <!-- testtetstststeettetstststs-->
 
-    <!-- Section CTA (appel à l’action) -->
-    <section id="cta">
-        <h2>Commence ton exploration</h2>
-        <p>Accède directement aux rubriques principales :</p>
-        <nav class="cta-links">
-            <a href="formations.php" class="btn">Formations</a>
-            <a href="avis.php" class="btn">Avis étudiants</a>
-            <a href="guides.php" class="btn">Guides</a>
-            <a href="contact.php" class="btn">Contact</a>
-        </nav>
-    </section>
 
-    <!-- (optionnel) Section équipe ou projet universitaire -->
-    <section id="about-project">
-        <h2>À propos du projet</h2>
-        <p>
-            Ce site a été conçu dans le cadre de la mineure <strong>Développement Web Avancé</strong> 
-            à <em>CY Cergy Paris Université</em>.  
-            Notre objectif est d’offrir un outil simple et clair pour accompagner les lycéens dans 
-            leur choix d’études supérieures.
-        </p>
-    </section>
+<!-- CTA FINAL -->
+<section id="cta">
+  <h2>Prêt à trouver ta voie ?</h2>
+  <p>Pars à la découverte de ton futur dès maintenant 👇</p>
+  <nav class="cta-links">
+    <a href="formations.php" class="btn">Formations</a>
+    <a href="avis.php" class="btn">Avis étudiants</a>
+    <a href="guides.php" class="btn">Guides</a>
+    <a href="contact.php" class="btn">Contact</a>
+  </nav>
+</section>
 
-    <script type="module" src="/js/slides.js"></script>
+
+<!-- À PROPOS -->
+<section id="about-project">
+  <h2>À propos d’<span class="highlight">Etudaviz</span></h2>
+  <p>
+    Etudaviz est un projet réalisé dans le cadre de la mineure <strong>Développement Web Avancé</strong> 
+    à <em>CY Cergy Paris Université</em>.  
+    Notre mission : offrir un site simple, fiable et motivant pour aider chaque lycéen 
+    à construire son avenir avec confiance 💪
+  </p>
+</section>
+
+
+<script type="module" src="/js/slides.js"></script>
+
 <?php
-    require "./include/footer.inc.php";
+  require "./include/footer.inc.php";
 ?>
