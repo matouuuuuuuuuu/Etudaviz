@@ -26,6 +26,15 @@
         </div>
     </section>
 
+    <section class="map-section">
+        <h2 class="map-title">Explorer les formations sur la carte 🗺️</h2>
+            <p class="map-intro">
+                Visualise prochainement les grandes formations disponibles autour de chez toi.
+                La carte sera bientôt interactive avec les localisations des établissements.
+            </p>
+            <div id="map"></div>
+    </section>
+
 
     <section class="services">
         <h2 class="services-title">Explore les rubriques clés 🧭</h2>
@@ -99,20 +108,6 @@
 
 
 
-
-<!-- CTA FINAL -->
-<section id="cta">
-  <h2>Prêt à trouver ta voie ?</h2>
-  <p>Pars à la découverte de ton futur dès maintenant 👇</p>
-  <nav class="cta-links">
-    <a href="formations.php" class="btn">Formations</a>
-    <a href="avis.php" class="btn">Avis étudiants</a>
-    <a href="guides.php" class="btn">Guides</a>
-    <a href="contact.php" class="btn">Contact</a>
-  </nav>
-</section>
-
-
 <!-- À PROPOS -->
 <section id="about-project">
   <h2>À propos d’<span class="highlight">Etudaviz</span></h2>
@@ -126,6 +121,11 @@
 
 
 <script type="module" src="/js/slides.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="./js/map.js"></script>
+
 
 <?php
   require "./include/footer.inc.php";

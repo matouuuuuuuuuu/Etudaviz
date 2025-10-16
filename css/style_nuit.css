@@ -13,8 +13,8 @@
   ========================================================= */
   
 body {
- background-color: #FDFDF9; 
- color: #2E2E2E;  
+ background-color: #FDFBF5; 
+ color: #2F2F2F;  
  line-height: 1.7;
  font-size: 16px;
 }
@@ -35,13 +35,13 @@ p {
  /* ----- LIEN ----- */
 
 a {
- color: #4A6FA5; 
+ color: #1A4F3F; 
  text-decoration: none;
  transition: color 0.3s, transform 0.2s;
 }
 
 a:hover {
- color: #D98E73; 
+ color: #D97706; 
  transform: translateY(-1px);
 }
  
@@ -54,7 +54,7 @@ h1, h2 {
 
 h1 {
  font-size: 2.4rem;
- color: #4A6FA5;
+ color: #1A4F3F;
  letter-spacing: -1px;
 }
 
@@ -74,7 +74,7 @@ ul {
 }
 
 ul li::before {
- color: #4A6FA5;
+ color: #1A4F3F;
  margin-right: 8px;
 }
 
@@ -82,7 +82,7 @@ ul li::before {
 
 button, .btn {
  display: inline-block;
- background: linear-gradient(135deg, #4A6FA5, #3B5B84); /* bleu */
+ background: linear-gradient(135deg, #1A4F3F, #3B5B84); /* bleu */
  color: white;
  padding: 12px 24px;
  border-radius: 8px;
@@ -97,7 +97,7 @@ button, .btn {
 button:hover, .btn:hover {
  transform: translateY(-3px);
  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
- background: linear-gradient(135deg, #D98E73, #C67459); /* terracotta */
+ background: linear-gradient(135deg, #D97706, #C67459); /* terracotta */
 }
 
  /* ----- BOUTON GROUPE (CTA) ----- */
@@ -138,7 +138,7 @@ th, td {
 }
 
 th {
- background: #4A6FA5;
+ background: #1A4F3F;
  color: white;
  font-weight: 600;
 }
@@ -225,7 +225,7 @@ header {
  display: flex;
  align-items: center;
  justify-content: flex-start;
- background: #F5F7FA; 
+ background: #F2F1ED; 
  padding: 15px 40px;
  border-bottom: 1px solid #E0E6ED; 
  gap: 50px;
@@ -246,7 +246,7 @@ header img {
   ========================================================= */
 
 footer {
-  background: #222;
+  background: #1A1C1A;
   color: #fff;
   padding: 20px 10px;
   text-align: center;
@@ -326,13 +326,13 @@ nav ul {
 }
 
 nav ul li a {
- color: #4A6FA5;
+ color: #1A4F3F;
  font-weight: 500;
  transition: color 0.3s;
 }
 
 nav ul li a:hover {
- color: #D98E73;
+ color: #D97706;
 }
 
 .nav-icon {
@@ -414,7 +414,7 @@ section {
 }
 
 section:nth-child(even) {
- background: #F5F7FA; /* alternance gris bleuté */
+ background: #F2F1ED; /* alternance gris bleuté */
 }
 
 section:hover {
@@ -451,7 +451,7 @@ section:hover {
 
 .hero-text h2 {
  font-size: 2.8rem;
- color: #1f3b73;
+ color: #0E2E2E;
  margin-bottom: 20px;
  line-height: 1.2;
 }
@@ -472,7 +472,7 @@ section:hover {
 }
 
 .hero-buttons .btn-primary {
- background: #4263eb;
+ background: #2D6A4F;
  color: white;
  padding: 12px 28px;
  border-radius: 10px;
@@ -486,8 +486,8 @@ section:hover {
 }
 
 .hero-buttons .btn-secondary {
- border: 2px solid #4263eb;
- color: #4263eb;
+ border: 2px solid #2D6A4F;
+ color: #2D6A4F;
  padding: 12px 26px;
  border-radius: 10px;
  font-weight: 600;
@@ -495,7 +495,7 @@ section:hover {
 }
 
 .hero-buttons .btn-secondary:hover {
- background: #4263eb;
+ background: #2D6A4F;
  color: white;
 }
 
@@ -547,7 +547,7 @@ section:hover {
 
 .services-title {
   font-size: 2.2rem;
-  color: #1f3b73;
+  color: #0E2E2E;
   text-align: center;
   margin-bottom: 60px;
 }
@@ -591,14 +591,14 @@ section:hover {
 
 .btn-link {
   display: inline-block;
-  color: #4263eb;
+  color: #2D6A4F;
   font-weight: bold;
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
 .btn-link:hover {
-  color: #D98E73;
+  color: #D97706;
 }
 
 .service-image {
@@ -756,9 +756,9 @@ section:hover {
 .slider-controls .prev,
 .slider-controls .next {
   font-size: 1.8rem;
-  color: #4A6FA5;
+  color: #1A4F3F;
   background: transparent;
-  border: 2px solid #4A6FA5;
+  border: 2px solid #1A4F3F;
   border-radius: 50%;
   width: 42px;
   height: 42px;
@@ -771,7 +771,7 @@ section:hover {
 
 .slider-controls .prev:hover,
 .slider-controls .next:hover {
-  background: #4A6FA5;
+  background: #1A4F3F;
   color: white;
   transform: scale(1.1);
 }
@@ -790,7 +790,7 @@ section:hover {
 .quote-mark {
   font-size: 3rem;
   font-weight: bold;
-  color: #4A6FA5;
+  color: #1A4F3F;
   position: absolute;
   top: 20px;
   left: 30px;
@@ -820,7 +820,7 @@ section:hover {
 
 .avis h2 {
   font-size: 2.2rem;
-  color: #1f3b73;
+  color: #0E2E2E;
   text-align: center;
   margin-bottom: 50px;
 }
@@ -882,7 +882,7 @@ section:hover {
 
 .map-title {
   font-size: 2rem;
-  color: #1f3b73;
+  color: #0E2E2E;
   margin-bottom: 20px;
 }
 
@@ -902,158 +902,4 @@ section:hover {
   border-radius: 18px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.07);
   margin-top: 20px;
-}
-
-
-
-
-
-
-
-
-
-
-
-/* 🟪 Barre de recherche centrale */
-.search-bar {
-    text-align: center;
-    margin: 30px 0 40px;
-}
-
-.search-bar form {
-    display: inline-flex;
-    gap: 10px;
-}
-
-.search-bar input {
-    padding: 12px 15px;
-    font-size: 1rem;
-    width: 350px;
-    border-radius: 25px;
-    border: 1px solid #ccc;
-}
-
-.search-bar button {
-    background-color: #263EA3;
-    color: white;
-    border: none;
-    border-radius: 25px;
-    padding: 12px 20px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.search-bar button:hover {
-    background-color: #1f3291;
-}
-
-/* 🟥 🟩 Layout principal */
-.layout {
-    display: flex;
-    gap: 30px;
-    align-items: flex-start;
-    padding: 0 30px 50px;
-}
-
-/* 🟥 Colonne rouge : filtres */
-.filters {
-    flex: 0 0 250px;
-    background-color: #f9f9f9;
-    padding: 20px;
-    border-radius: 10px;
-    border: 1px solid #ddd;
-}
-
-/* 🟩 Contenu résultats */
-.results {
-    flex: 1;
-}
-
-.results ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.results li {
-    background: #f6f9fc;
-    margin-bottom: 20px;
-    padding: 15px;
-    border-radius: 8px;
-    border: 1px solid #e0e0e0;
-}
-
-.results button#voir-plus {
-    display: block;
-    margin: 20px auto 0;
-    padding: 10px 20px;
-    border: none;
-    background-color: #3d5afe;
-    color: white;
-    font-weight: bold;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.filter-toggle {
-    margin-left: 20px;
-    background-color: white;
-    border: 1px solid #ccc;
-    padding: 10px 14px;
-    border-radius: 20px;
-    font-weight: bold;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.filter-toggle:hover {
-    background-color: #f0f0f0;
-}
-
-.hidden {
-    display: none;
-}
-
-
-.modal {
-    position: fixed;
-    top: 20px;            /* en haut, pas centré */
-    left: 50%;
-    transform: translateX(-50%);
-    background: none;     /* pas d'overlay sombre */
-    width: auto;
-    height: auto;
-    display: flex;
-    justify-content: center;
-    z-index: 9999;
-}
-
-/* Contenu de la modale */
-.modal-content {
-    background-color: white;
-    padding: 30px;
-    border-radius: 10px;
-    width: 90%;
-    max-width: 400px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-    position: relative;
-}
-
-
-.close-button {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 24px;
-    border: none;
-    background: none;
-    cursor: pointer;
-    color: #000; /* 👈 croix noire */
-    font-weight: bold;
-}
-
-/* Classe pour cacher */
-.hidden {
-    display: none;
 }

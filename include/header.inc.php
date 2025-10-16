@@ -1,10 +1,9 @@
 <?php
-// Vérifier si le cookie existe
 if(isset($_COOKIE['visited'])) {
-    $headerClass = "visited"; // nouvelle classe après refresh
+    $headerClass = "visited"; 
 } else {
-    $headerClass = ""; // classe vide pour la première visite
-    setcookie("visited", "true", time() + 7*24*60*60, "/"); // cookie 7 jours
+    $headerClass = ""; 
+    setcookie("visited", "true", time() + 7*24*60*60, "/"); 
 }
 ?>
 
@@ -28,46 +27,43 @@ if(isset($_COOKIE['visited'])) {
     </a>
 
     <header class="<?php echo $headerClass; ?>">
-        <!-- Logo -->
         <a href="/index.php" class="logo">
             <img src="/images/favicon.png" alt="Logo personnel"/>
         </a>
 
-        <!-- Navigation -->
         <nav>
-  <ul class="menu">
-    <li>
-      <a href="formations.php"><img src="images/fleche-droite.png" alt="Flèche" class="nav-icon">Formations</a>
-      <ul class="submenu">
-        <li><a href="#">A définir</a></li>
-        <li><a href="#">A définir</a></li>
-        <li><a href="#">A définir</a></li>
-      </ul>
-    </li>
+          <ul class="menu">
+            <li>
+              <a href="formations.php"><img src="images/fleche-droite.png" alt="Flèche" class="nav-icon">Formations</a>
+              <ul class="submenu">
+                <li><a href="#">A définir</a></li>
+                <li><a href="#">A définir</a></li>
+              </ul>
+            </li>
+            
+            <li>
+              <a href="orientation.php"><img src="images/fleche-droite.png" alt="Flèche" class="nav-icon">Apprendre à s'orienter</a>
+              <ul class="submenu">
+                <li><a href="#">A définir</a></li>
+                <li><a href="#">A définir</a></li>
+                <li><a href="#">A définir</a></li>
+              </ul>
+            </li>
 
-    <li>
-      <a href="orientation.php"><img src="images/fleche-droite.png" alt="Flèche" class="nav-icon">Apprendre à s'orienter</a>
-      <ul class="submenu">
-        <li><a href="#">A définir</a></li>
-        <li><a href="#">A définir</a></li>
-        <li><a href="#">A définir</a></li>
-      </ul>
-    </li>
+            <li>
+              <a href="apropos.php"><img src="images/fleche-droite.png" alt="Flèche" class="nav-icon">À propos</a>
+              <ul class="submenu">
+                <li><a href="#">A définir</a></li>
+                <li><a href="#">A définir</a></li>
+                <li><a href="#">A définir</a></li>
+              </ul>
+            </li>
 
-    <li>
-      <a href="apropos.php"><img src="images/fleche-droite.png" alt="Flèche" class="nav-icon">À propos</a>
-      <ul class="submenu">
-        <li><a href="#">A définir</a></li>
-        <li><a href="#">A définir</a></li>
-        <li><a href="#">A définir</a></li>
-      </ul>
-    </li>
-
-    <li>
-      <a href="contact.php"><img src="images/fleche-droite.png" alt="Flèche" class="nav-icon">Contact</a>
-    </li>
-  </ul>
-</nav>
+            <li>
+              <a href="contact.php"><img src="images/fleche-droite.png" alt="Flèche" class="nav-icon">Contact</a>
+            </li>
+          </ul>
+        </nav>
 
 
        <!-- Zone droite : recherche + connexion -->
