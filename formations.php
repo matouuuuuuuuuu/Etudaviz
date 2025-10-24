@@ -11,12 +11,6 @@ $limit = 5; // <= essentiel pour le test du bouton
 // Données pour le formulaire
 $regions = getRegionsDepuisAPI();
 
-$departementsParRegion = [
-    'Hauts-de-France' => ['Nord', 'Pas-de-Calais', 'Somme', 'Aisne', 'Oise'],
-    'Île-de-France' => ['Paris', 'Hauts-de-Seine', 'Seine-Saint-Denis', 'Val-de-Marne', 'Yvelines'],
-    'Auvergne - Rhône-Alpes' => ['Ain', 'Rhône', 'Haute-Savoie', 'Isère', 'Loire'],
-    // ...
-];
 $departementsDisponibles = $departementsParRegion[$regionChoisie] ?? [];
 
 $etablissements = getEtablissementsSupPublics([
@@ -38,13 +32,7 @@ if (isset($etablissements['error'])) {
     $messageErreur = "Aucun établissement trouvé.";
 } else {
     foreach ($etablissements as $record) {
-        $fields = $record['fields'];
-
-        $resultats[] = [
-            'nom' => $fields['siege_lib'] ?? $fields['ur_lib'] ?? $fields['implantation_lib'] ?? 'Nom inconnu',
-            'type' => $fields['type_d_etablissement'] ?? $fields['nature_uai'] ?? 'Type inconnu',
-            'adresse' => $fields['adresse_uai'] ?? $fields['lieu_dit_uai'] ?? $fields['com_nom'] ?? 'Adresse inconnue'
-        ];
+    $resultats[] = formatEtablissement($record['fields']);
     }
 }
 
@@ -92,7 +80,7 @@ require "./include/header.inc.php";
 
                     <form method="GET" action="">
                         <label for="region">Région :</label>
-                        <select name="region" id="region" onchange="this.form.submit()">
+                        <select name="region" id="region">
                             <option value="">-- Toutes les régions --</option>
                             <?php foreach ($regions as $region): ?>
                                 <option value="<?= htmlspecialchars($region) ?>" <?= $region === $regionChoisie ? 'selected' : '' ?>>
@@ -102,7 +90,7 @@ require "./include/header.inc.php";
                         </select>
 
                         <label for="departement">Département :</label>
-                        <select name="departement" id="departement" onchange="this.form.submit()">
+                        <select name="departement" id="departement">
                             <option value="">-- Tous les départements --</option>
                             <?php foreach ($departementsDisponibles as $dep): ?>
                                 <option value="<?= htmlspecialchars($dep) ?>" <?= $dep === $departementChoisi ? 'selected' : '' ?>>
@@ -112,7 +100,7 @@ require "./include/header.inc.php";
                         </select>
 
                         <label for="type">Type d’établissement :</label>
-                        <select name="type" id="type" onchange="this.form.submit()">
+                        <select name="type" id="type">
                             <option value="">-- Tous --</option>
                             <?php foreach (['Université', "École d'ingénieurs", 'IUT'] as $type): ?>
                                 <option value="<?= htmlspecialchars($type) ?>" <?= $type === $typeChoisi ? 'selected' : '' ?>>
@@ -120,32 +108,33 @@ require "./include/header.inc.php";
                                 </option>
                             <?php endforeach; ?>
                         </select>
+                        
+                        <div class="form-actions" style="margin-top: 20px; display: flex; justify-content: space-between;">
+                            <a href="<?= strtok($_SERVER["REQUEST_URI"], '?') ?>" class="reset-button">Réinitialiser</a>
+                            <button type="submit" class="apply-button">Appliquer les filtres</button>
+                        </div>
+
                     </form>
                 </div>
             </div>
 
 
+        <?php if ($messageErreur): ?>
+            <p><?= htmlspecialchars($messageErreur) ?></p>
+        <?php else: ?>
 
-            <!-- 🟩 Résultats à droite -->
-            <main class="results">
-                <?php if ($messageErreur): ?>
-                    <p><?= htmlspecialchars($messageErreur) ?></p>
-                <?php else: ?>
-                    <ul id="etablissement-list">
-                        <?php foreach ($resultats as $etab): ?>
-                            <li>
-                                <strong><?= htmlspecialchars($etab['nom']) ?></strong><br>
-                                Type : <?= htmlspecialchars($etab['type']) ?><br>
-                                Adresse : <?= htmlspecialchars($etab['adresse']) ?><br><br>
-                            </li>
-                        <?php endforeach; ?>
-                    </ul>
+            <?php if (count($resultats) === $limit): ?>
+                <button id="voir-plus" data-page="2">Voir plus</button>
+            <?php endif; ?>
 
-                    <?php if (count($resultats) === $limit): ?>
-                        <button id="voir-plus" data-page="2">Voir plus</button>
-                    <?php endif; ?>
-                <?php endif; ?>
-            </main>
+            <ul id="etablissement-list">
+                <?php foreach ($resultats as $etab): ?>
+                    <?= renderEtablissementCard($etab) ?>
+                <?php endforeach; ?>
+            </ul>
+
+        <?php endif; ?>
+
         </div>
 
     </section>
@@ -217,5 +206,33 @@ require "./include/header.inc.php";
         }
     });
     </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const regionSelect = document.getElementById('region');
+            const departementSelect = document.getElementById('departement');
+            if (!regionSelect || !departementSelect) return;
+            regionSelect.addEventListener('change', function () {
+                const selectedRegion = regionSelect.value;
+                departementSelect.innerHTML = '<option value="">-- Tous les départements --</option>';
+                if (!selectedRegion) return;
+                fetch('get-departements.php?region=' + encodeURIComponent(selectedRegion))
+                    .then(response => response.json())
+                    .then(departements => {
+                        departements.forEach(dep => {
+                            const option = document.createElement('option');
+                            option.value = dep;
+                            option.textContent = dep;
+                            departementSelect.appendChild(option);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Erreur de chargement des départements :', error);
+                    });
+            });
+        });
+    </script>
+
+
 
 <?php require "./include/footer.inc.php"; ?>
