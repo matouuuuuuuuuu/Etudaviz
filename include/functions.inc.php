@@ -108,7 +108,30 @@ function loadDepartements(string $regionName, string $csvPath): array {
     return $departements;
 }
 
-function formatEtablissement(array $fields): array
+
+
+function renderEtablissementCard(array $etab): string
+{
+    $html = '<div class="etab-card">';
+    $html .= '<h4><a href="fiche_formation.php?id=' . urlencode($etab['id']) . '">' 
+           . htmlspecialchars($etab['nom']) . '</a></h4>';
+    $html .= '<p><strong>Type :</strong> ' . htmlspecialchars($etab['type']) . '</p>';
+    $html .= '<p><strong>Adresse :</strong> ' . htmlspecialchars($etab['adresse']) . '</p>';
+
+    if (!empty($etab['services'])) {
+        $html .= '<p><strong>Services :</strong> ' . htmlspecialchars(implode(', ', $etab['services'])) . '</p>';
+    }
+
+    if (!empty($etab['ouverture'])) {
+        $html .= '<p><strong>Ouverture :</strong> ' . htmlspecialchars($etab['ouverture']) . '</p>';
+    }
+
+    $html .= '</div>';
+    return $html;
+}
+
+
+function formatEtablissement(array $fields, string $recordid = null): array
 {
     // Nom priorisé
     $nom = $fields['siege_lib']
@@ -123,45 +146,33 @@ function formatEtablissement(array $fields): array
 
     // Adresse complète
     $adresseParts = [];
-
     if (!empty($fields['adresse_uai'])) {
         $adresseParts[] = $fields['adresse_uai'];
     } elseif (!empty($fields['lieu_dit_uai'])) {
         $adresseParts[] = $fields['lieu_dit_uai'];
     }
-
     if (!empty($fields['code_postal_uai'])) {
         $adresseParts[] = $fields['code_postal_uai'];
     }
-
     if (!empty($fields['com_nom'])) {
         $adresseParts[] = $fields['com_nom'];
     }
-
     $adresse_complete = implode(', ', $adresseParts);
 
     // Services
-    $services = [];
-    if (!empty($fields['services'])) {
-        $services = is_array($fields['services']) 
-            ? $fields['services']
-            : [$fields['services']];
-    }
+    $services = !empty($fields['services'])
+        ? (is_array($fields['services']) ? $fields['services'] : [$fields['services']])
+        : [];
 
-    // Coordonnées GPS
-    $coordonnees = $fields['coordonnees'] ?? null;
-
-    // Date d'ouverture
-    $ouverture = $fields['date_ouverture'] ?? null;
-
-    // Retour structuré
+    // Retour
     return [
+        'id' => $fields['uai'] ?? $recordid,  // identifiant unique (UAI prioritaire)
         'nom' => $nom,
         'type' => $type,
         'adresse' => $adresse_complete ?: 'Adresse inconnue',
         'services' => $services,
-        'ouverture' => $ouverture,
-        'coordonnees' => $coordonnees,
+        'ouverture' => $fields['date_ouverture'] ?? null,
+        'coordonnees' => $fields['coordonnees'] ?? null,
         'ville' => $fields['com_nom'] ?? '',
         'region' => $fields['reg_nom'] ?? '',
         'departement' => $fields['dep_nom'] ?? '',
@@ -170,25 +181,20 @@ function formatEtablissement(array $fields): array
 }
 
 
-function renderEtablissementCard(array $etab): string
-{
-    $html = '<div class="etab-card">';
-    $html .= '<h4>' . htmlspecialchars($etab['nom']) . '</h4>';
-    $html .= '<p><strong>🏷️ Type :</strong> ' . htmlspecialchars($etab['type']) . '</p>';
-    $html .= '<p><strong>📍 Adresse :</strong> ' . htmlspecialchars($etab['adresse']) . '</p>';
+function getEtablissementById(string $id): ?array {
+    $url = "https://data.enseignementsup-recherche.gouv.fr/api/records/1.0/search?" . http_build_query([
+        'dataset' => 'fr-esr-implantations_etablissements_d_enseignement_superieur_publics',
+        'q' => "uai:$id OR recordid:$id",
+        'rows' => 1
+    ]);
 
-    if (!empty($etab['services'])) {
-        $html .= '<p><strong>📚 Services :</strong> ' . htmlspecialchars(implode(', ', $etab['services'])) . '</p>';
+    $data = callOpenDataApi($url);
+    if (isset($data['records'][0])) {
+        $record = $data['records'][0];
+        return formatEtablissement($record['fields'], $record['recordid']);
     }
-
-    if (!empty($etab['ouverture'])) {
-        $html .= '<p><strong>🗓️ Ouverture :</strong> ' . htmlspecialchars($etab['ouverture']) . '</p>';
-    }
-
-    $html .= '</div>';
-    return $html;
+    return null;
 }
-
 
 
 

@@ -690,6 +690,9 @@ section:hover {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  width: 100%;       /* occupe toute la ligne */
+  text-align: center; /* centre le bouton à l’intérieur */
+
 }
 
 .result-item {
@@ -946,10 +949,12 @@ section:hover {
 /* 🟥 🟩 Layout principal */
 .layout {
     display: flex;
+    flex-direction: column; 
+    align-items: center;    
     gap: 30px;
-    align-items: flex-start;
     padding: 0 30px 50px;
 }
+
 
 /* 🟥 Colonne rouge : filtres */
 .filters {
@@ -980,7 +985,7 @@ section:hover {
 
 .results button#voir-plus {
     display: block;
-    margin: 20px auto 0;
+    margin: 20px 0 0;
     padding: 10px 20px;
     border: none;
     background-color: #3d5afe;

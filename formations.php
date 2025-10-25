@@ -32,7 +32,7 @@ if (isset($etablissements['error'])) {
     $messageErreur = "Aucun établissement trouvé.";
 } else {
     foreach ($etablissements as $record) {
-    $resultats[] = formatEtablissement($record['fields']);
+        $resultats[] = formatEtablissement($record['fields'], $record['recordid']);    
     }
 }
 
@@ -123,9 +123,6 @@ require "./include/header.inc.php";
             <p><?= htmlspecialchars($messageErreur) ?></p>
         <?php else: ?>
 
-            <?php if (count($resultats) === $limit): ?>
-                <button id="voir-plus" data-page="2">Voir plus</button>
-            <?php endif; ?>
 
             <ul id="etablissement-list">
                 <?php foreach ($resultats as $etab): ?>
@@ -133,6 +130,13 @@ require "./include/header.inc.php";
                 <?php endforeach; ?>
             </ul>
 
+            <?php if (count($resultats) === $limit): ?>
+                <div class="results">
+                    <button id="voir-plus" data-page="2">Voir plus</button>
+                </div>
+            <?php endif; ?>
+
+            
         <?php endif; ?>
 
         </div>
