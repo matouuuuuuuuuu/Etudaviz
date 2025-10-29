@@ -331,20 +331,16 @@ function renderEtablissementCard(array $etab): string
  */
 function formatEtablissement(array $fields, string $recordid = null): array
 {
-    // Nom de la formation
     $nom = $fields['fl']
         ?? $fields['nm']
         ?? 'Nom inconnu';
 
-    // Type de formation
     $type = $fields['tf']
         ?? 'Type inconnu';
 
-    // Nom de l’établissement
     $etablissement = $fields['etab_nom']
         ?? 'Établissement non précisé';
 
-    // Adresse (ville + département + région)
     $adresseParts = [];
     if (!empty($fields['commune'])) $adresseParts[] = $fields['commune'];
     if (!empty($fields['departement'])) $adresseParts[] = $fields['departement'];
@@ -363,8 +359,13 @@ function formatEtablissement(array $fields, string $recordid = null): array
         'site'          => $fields['etab_url'] ?? '',
         'lien'          => $fields['fiche'] ?? '',
         'coordonnees'   => $fields['etab_gps'] ?? null,
+        'annee'         => $fields['annee'] ?? '',
+        'code_formation'=> $fields['code_formation'] ?? '',
+        'apprentissage' => $fields['app'] ?? '',
+        'aut'           => $fields['aut'] ?? '',
     ];
 }
+
 
 
 
@@ -387,18 +388,20 @@ function formatEtablissement(array $fields, string $recordid = null): array
  * @version 2.0 Migration vers le dataset ONISEP
  */
 function getEtablissementById(string $id): ?array {
-    $url = "https://data.education.gouv.fr/api/records/1.0/search?" . http_build_query([
+    $url = "https://data.enseignementsup-recherche.gouv.fr/api/records/1.0/search?" . http_build_query([
         'dataset' => 'fr-esr-cartographie_formations_parcoursup',
         'q' => "recordid:$id",
         'rows' => 1
     ]);
+
     $data = callOpenDataApi($url);
-    if (isset($data['records'][0])) {
+    if (!empty($data['records'][0]['fields'])) {
         $record = $data['records'][0];
         return formatEtablissement($record['fields'], $record['recordid']);
     }
     return null;
 }
+
 
 
 
