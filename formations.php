@@ -102,12 +102,13 @@ require "./include/header.inc.php";
                         <label for="type">Type d’établissement :</label>
                         <select name="type" id="type">
                             <option value="">-- Tous --</option>
-                            <?php foreach (['Université', "École d'ingénieurs", 'IUT'] as $type): ?>
+                            <?php foreach (['Formations en université', "Formations des écoles d’ingénieurs", 'BTS - BTSA - BTSM', 'Formations du travail social'] as $type): ?>
                                 <option value="<?= htmlspecialchars($type) ?>" <?= $type === $typeChoisi ? 'selected' : '' ?>>
                                     <?= htmlspecialchars($type) ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
+
                         
                         <div class="form-actions" style="margin-top: 20px; display: flex; justify-content: space-between;">
                             <a href="<?= strtok($_SERVER["REQUEST_URI"], '?') ?>" class="reset-button">Réinitialiser</a>
