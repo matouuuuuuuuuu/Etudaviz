@@ -413,10 +413,6 @@ section:nth-child(even) {
  background: #F5F7FA; /* alternance gris bleuté */
 }
 
-section:hover {
- transform: translateY(-5px);
- box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-}
 
 /* =========================================================
   5.a SECTION hero (index.php)
@@ -1105,3 +1101,156 @@ section:hover {
 .etab-card strong {
   color: #0f172a;
 }
+
+
+
+
+
+/* === FICHE FORMATION === */
+
+.formation-detail {
+  max-width: 800px;
+  margin: 60px auto;
+  padding: 0 20px;
+}
+
+.formation-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.formation-header h2 {
+  font-size: 2rem;
+  color: #2a4d9b;
+  margin-bottom: 10px;
+}
+
+.formation-type {
+  background: #e8efff;
+  color: #2a4d9b;
+  padding: 6px 14px;
+  border-radius: 30px;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.formation-card {
+  background: #f8faff;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.formation-card h3 {
+  color: #1f2d55;
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+}
+
+.formation-info {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.formation-info li {
+  margin-bottom: 10px;
+  font-size: 1rem;
+  color: #333;
+}
+
+.formation-section {
+  margin-top: 25px;
+}
+
+.formation-section h4 {
+  font-size: 1.1rem;
+  color: #1f2d55;
+  margin-bottom: 8px;
+}
+
+.formation-links {
+  margin-top: 30px;
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.formation-links a {
+  display: inline-block;
+  padding: 10px 18px;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background 0.3s ease;
+}
+
+.btn-site {
+  background: #e3e7f3;
+  color: #1f2d55;
+}
+
+.btn-site:hover {
+  background: #d5def5;
+}
+
+.btn-parcoursup {
+  background: #2a4d9b;
+  color: white;
+}
+
+.btn-parcoursup:hover {
+  background: #203b7a;
+}
+
+
+/* === Présentation formation === */
+.presentation {
+  background: #ffffff;
+  border-left: 4px solid #2a4d9b;
+  padding: 30px 35px;
+  border-radius: 12px;
+  margin-bottom: 40px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.presentation h3 {
+  color: #1f2d55;
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+  border-bottom: 1px solid #e0e5f5;
+  padding-bottom: 5px;
+}
+
+.presentation .intro {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.presentation-details {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+.presentation-details li {
+  background: #f1f5ff;
+  margin-bottom: 8px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: #1f2d55;
+}
+
+.presentation-details strong {
+  color: #203b7a;
+}
+
+.formation-description p {
+  color: #333;
+  margin-bottom: 15px;
+  line-height: 1.7;
+}
+

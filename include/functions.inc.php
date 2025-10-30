@@ -403,6 +403,25 @@ function getEtablissementById(string $id): ?array {
 }
 
 
+function getDebouchesDepuisOnisep(string $intitule): ?array {
+    $url = "https://data.education.gouv.fr/api/records/1.0/search?" . http_build_query([
+        'dataset' => 'fr-esr-onisep',
+        'q' => $intitule,
+        'rows' => 1
+    ]);
+
+    $data = callOpenDataApi($url);
+    if (!isset($data['records'][0]['fields'])) {
+        return null;
+    }
+
+    $fields = $data['records'][0]['fields'];
+    return [
+        'secteur' => $fields['secteur'] ?? null,
+        'debouches' => $fields['debouches'] ?? null,
+        'poursuite_etudes' => $fields['poursuite_etudes'] ?? null,
+    ];
+}
 
 
 
