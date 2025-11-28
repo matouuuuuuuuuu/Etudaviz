@@ -3047,8 +3047,8 @@ nav ul.menu {
     BOUTON THEME TOGGLE
    ========================================================*/
 .theme-toggle{
-  width: 40px;
-  height: 40px;
+  width: 45px;
+  height: 45px;
   border: none;
   background: transparent;
   cursor: pointer;
@@ -3057,13 +3057,16 @@ nav ul.menu {
   border-radius: 50%;
 }
 .theme-toggle img{
-  width: 26px;
-  height: 26px;
+  width: 28px;
+  height: 28px;
+  transition: transform 0.3s ease;
 }
 .theme-toggle:hover{
   background: rgba(0,0,0,0.08);
 }
-
+.theme-toggle img:hover {
+    transform: scale(1.15);
+}
 /* =========================================================
     POUR RESPONSIVE
    ========================================================*/

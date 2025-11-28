@@ -251,7 +251,7 @@ header {
   border-bottom: 1px solid rgba(255,255,255,0.08);
   gap: 30px;
   flex-wrap: wrap;
-  overflow-x: hidden; /* sécurise */
+   overflow-x: visible; /* sécurise */
 }
 
 header.visited {
@@ -3061,8 +3061,8 @@ header {
     BOUTON THEME TOGGLE
    ========================================================*/
 .theme-toggle{
-  width: 40px;
-  height: 40px;
+  width: 45px;
+  height: 45px;
   border: none;
   background: transparent;
   cursor: pointer;
@@ -3071,8 +3071,8 @@ header {
   border-radius: 50%;
 }
 .theme-toggle img{
-  width: 26px;
-  height: 26px;
+  width: 28px;
+  height: 28px;
 }
 .theme-toggle:hover{
   background: rgba(255,255,255,0.18);
