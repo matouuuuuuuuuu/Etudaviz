@@ -2,6 +2,7 @@
 	$title="Contact";
 	$description="Page de contact aupres de l'équipe technique en charge du site";
     $h1="Comment nous contacter ?";
+    $canonical = "https://etudaviz.alwaysdata.net/contact.php"
     require "./include/header.inc.php";
 ?>
 

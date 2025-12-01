@@ -7,6 +7,7 @@ error_reporting(E_ALL);
 $title = "Inscription";
 $description = "Créer un compte Etudaviz";
 $h1 = "Créer votre compte Etudaviz";
+$canonical = "https://etudaviz.alwaysdata.net/inscription.php"
 
 require "./include/functions.inc.php";
 require "../config/bdconnect.php";         

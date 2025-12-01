@@ -39,6 +39,7 @@ if (isset($etablissements['error'])) {
 $title = "Formations";
 $description = "Page répertoriant l'ensemble des formations en fonction de plusieurs critères";
 $h1 = "Formations diplômantes";
+$canonical = "https://etudaviz.alwaysdata.net/formations.php"
 
 require "./include/header.inc.php";
 ?>

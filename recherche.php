@@ -2,6 +2,7 @@
 	$title="Recherche de formations";
 	$description="Page de recherche permettant d'accèder aux formations en fonction de mots clés";
     $h1="Résultats associés à votre recherche :";
+    $canonical = "https://etudaviz.alwaysdata.net/recherche.php"
     $query = isset($_GET['q']) ? trim($_GET['q']) : "";
 
     require "./include/header.inc.php";

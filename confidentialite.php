@@ -2,6 +2,7 @@
 	$title="Confidentialité";
 	$description="Page repertoriant notre politique de confidentialité";
     $h1="Politique de confidentialité";
+    $canonical = "https://etudaviz.alwaysdata.net/confidentialite.php"
     require "./include/header.inc.php";
 ?>
     <section>

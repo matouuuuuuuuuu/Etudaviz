@@ -15,6 +15,7 @@
     $title = "Accueil";
     $description = "Etudaviz - Trouve ta voie : découvre les formations, les témoignages étudiants et les guides d’orientation pour construire ton avenir.";
     $h1 = "Bienvenue sur Etudaviz";
+    $canonical = "https://etudaviz.alwaysdata.net/index.php"
     require "./include/header.inc.php";
 ?>
 

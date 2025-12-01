@@ -2,6 +2,7 @@
 	$title="Avis étudiants";
 	$description="Page regroupant les avis des etudiants sur les formations";
     $h1="Avis de nos étudiants membres";
+    $canonical = "https://etudaviz.alwaysdata.net/avis.php"
     require "./include/header.inc.php";
 ?>
 

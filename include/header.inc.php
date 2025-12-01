@@ -22,6 +22,14 @@ if(isset($_COOKIE['visited'])) {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Stack+Sans+Text:wght@200..700&display=swap" rel="stylesheet">
+	<?php
+      if (empty($canonical)) {
+          $canonical = 'https://etudaviz.alwaysdata.net' . strtok($_SERVER['REQUEST_URI'], '?');
+      }
+    ?>
+    <link rel="canonical" href="<?php echo htmlspecialchars($canonical, ENT_QUOTES); ?>">
+</head>
+
 <body>
     <a href="#">
         <img class="fleche" src="images/fleche.png" alt="image de fleche"/>
