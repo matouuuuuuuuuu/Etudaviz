@@ -1,8 +1,8 @@
 <?php
-$title = "Connexion";
+$title = "Connexion à votre compte Etudaviz";
 $description = "Page permettant de se connecter à votre compte Etudaviz";
 $h1 = "Connexion à votre espace Etudaviz";
-$canonical = "https://etudaviz.alwaysdata.net/login.php"
+$canonical = "https://etudaviz.alwaysdata.net/login.php";
 
 require "./include/functions.inc.php"; 
 require "../config/bdconnect.php";    

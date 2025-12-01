@@ -1,8 +1,8 @@
 <?php
-	$title="Recherche de formations";
+	$title="Recherche de formations sur Etudaviz";
 	$description="Page de recherche permettant d'accèder aux formations en fonction de mots clés";
     $h1="Résultats associés à votre recherche :";
-    $canonical = "https://etudaviz.alwaysdata.net/recherche.php"
+    $canonical = "https://etudaviz.alwaysdata.net/recherche.php";
     $query = isset($_GET['q']) ? trim($_GET['q']) : "";
 
     require "./include/header.inc.php";

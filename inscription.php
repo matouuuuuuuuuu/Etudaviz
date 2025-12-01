@@ -4,10 +4,10 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-$title = "Inscription";
+$title = "Inscription au site Etudaviz";
 $description = "Créer un compte Etudaviz";
 $h1 = "Créer votre compte Etudaviz";
-$canonical = "https://etudaviz.alwaysdata.net/inscription.php"
+$canonical = "https://etudaviz.alwaysdata.net/inscription.php";
 
 require "./include/functions.inc.php";
 require "../config/bdconnect.php";         

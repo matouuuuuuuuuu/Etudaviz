@@ -1,8 +1,8 @@
 <?php
-	$title="Mentions légales";
+	$title="Mentions légales du site Etudaviz";
 	$description="Page regroupant les mentions légales de notre site";
     $h1="Mentions légales";
-    $canonical = "https://etudaviz.alwaysdata.net/mentions-legales.php"
+    $canonical = "https://etudaviz.alwaysdata.net/mentions-legales.php";
     require "./include/header.inc.php";
 ?>
     <section class="legal">

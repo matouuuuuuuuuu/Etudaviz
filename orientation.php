@@ -1,9 +1,9 @@
 <?php
 // ------- Métadonnées -------
-$title       = "Orientation";
+$title       = "Bien s’orienter vers les études supérieures - Etudaviz";
 $description = "Découvre les parcours, métiers et outils pour mieux t’orienter vers tes études supérieures.";
 $h1          = "Comment apprendre à s'orienter ?";
-$canonical = "https://etudaviz.alwaysdata.net/orientation.php"
+$canonical = "https://etudaviz.alwaysdata.net/orientation.php";
 require "./include/header.inc.php";
 
 ?>

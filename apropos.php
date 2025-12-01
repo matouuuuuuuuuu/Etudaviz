@@ -1,8 +1,8 @@
 <?php
-	$title="A propos";
+	$title="À propos d’Etudaviz - Notre histoire et notre vision";
 	$description="Découvrez l'histoire et la vision qui animent Etudaviz.";
     $h1="À propos d’Etudaviz";
-    $canonical = "https://etudaviz.alwaysdata.net/apropos.php"
+    $canonical = "https://etudaviz.alwaysdata.net/apropos.php";
     require "./include/header.inc.php";
 ?>
 
