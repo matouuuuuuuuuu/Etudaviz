@@ -1,7 +1,8 @@
 <?php
-	$title="Mot de passe oublié";
+	$title="Mot de passe oublié - Etudaviz";
 	$description="Page vous permettant de réinitialiser votre mot de passe";
     $h1="Veuillez réinitialiser votre mot de passe!";
+    $canonical = "https://etudaviz.alwaysdata.net/mdp-oublie.php";
     require "./include/header.inc.php";
 ?>
 

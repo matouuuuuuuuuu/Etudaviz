@@ -11,12 +11,12 @@
   function setTheme(theme){
     if(theme === "dark"){
       link.href = darkHref;
-      icon.src = moonIcon;
-      icon.alt = "Mode nuit";
+      icon.src = sunIcon;
+      icon.alt = "passer au mode clair";
     } else {
       link.href = lightHref;
-      icon.src = sunIcon;
-      icon.alt = "Mode clair";
+      icon.src = moonIcon;
+      icon.alt = "passer au mode nuit";
     }
     localStorage.setItem("theme", theme);
   }

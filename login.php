@@ -1,7 +1,8 @@
 <?php
-$title = "Connexion";
+$title = "Connexion à votre compte Etudaviz";
 $description = "Page permettant de se connecter à votre compte Etudaviz";
 $h1 = "Connexion à votre espace Etudaviz";
+$canonical = "https://etudaviz.alwaysdata.net/login.php";
 
 require "./include/functions.inc.php"; 
 require "../config/bdconnect.php";    
@@ -25,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             loginUser($user);
 
-            header('Location: espace_utilisateur.php');
+            header('Location: index.php');
             exit;
         } else {
             $erreur = "Identifiant (pseudo ou mail) ou mot de passe incorrect.";
