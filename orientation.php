@@ -204,33 +204,6 @@ require "./include/header.inc.php";
     </div>
 </section>
 
-<section class="orientation-tools">
-  <h2>Nos outils pour t’aider à t’orienter 🧭</h2>
-
-  <div class="tool-grid">
-    <div class="tool-card">
-      <img src="./images/test.jpg" alt="">
-      <h4>🧭 Test d’orientation</h4>
-      <p>Découvre les domaines et environnements qui te correspondent.</p>
-      <a href="test-orientation.php" class="btn-secondary">Faire le test</a>
-    </div>
-
-    <div class="tool-card">
-      <img src="./images/metier.jpg" alt="">
-      <h4>💼 Fiches métiers</h4>
-      <p>Explore les métiers les plus recherchés et les formations associées.</p>
-      <a href="metiers.php" class="btn-secondary">Explorer</a>
-    </div>
-
-    <div class="tool-card">
-      <img src="./images/guide.jpg" alt="">
-      <h4>📚 Guides étudiants</h4>
-      <p>Comprendre les parcours, les modalités d’accès, et les débouchés.</p>
-      <a href="articles.php" class="btn-secondary">Voir les guides</a>
-    </div>
-  </div>
-</section>
-
 <script>
 document.querySelectorAll('[data-step]').forEach(step => {
     const btn = step.querySelector('.toggle-step');
