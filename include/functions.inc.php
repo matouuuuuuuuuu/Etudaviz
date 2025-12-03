@@ -19,6 +19,152 @@ function getCurrentDate(string $format = "d/m/Y"): string {
 }
 
 /**
+ * Charge la liste des départements correspondant à une région donnée à partir d’un fichier CSV.
+ *
+ * Le fichier CSV doit contenir au minimum trois colonnes : un identifiant, le nom du département
+ * et le nom de la région. Cette fonction est utilisée pour alimenter dynamiquement les filtres
+ * de recherche par région et département.
+ *
+ * @param string $regionName Nom exact de la région à filtrer.
+ * @param string $csvPath    Chemin absolu ou relatif vers le fichier CSV source.
+ *
+ * @return array Liste des départements correspondant à la région spécifiée.
+ *               Retourne un tableau vide si le fichier est introuvable ou invalide.
+ *
+ * @author  Étudaviz
+ * @version 2.0
+ */
+
+function loadDepartements(string $regionName, string $csvPath): array
+{
+    $departements = [];
+    if (!file_exists($csvPath) || !is_readable($csvPath)) {
+        return $departements;
+    }
+    if (($handle = fopen($csvPath, 'r')) !== false) {
+        while (($data = fgetcsv($handle, 1000, ",")) !== false) {
+            if (count($data) < 3) continue;
+            $departement = trim($data[1]);
+            $region = trim($data[2]);
+            if ($region === $regionName) {
+                $departements[] = $departement;
+            }
+        }
+        fclose($handle);
+    }
+    return $departements;
+}
+
+/**
+ * Génère le code HTML d’une carte représentant un établissement ou une formation.
+ *
+ * Cette fonction crée dynamiquement un bloc HTML contenant les informations
+ * principales d’un établissement (nom, type, adresse, services, date d’ouverture...).
+ * Elle est conçue pour être utilisée dans les boucles d’affichage des résultats
+ * de recherche ou de listing.
+ *
+ * @param array $etab Tableau associatif contenant les informations de l’établissement :
+ *                    - string 'id'        : identifiant unique
+ *                    - string 'nom'       : nom de l’établissement
+ *                    - string 'type'      : type d’établissement
+ *                    - string 'adresse'   : adresse complète
+ *                    - array  'services'  : liste des services disponibles (optionnel)
+ *                    - string 'ouverture' : date d’ouverture (optionnel)
+ *
+ * @return string Code HTML prêt à être inséré dans la page.
+ *
+ * @author  Étudaviz
+ * @version 2.0
+ */
+function renderEtablissementCard(array $etab): string
+{
+    $html = '<div class="etab-card">';
+    $html .= '<h4><a href="fiche_formation.php?id=' . urlencode($etab['id']) . '">'
+           . htmlspecialchars($etab['nom']) . '</a></h4>';
+    $html .= '<p><strong>Type :</strong> ' . htmlspecialchars($etab['type']) . '</p>';
+    $html .= '<p><strong>Adresse :</strong> ' . htmlspecialchars($etab['adresse']) . '</p>';
+
+    if (!empty($etab['services'])) {
+        $html .= '<p><strong>Services :</strong> ' . htmlspecialchars(implode(', ', $etab['services'])) . '</p>';
+    }
+
+    if (!empty($etab['ouverture'])) {
+        $html .= '<p><strong>Ouverture :</strong> ' . htmlspecialchars($etab['ouverture']) . '</p>';
+    }
+
+    $html .= '</div>';
+    return $html;
+}
+
+
+function getDBConnection() {
+    try {
+        $pdo = new PDO("mysql:host=localhost;dbname=etudaviz;charset=utf8", "root", ""); 
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        return $pdo;
+    } catch (PDOException $e) {
+        // ⚠️ Si la base n'est pas accessible, on renvoie null
+        return null;
+    }
+}
+
+/**
+ * Retourne le taux de satisfaction (%) des utilisateurs
+ * Si la BDD n’est pas disponible, renvoie NULL
+ */
+function getTauxSatisfaction() {
+    $pdo = getDBConnection();
+    if (!$pdo) return null; // 🧩 fallback si pas de BDD
+
+    try {
+        $query = $pdo->query("SELECT AVG(satisfaction) AS taux FROM avis");
+        $result = $query->fetch(PDO::FETCH_ASSOC);
+        return round($result['taux'], 1);
+    } catch (Exception $e) {
+        return null; // 🔒 sécurité supplémentaire
+    }
+}
+
+/**
+ * Retourne le nombre d’avis utilisateurs
+ */
+function getNombreAvis() {
+    $pdo = getDBConnection();
+    if (!$pdo) return null;
+
+    try {
+        $query = $pdo->query("SELECT COUNT(*) AS total FROM avis");
+        $result = $query->fetch(PDO::FETCH_ASSOC);
+        return (int) $result['total'];
+    } catch (Exception $e) {
+        return null;
+    }
+}
+
+/**
+ * Retourne le nombre de partenaires institutionnels
+ */
+function getNombrePartenaires() {
+    $pdo = getDBConnection();
+    if (!$pdo) return null;
+
+    try {
+        $query = $pdo->query("SELECT COUNT(*) AS total FROM partenaires");
+        $result = $query->fetch(PDO::FETCH_ASSOC);
+        return (int) $result['total'];
+    } catch (Exception $e) {
+        return null;
+    }
+}
+
+
+
+
+
+
+
+
+/**
  * Construit les paramètres d'appel à l'API Parcoursup (fr-esr-cartographie_formations_parcoursup)
  * avec gestion étendue du type "Université" qui regroupe plusieurs sous-types (Licence, BUT, etc.)
  *
@@ -160,85 +306,6 @@ function getRegionsDepuisAPI(): array
 
 
 
-/**
- * Charge la liste des départements correspondant à une région donnée à partir d’un fichier CSV.
- *
- * Le fichier CSV doit contenir au minimum trois colonnes : un identifiant, le nom du département
- * et le nom de la région. Cette fonction est utilisée pour alimenter dynamiquement les filtres
- * de recherche par région et département.
- *
- * @param string $regionName Nom exact de la région à filtrer.
- * @param string $csvPath    Chemin absolu ou relatif vers le fichier CSV source.
- *
- * @return array Liste des départements correspondant à la région spécifiée.
- *               Retourne un tableau vide si le fichier est introuvable ou invalide.
- *
- * @author  Étudaviz
- * @version 2.0
- */
-function loadDepartements(string $regionName, string $csvPath): array
-{
-    $departements = [];
-    if (!file_exists($csvPath) || !is_readable($csvPath)) {
-        return $departements;
-    }
-    if (($handle = fopen($csvPath, 'r')) !== false) {
-        while (($data = fgetcsv($handle, 1000, ",")) !== false) {
-            if (count($data) < 3) continue;
-            $departement = trim($data[1]);
-            $region = trim($data[2]);
-            if ($region === $regionName) {
-                $departements[] = $departement;
-            }
-        }
-        fclose($handle);
-    }
-    return $departements;
-}
-
-
-
-
-/**
- * Génère le code HTML d’une carte représentant un établissement ou une formation.
- *
- * Cette fonction crée dynamiquement un bloc HTML contenant les informations
- * principales d’un établissement (nom, type, adresse, services, date d’ouverture...).
- * Elle est conçue pour être utilisée dans les boucles d’affichage des résultats
- * de recherche ou de listing.
- *
- * @param array $etab Tableau associatif contenant les informations de l’établissement :
- *                    - string 'id'        : identifiant unique
- *                    - string 'nom'       : nom de l’établissement
- *                    - string 'type'      : type d’établissement
- *                    - string 'adresse'   : adresse complète
- *                    - array  'services'  : liste des services disponibles (optionnel)
- *                    - string 'ouverture' : date d’ouverture (optionnel)
- *
- * @return string Code HTML prêt à être inséré dans la page.
- *
- * @author  Étudaviz
- * @version 2.0
- */
-function renderEtablissementCard(array $etab): string
-{
-    $html = '<div class="etab-card">';
-    $html .= '<h4><a href="fiche_formation.php?id=' . urlencode($etab['id']) . '">'
-           . htmlspecialchars($etab['nom']) . '</a></h4>';
-    $html .= '<p><strong>Type :</strong> ' . htmlspecialchars($etab['type']) . '</p>';
-    $html .= '<p><strong>Adresse :</strong> ' . htmlspecialchars($etab['adresse']) . '</p>';
-
-    if (!empty($etab['services'])) {
-        $html .= '<p><strong>Services :</strong> ' . htmlspecialchars(implode(', ', $etab['services'])) . '</p>';
-    }
-
-    if (!empty($etab['ouverture'])) {
-        $html .= '<p><strong>Ouverture :</strong> ' . htmlspecialchars($etab['ouverture']) . '</p>';
-    }
-
-    $html .= '</div>';
-    return $html;
-}
 
 
 
@@ -276,44 +343,55 @@ function renderEtablissementCard(array $etab): string
  */
 function formatEtablissement(array $fields, string $recordid = null): array
 {
+    // Nom de la formation
     $nom = $fields['fl']
         ?? $fields['nm']
         ?? 'Nom inconnu';
 
+    // Type (Licence, BUT, BTS…)
     $type = $fields['tf']
         ?? 'Type inconnu';
 
+    // Nom de l’établissement
     $etablissement = $fields['etab_nom']
         ?? 'Établissement non précisé';
 
+    // Adresse complète
     $adresseParts = [];
-    if (!empty($fields['commune'])) $adresseParts[] = $fields['commune'];
+    if (!empty($fields['commune']))     $adresseParts[] = $fields['commune'];
     if (!empty($fields['departement'])) $adresseParts[] = $fields['departement'];
-    if (!empty($fields['region'])) $adresseParts[] = $fields['region'];
+    if (!empty($fields['region']))      $adresseParts[] = $fields['region'];
     $adresse_complete = implode(', ', $adresseParts);
 
     return [
-        'id'            => $recordid ?? uniqid('formation_'),
-        'nom'           => $nom,
-        'type'          => $type,
-        'etablissement' => $etablissement,
-        'adresse'       => $adresse_complete ?: 'Adresse inconnue',
-        'ville'         => $fields['commune'] ?? '',
-        'departement'   => $fields['departement'] ?? '',
-        'region'        => $fields['region'] ?? '',
-        'site'          => $fields['etab_url'] ?? '',
-        'lien'          => $fields['fiche'] ?? '',
-        'coordonnees'   => $fields['etab_gps'] ?? null,
-        'annee'         => $fields['annee'] ?? '',
-        'code_formation'=> $fields['code_formation'] ?? '',
-        'apprentissage' => $fields['app'] ?? '',
-        'aut'           => $fields['aut'] ?? '',
+        // ⭐ IMPORTANT : on garde recordid pour que fiche_formation.php continue de marcher
+        'id'             => $recordid ?? uniqid('formation_'),
+
+        // Champs principaux
+        'nom'            => $nom,
+        'type'           => $type,
+        'etablissement'  => $etablissement,
+        'adresse'        => $adresse_complete ?: 'Adresse inconnue',
+
+        // Localisation
+        'ville'          => $fields['commune'] ?? '',
+        'departement'    => $fields['departement'] ?? '',
+        'region'         => $fields['region'] ?? '',
+
+        // Liens
+        'site'           => $fields['etab_url'] ?? '',
+        'lien'           => $fields['fiche'] ?? '',
+
+        // Coordonnées GPS
+        'coordonnees'    => $fields['etab_gps'] ?? null,
+
+        // Métadonnées utiles
+        'annee'          => $fields['annee'] ?? '',
+        'code_formation' => $fields['code_formation'] ?? '',
+        'apprentissage'  => $fields['app'] ?? '',
+        'aut'            => $fields['aut'] ?? '',
     ];
 }
-
-
-
-
 
 /**
  * Récupère les informations détaillées d’une formation à partir de son identifiant ONISEP.
@@ -383,65 +461,6 @@ function getDebouchesDepuisOnisep(string $intitule, ?string $code = null): ?arra
     return null;
 }
 
-function getDBConnection() {
-    try {
-        $pdo = new PDO("mysql:host=localhost;dbname=etudaviz;charset=utf8", "root", ""); 
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        return $pdo;
-    } catch (PDOException $e) {
-        // ⚠️ Si la base n'est pas accessible, on renvoie null
-        return null;
-    }
-}
-
-/**
- * Retourne le taux de satisfaction (%) des utilisateurs
- * Si la BDD n’est pas disponible, renvoie NULL
- */
-function getTauxSatisfaction() {
-    $pdo = getDBConnection();
-    if (!$pdo) return null; // 🧩 fallback si pas de BDD
-
-    try {
-        $query = $pdo->query("SELECT AVG(satisfaction) AS taux FROM avis");
-        $result = $query->fetch(PDO::FETCH_ASSOC);
-        return round($result['taux'], 1);
-    } catch (Exception $e) {
-        return null; // 🔒 sécurité supplémentaire
-    }
-}
-
-/**
- * Retourne le nombre d’avis utilisateurs
- */
-function getNombreAvis() {
-    $pdo = getDBConnection();
-    if (!$pdo) return null;
-
-    try {
-        $query = $pdo->query("SELECT COUNT(*) AS total FROM avis");
-        $result = $query->fetch(PDO::FETCH_ASSOC);
-        return (int) $result['total'];
-    } catch (Exception $e) {
-        return null;
-    }
-}
-
-/**
- * Retourne le nombre de partenaires institutionnels
- */
-function getNombrePartenaires() {
-    $pdo = getDBConnection();
-    if (!$pdo) return null;
-
-    try {
-        $query = $pdo->query("SELECT COUNT(*) AS total FROM partenaires");
-        $result = $query->fetch(PDO::FETCH_ASSOC);
-        return (int) $result['total'];
-    } catch (Exception $e) {
-        return null;
-    }
-}
 
 
 function getFranceTravailAccessToken() {
@@ -735,6 +754,32 @@ function createUser(PDO $pdo, string $pseudo, string $mail, string $password): ?
     }
 
     return (int)$pdo->lastInsertId();
+}
+
+function getFormationUniqueKey(array $f): string {
+    $code = $f['code_formation'] ?? '';
+    $uai  = $f['etab_uai'] ?? '';
+    return $code . '-' . $uai;
+}
+
+function mergeFormationRecords(array $old, array $new): array {
+
+    // Comparer les années
+    $oldYear = intval($old['annee'] ?? 0);
+    $newYear = intval($new['annee'] ?? 0);
+
+    $keep = $newYear >= $oldYear ? $new : $old;
+    $other = $newYear >= $oldYear ? $old : $new;
+
+    // Fusion des champs à liste
+    if (!empty($other['amg'])) {
+        $keep['amg'] = implode('|', array_unique(array_filter(array_merge(
+            explode('|', $keep['amg'] ?? ''),
+            explode('|', $other['amg'] ?? '')
+        ))));
+    }
+
+    return $keep;
 }
 
 ?>

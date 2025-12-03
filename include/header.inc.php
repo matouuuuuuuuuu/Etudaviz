@@ -1,10 +1,14 @@
 <?php
-if(isset($_COOKIE['visited'])) {
-    $headerClass = "visited"; 
-} else {
-    $headerClass = ""; 
-    setcookie("visited", "true", time() + 7*24*60*60, "/"); 
-}
+	if (session_status() === PHP_SESSION_NONE) {
+		session_start();
+	}
+	if(isset($_COOKIE['visited'])) {
+		$headerClass = "visited"; 
+	} else {
+		$headerClass = ""; 
+		setcookie("visited", "true", time() + 7*24*60*60, "/"); 
+	}
+	require_once __DIR__ . "/functions.inc.php";
 ?>
 
 <!DOCTYPE html>
@@ -113,11 +117,23 @@ if(isset($_COOKIE['visited'])) {
 				<input type="text" name="q" placeholder="Rechercher une formation..." />
 				<button type="submit">🔍</button>
 			</form>
+
 			<button id="theme-toggle" class="theme-toggle" aria-label="Changer le thème">
 				<img id="theme-icon" src="/images/lune.png" alt="Mode clair">
 			</button>
-			<a href="login.php" class="btn-connexion">Connexion</a>
+
+			<?php if (isLoggedIn()): ?>
+				<a href="private.php">
+					<img src="/images/avatars/<?= htmlspecialchars($_SESSION['avatar'] ?? 'default-avatar.png') ?>" class="header-avatar">
+				</a>
+			<?php else: ?>
+
+				<a href="login.php" class="btn-connexion">Connexion</a>
+
+			<?php endif; ?>
 		</div>
+
+
 	</header>
 
 
