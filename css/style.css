@@ -1510,8 +1510,6 @@ section:nth-child(even) {
    ORIENTATION — TIMELINE
 ========================================================= */
 
-
-
 .timeline {
   display: flex;
   flex-direction: column;
@@ -1777,7 +1775,7 @@ section:nth-child(even) {
 
 
 /* --- Grille d’affichage des formations --- */
-#etablissement-list {
+#etablissement-list, #metier-list {
   display: grid;
   grid-template-columns: repeat(2, 1fr); /* 🔹 Deux colonnes fixes */
   gap: 30px; /* 🔹 Espace entre les cartes */
@@ -2317,25 +2315,253 @@ section:nth-child(even) {
   color: #F3722C;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .roadmap-grid {
-    grid-template-columns: 1fr;
+
+
+
+/* =========================================================
+    BOUTON THEME TOGGLE
+   ========================================================*/
+.theme-toggle{
+  width: 45px;
+  height: 45px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+}
+.theme-toggle img{
+  width: 28px;
+  height: 28px;
+  transition: transform 0.3s ease;
+}
+.theme-toggle:hover{
+  background: rgba(0,0,0,0.08);
+}
+.theme-toggle img:hover {
+    transform: scale(1.15);
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 40px auto;
+    max-width: 1100px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
     gap: 20px;
-  }
+}
 
-  .roadmap-title {
-    font-size: 1.8rem;
-  }
+.avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+}
 
-  .roadmap-subtitle {
-    font-size: 1rem;
-    margin-bottom: 30px;
-  }
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, auto);
+    gap: 20px;
+    max-width: 1100px;
+    margin: 40px auto;
+}
 
-  .roadmap-icon {
-    font-size: 2.5rem;
-  }
+/* Bloc 1 sur toute la largeur */
+.bloc1 {
+    grid-column: span 2;
+}
+
+/* Bloc 3 commence colonne 2 */
+.bloc3 {
+    grid-column-start: 2;
+}
+
+/* Style card général */
+.card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+}
+
+.card {
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.stats-card {
+    background: linear-gradient(135deg, #2b7a78, #3aafa9);
+    color: white;
+}
+
+.avatar-form {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.avatar-section {
+    padding: 20px;
+}
+
+.avatar-message {
+    text-align: center;
+    color: green;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.avatar-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 25px;
+    max-width: 700px;
+    margin: 0 auto;
+    margin-top: 30px;
+}
+
+.avatar-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+
+.avatar-option input[type="radio"] {
+    display: none;
+}
+
+.avatar-option img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid transparent;
+    transition: all 0.3s;
+}
+
+.avatar-option img:hover {
+    transform: scale(1.05);
+    opacity: 0.85;
+}
+
+.avatar-option input[type="radio"]:checked + img {
+    border-color: #2a9d8f;
+    transform: scale(1.1);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.btn-save {
+    margin-top: 30px;
+    padding: 12px 25px;
+    border: none;
+    background: #2a9d8f;
+    color: white;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-save:hover {
+    background: #21867a;
+}
+
+
+.header-avatar,
+.header-right img.avatar-header {
+    width: 55px !important;
+    height: 55px !important;
+    border-radius: 50% !important;
+    object-fit: cover !important;
+    display: block;
+}
+
+
+
+.metiers-container {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.metier-categories {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin-top: 40px;
+}
+
+.metier-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+    padding: 30px;
+}
+
+.metier-card {
+    list-style: none;
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #e5e5e5;
+    transition: 0.3s;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.05);
+}
+
+.metier-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+}
+
+.metier-card h3 {
+    margin-bottom: 8px;
+    color: #227093;
+}
+
+
+.categorie-card {
+    width: 250px;
+    height: 170px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+
+    /* Couleur du texte contrastée */
+    color: #1f2d3d;
+
+    /* Dégradé généré par variables CSS */
+    background: linear-gradient(
+        135deg,
+        var(--color1),
+        var(--color2)
+    );
+
+    border: 2px solid var(--bordercolor);
+    border-radius: 18px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.categorie-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.categorie-card .emoji {
+    font-size: 48px;
+    margin-bottom: 8px;
 }
 
 
@@ -2346,6 +2572,29 @@ section:nth-child(even) {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+    POUR RESPONSIVE
+   ========================================================*/
 
 /* =========================================================
    📱 RESPONSIVE – VERSION MOBILE (max-width: 768px)
@@ -2805,6 +3054,7 @@ nav ul.menu {
     height: 300px;        /* réduit pour mobile */
     border-radius: 12px;
   }
+  
 
   /* ---------- LAYOUT RESPONSIVE ---------- */
   .layout {
@@ -2910,7 +3160,6 @@ nav ul.menu {
     font-size: 1rem;
   }
 
-  /* ---------- PRESENTATION FORMATION ---------- */
   .presentation {
     padding: 20px;
     margin-bottom: 30px;
@@ -2926,7 +3175,6 @@ nav ul.menu {
     line-height: 1.6;
   }
 
-  * ---------- PRESENTATION DETAILS ---------- */
   .presentation-details li {
     font-size: 0.9rem;
     padding: 10px 12px;
@@ -3019,19 +3267,10 @@ nav ul.menu {
     padding-left: 40px; /* espace pour la ligne */
   }
 
-  /* Contenu */
   .timeline-content {
     width: 100%;
     padding: 20px;
     border-left: 4px solid #277DA1;
-  }
-
-  .timeline-content h3 {
-    font-size: 1.3rem;
-  }
-
-  .timeline-content p {
-    font-size: 0.95rem;
   }
 
   /* Images */
@@ -3042,34 +3281,7 @@ nav ul.menu {
     margin-left: 0;
     border-radius: 12px;
   }
-}
-/* =========================================================
-    BOUTON THEME TOGGLE
-   ========================================================*/
-.theme-toggle{
-  width: 45px;
-  height: 45px;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-}
-.theme-toggle img{
-  width: 28px;
-  height: 28px;
-  transition: transform 0.3s ease;
-}
-.theme-toggle:hover{
-  background: rgba(0,0,0,0.08);
-}
-.theme-toggle img:hover {
-    transform: scale(1.15);
-}
-/* =========================================================
-    POUR RESPONSIVE
-   ========================================================*/
+} 
    
    @media (max-width: 500px) {
 	  .header-search-bar input {
@@ -3089,6 +3301,27 @@ nav ul.menu {
     flex-direction: column;
     gap: 10px;
     margin-left: 0;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .roadmap-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .roadmap-title {
+    font-size: 1.8rem;
+  }
+
+  .roadmap-subtitle {
+    font-size: 1rem;
+    margin-bottom: 30px;
+  }
+
+  .roadmap-icon {
+    font-size: 2.5rem;
   }
 }
 

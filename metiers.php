@@ -1,116 +1,79 @@
 <?php
+require "./include/functions.inc.php";
+
+// --- Recherche ESCO ---
+$query = $_GET["q"] ?? "";
+$searchResults = $query ? escoSearch($query) : [];
+
+// --- Meta ---
 $title = "Métiers";
-$description = "Découvre les métiers grâce aux données France Travail.";
+$description = "Découvrez les métiers par domaine ou via une recherche";
 $h1 = "Découvrir des métiers";
+$canonical = "https://etudaviz.alwaysdata.net/metiers.php";
 
 require "./include/header.inc.php";
-require "./include/functions.inc.php";   // ⚠️ toutes les fonctions FT sont ici
 
-/* ==================================================
-   1️⃣  Récupération du token France Travail
-   ================================================== */
-$tokenData = getFranceTravailAccessToken();
-$token     = $tokenData["access_token"] ?? null;
-
-if (!$token) {
-    echo "<p class='metiers-error'>❌ Impossible de récupérer le token France Travail.</p>";
-    require "./include/footer.inc.php";
-    exit;
-}
-
-/* ==================================================
-   2️⃣  Lecture des paramètres GET
-   ================================================== */
-$query      = $_GET["q"]    ?? null;
-$selected   = $_GET["job"]  ?? null;
-$results    = [];
-$details    = null;
-$error      = null;
-
-/* ==================================================
-   3️⃣  Recherche de métiers
-   ================================================== */
-if ($query) {
-    $api = searchMetierRome($token, $query);
-
-    if (!empty($api["error"])) {
-        $error = $api["error"];
-    } else {
-        // ROME renvoie un tableau "resultats"
-        $results = $api["resultats"] ?? [];
-    }
-}
-
-/* ==================================================
-   4️⃣  Récupération des détails d’un métier
-   ================================================== */
-if ($selected) {
-    $detailsAPI = getMetierDetails($token, $selected);
-    $details    = $detailsAPI["metier"] ?? null;
-}
-
+// --- Catégories ---
+$categories = [
+    ["id" => "science", "label" => "Sciences", "emoji" => "🔬", "color" => "#2ecc71"],
+    ["id" => "technologie", "label" => "Technologie", "emoji" => "🧪", "color" => "#9b59b6"],
+    ["id" => "art", "label" => "Arts & Création", "emoji" => "🎨", "color" => "#e74c3c"],
+    ["id" => "droit", "label" => "Droit & Justice", "emoji" => "⚖️", "color" => "#3498db"],
+    ["id" => "sante", "label" => "Santé", "emoji" => "🩺", "color" => "#e67e22"]
+];
 ?>
 
-<section class="metiers-hero">
-    <h2>Explore les métiers du monde professionnel 💼</h2>
+<section>
 
-    <form method="GET" class="metiers-search-bar">
-        <input type="text" name="q" placeholder="Ex: développeur, infirmier..." 
-               value="<?= htmlspecialchars($query ?? '') ?>">
-        <button type="submit">Rechercher</button>
-    </form>
-
-    <p class="metiers-hint">💡 Astuce : commence par un mot simple (ex : "web")</p>
-</section>
-
-<section class="metiers-results-section">
-
-<?php if ($error): ?>
-    <p class="metiers-error">❌ <?= htmlspecialchars($error) ?></p>
-<?php endif; ?>
-
-<?php if ($query && empty($results)): ?>
-    <p class="metiers-error">Aucun métier trouvé pour « <?= htmlspecialchars($query) ?> ».</p>
-<?php endif; ?>
-
-<div class="metiers-list">
-
-<?php foreach ($results as $job):
-    $libelle = $job["libelle"] ?? "Métier inconnu";
-    $code    = $job["code"]    ?? "";
-?>
-    <article class="metier-card">
-        <h3><?= htmlspecialchars($libelle) ?></h3>
-
-        <?php if ($code): ?>
-            <p class="metier-code">Code ROME : <strong><?= htmlspecialchars($code) ?></strong></p>
-        <?php endif; ?>
-
-        <a href="metiers.php?q=<?= urlencode($query) ?>&job=<?= urlencode($code) ?>" 
-           class="metier-more-btn">Voir les détails →</a>
-    </article>
-<?php endforeach; ?>
-
-</div>
-</section>
-
-<!-- =============== FICHE MÉTIER (MODAL) ================= -->
-<?php if ($details): ?>
-<div class="modal active">
-    <div class="modal-content metier-modal-content">
-        <a href="metiers.php?q=<?= urlencode($query) ?>" class="close-button">&times;</a>
-
-        <h2><?= htmlspecialchars($details["libelle"] ?? "Métier") ?></h2>
-        <p><strong>Code ROME :</strong> <?= htmlspecialchars($selected) ?></p>
-
-        <h3>Description du métier</h3>
-        <p><?= nl2br(htmlspecialchars($details["definition"] ?? "Aucune description disponible.")) ?></p>
-
-        <?php if (!empty($details["lienSiteOnisep"])): ?>
-            <p><a href="<?= $details["lienSiteOnisep"] ?>" target="_blank">Voir la fiche Onisep ↗</a></p>
-        <?php endif; ?>
+    <!-- 🔎 Barre de recherche identique à formations.php -->
+    <div class="search-bar">
+        <form method="GET" action="">
+            <input type="text" name="q" 
+                   placeholder="Rechercher un métier..."
+                   value="<?= htmlspecialchars($query) ?>">
+            <button type="submit">Rechercher</button>
+        </form>
     </div>
-</div>
-<?php endif; ?>
+
+
+    <?php if (!$query): ?>
+    
+        <!-- 🎨 Affichage des catégories tant qu'il n'y a PAS de recherche -->
+        <div class="metier-categories">
+            <?php foreach ($categories as $cat): ?>
+                <a href="metiers-domaine.php?cat=<?= $cat['id'] ?>"
+                class="categorie-card"
+                style="
+                    --color1: <?= $cat['color'] ?>20;
+                    --color2: <?= $cat['color'] ?>05;
+                    --bordercolor: <?= $cat['color'] ?>;
+                ">
+                    <div class="emoji"><?= $cat['emoji'] ?></div>
+                    <span><?= $cat['label'] ?></span>
+                </a>
+            <?php endforeach; ?>
+        </div>
+
+    <?php else: ?>
+
+        <!-- 🧠 Résultats affichés au même format que les formations -->
+        <h2 class="result-title">
+            Résultats pour : <strong><?= htmlspecialchars($query) ?></strong>
+        </h2>
+
+        <?php if (empty($searchResults)): ?>
+            <p class="no-result">Aucun métier trouvé.</p>
+
+        <?php else: ?>
+            <ul id="metier-list">
+                <?php foreach ($searchResults as $m): ?>
+                    <?= renderMetierCard($m) ?>
+                <?php endforeach; ?>
+            </ul>
+        <?php endif; ?>
+
+    <?php endif; ?>
+
+</section>
 
 <?php require "./include/footer.inc.php"; ?>
