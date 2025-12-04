@@ -18,6 +18,10 @@ function getCurrentDate(string $format = "d/m/Y"): string {
     return date($format);
 }
 
+function ucfirstUtf8(string $str): string {
+    return mb_strtoupper(mb_substr($str, 0, 1)) . mb_substr($str, 1);
+}
+
 /**
  * Charge la liste des départements correspondant à une région donnée à partir d’un fichier CSV.
  *
@@ -95,6 +99,30 @@ function renderEtablissementCard(array $etab): string
     $html .= '</div>';
     return $html;
 }
+
+function renderMetierCard(array $m): string
+{
+    $html = '<div class="etab-card">';
+
+    $html .= '<h4><a href="fiche-metier.php?uri=' . urlencode($m['uri']) . '">'
+       . ucfirstUtf8(htmlspecialchars($m['title'])) . '</a></h4>';
+
+    if (!empty($m['isco'])) {
+        $html .= '<p><strong>Code ISCO :</strong> ' . htmlspecialchars($m['isco']) . '</p>';
+    }
+
+    if (!empty($m['essentialSkills'])) {
+        $html .= '<p><strong>Compétences clés :</strong> '
+               . htmlspecialchars(implode(', ', $m['essentialSkills']))
+               . '</p>';
+    }
+
+    $html .= '</div>';
+    return $html;
+}
+
+
+
 
 
 function getDBConnection() {
@@ -781,5 +809,90 @@ function mergeFormationRecords(array $old, array $new): array {
 
     return $keep;
 }
+
+function rechercheMetier($query) {
+    $url = "https://ec.europa.eu/esco/api/search?type=occupation&text=" . urlencode($query) . "&language=fr";
+
+    $json = file_get_contents($url);
+    $data = json_decode($json, true);
+
+    $resultats = [];
+
+    foreach ($data["_embedded"]["results"] as $item) {
+
+        // ESCO renvoie parfois des résultats sans title FR → on skip
+        if (!isset($item["title"])) continue;
+
+        $resultats[] = [
+            "titre" => $item["title"],
+            "uri"   => $item["uri"],
+            "resume" => $item["description"] ?? ""
+        ];
+    }
+
+    return $resultats;
+}
+
+function escoSearch(string $query): array {
+    if (strlen($query) < 2) return [];
+
+    $url = "https://ec.europa.eu/esco/api/search?text=" . urlencode($query)
+         . "&type=occupation&language=fr&limit=20";
+
+    $json = @file_get_contents($url);
+    if (!$json) return [];
+
+    $data = json_decode($json, true);
+    if (!isset($data["_embedded"]["results"])) return [];
+
+    $results = [];
+
+    foreach ($data["_embedded"]["results"] as $item) {
+
+        if (empty($item["uri"])) continue;
+
+        $uri = $item["uri"];
+
+        // API détail métier
+        $detailUrl = "https://ec.europa.eu/esco/api/resource/occupation?uri=" 
+                    . urlencode($uri) . "&language=fr";
+
+        $detailJson = @file_get_contents($detailUrl);
+        if (!$detailJson) continue;
+
+        $detail = json_decode($detailJson, true);
+
+        // ISCO
+        $isco = $detail["code"] ?? "";
+
+        // Compétences essentielles (max 2)
+        $skills = [];
+        if (isset($detail["_links"]["hasEssentialSkill"])) {
+            foreach ($detail["_links"]["hasEssentialSkill"] as $s) {
+                if (isset($s["title"]) && is_string($s["title"])) {
+                    $skills[] = $s["title"];
+                }
+            }
+        }
+        $skills = array_slice($skills, 0, 2);
+
+        // Aucun champ "desc"
+
+        $results[] = [
+            "title"           => $item["title"],
+            "uri"             => $uri,
+            "isco"            => $isco,
+            "essentialSkills" => $skills
+        ];
+    }
+
+    return $results;
+}
+
+
+
+
+
+
 
 ?>

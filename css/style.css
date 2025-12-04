@@ -1775,7 +1775,7 @@ section:nth-child(even) {
 
 
 /* --- Grille d’affichage des formations --- */
-#etablissement-list {
+#etablissement-list, #metier-list {
   display: grid;
   grid-template-columns: repeat(2, 1fr); /* 🔹 Deux colonnes fixes */
   gap: 30px; /* 🔹 Espace entre les cartes */
@@ -2484,6 +2484,87 @@ section:nth-child(even) {
     object-fit: cover !important;
     display: block;
 }
+
+
+
+.metiers-container {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.metier-categories {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin-top: 40px;
+}
+
+.metier-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+    padding: 30px;
+}
+
+.metier-card {
+    list-style: none;
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #e5e5e5;
+    transition: 0.3s;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.05);
+}
+
+.metier-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+}
+
+.metier-card h3 {
+    margin-bottom: 8px;
+    color: #227093;
+}
+
+
+.categorie-card {
+    width: 250px;
+    height: 170px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+
+    /* Couleur du texte contrastée */
+    color: #1f2d3d;
+
+    /* Dégradé généré par variables CSS */
+    background: linear-gradient(
+        135deg,
+        var(--color1),
+        var(--color2)
+    );
+
+    border: 2px solid var(--bordercolor);
+    border-radius: 18px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.categorie-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.categorie-card .emoji {
+    font-size: 48px;
+    margin-bottom: 8px;
+}
+
+
 
 
 
