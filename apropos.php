@@ -1,58 +1,87 @@
 <?php
-	$title="À propos d’Etudaviz - Notre histoire et notre vision";
-	$description="Découvrez l'histoire et la vision qui animent Etudaviz.";
-    $h1="À propos d’Etudaviz";
-    $canonical = "https://etudaviz.alwaysdata.net/apropos.php";
-    require "./include/header.inc.php";
+$title="À propos d’Etudaviz - Notre histoire et nos convictions";
+$description="Découvrez l’âme d’Etudaviz : pourquoi nous existons, ce qui nous anime et où nous allons.";
+$h1="À propos d’Etudaviz";
+$canonical = "https://etudaviz.alwaysdata.net/apropos.php";
+require "./include/header.inc.php";
 ?>
 
-    <section>
-        <h2>Qui sommes-nous ?</h2>
-        <p>
-            <strong>Etudaviz</strong> est né d’une conviction simple : 
-            l’information n’a de valeur que si elle est claire, utile et accessible.  
-            Nous avons créé une plateforme pensée pour transformer les données en 
-            insights concrets, afin que chacun puisse prendre de meilleures décisions.
-        </p>
-    </section>
 
-    <section>
-        <h2>Notre histoire</h2>
+<section class="about-story">
+    <div class="story-block left">
+        <h2>Une intuition, puis un déclic</h2>
         <p>
-            Tout a commencé avec une question : 
-            <em>“Pourquoi est-il encore si compliqué de tirer parti des données qui nous entourent ?”</em>  
-            De cette frustration est née Etudaviz, une solution agile et intuitive qui 
-            rapproche la technique de l’humain.
+            Tout commence par une gêne silencieuse :  
+            <em>« Pourquoi les données, pourtant partout, semblent-elles toujours 
+            inaccessibles, brouillonnes, réservées à quelques initiés ? »</em>
         </p>
-    </section>
-
-    <section>
-        <h2>Notre approche</h2>
         <p>
-            Pas de jargon inutile, pas de complexité superflue.  
-            Nous croyons que la meilleure technologie est celle qui s’oublie pour laisser 
-            place à l’expérience utilisateur. C’est pourquoi chaque fonctionnalité est pensée 
-            pour être simple, fluide et pertinente.
+            Un jour, l’idée s’impose : et si on reconstruisait l’information en la 
+            rendant claire, respirable, presque… humaine ?
         </p>
-    </section>
+    </div>
 
-    <section>
-        <h2>Et demain ?</h2>
+    <!-- IMAGE 1 -->
+    <div class="story-image right">
+        <img src="images/intuition.jpg" alt="Image illustrant un déclic et une idée">
+    </div>
+</section>
+
+
+<section class="about-story">
+    <!-- IMAGE 2 -->
+    <div class="story-image left alt">
+        <img src="images/philo.jpg" alt="Image illustrant la philosophie Etudaviz">
+    </div>
+
+    <div class="story-block right">
+        <h2>Notre philosophie</h2>
         <p>
-            Nous continuons d’évoluer avec une ambition claire : faire d’Etudaviz 
-            un compagnon incontournable pour comprendre et valoriser l’information.  
-            L’histoire ne fait que commencer, et nous avons hâte d’écrire la suite avec vous.
+            Chez Etudaviz, on ne croit pas au “toujours plus”.  
+            On croit au <strong>mieux</strong>.
         </p>
-    </section>
-
-    <section>
-        <h2>Envie d’échanger ?</h2>
         <p>
-            Parlons-en ! <a href="contact.php">Contactez-nous</a> et découvrons ensemble 
-            comment Etudaviz peut vous aider à aller plus loin.
+            Mieux comprendre. Mieux présenter. Mieux guider.  
+            La technologie n’est qu’un outil : ce qui compte, c’est ce qu’elle permet 
+            d’éclairer.
         </p>
-    </section>
+        <p>
+            Pas de bruit, pas d’artifices — juste l’essentiel, sublimé.
+        </p>
+    </div>
+</section>
 
-<?php
-    require "./include/footer.inc.php";
-?>
+
+<section class="about-story">
+    <div class="story-block left">
+        <h2>Un futur écrit avec vous</h2>
+        <p>
+            Nous n’imaginons pas Etudaviz comme un service figé, mais comme  
+            un compagnon qui grandit avec vos besoins.
+        </p>
+        <p>
+            Chaque retour, chaque hésitation, chaque question posée  
+            façonne ce que nous construisons demain.
+        </p>
+        <p>
+            Et demain justement, nous voulons être plus qu’une plateforme :  
+            un repère dans la complexité.
+        </p>
+    </div>
+
+    <!-- IMAGE 3 -->
+    <div class="story-image right alt2">
+        <img src="images/avecvous.jpg" alt="Illustration du futur d’Etudaviz">
+    </div>
+</section>
+
+
+<section class="about-contact">
+    <h2>Une idée, une envie, un projet ?</h2>
+    <p>
+        Parlons-en. Le meilleur naît souvent d’une conversation inattendue.
+    </p>
+    <a href="contact.php" class="about-button">Nous écrire</a>
+</section>
+
+<?php require "./include/footer.inc.php"; ?>

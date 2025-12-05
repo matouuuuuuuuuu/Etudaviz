@@ -821,73 +821,49 @@ function mergeFormationRecords(array $old, array $new): array {
     return $keep;
 }
 
-function rechercheMetier($query) {
-    $url = "https://ec.europa.eu/esco/api/search?type=occupation&text=" . urlencode($query) . "&language=fr";
 
-    $json = file_get_contents($url);
-    $data = json_decode($json, true);
 
-    $resultats = [];
-
-    foreach ($data["_embedded"]["results"] as $item) {
-
-        // ESCO renvoie parfois des résultats sans title FR → on skip
-        if (!isset($item["title"])) continue;
-
-        $resultats[] = [
-            "titre" => $item["title"],
-            "uri"   => $item["uri"],
-            "resume" => $item["description"] ?? ""
-        ];
-    }
-
-    return $resultats;
-}
-
-function escoSearch(string $query): array {
+function escoSearch(string $query, int $limit = 4, int $offset = 0): array {
     if (strlen($query) < 2) return [];
 
-    $url = "https://ec.europa.eu/esco/api/search?text=" . urlencode($query)
-         . "&type=occupation&language=fr&limit=20";
+    $url = "https://ec.europa.eu/esco/api/search?"
+         . "text=" . urlencode($query)
+         . "&type=occupation"
+         . "&language=fr"
+         . "&limit=" . intval($limit)
+         . "&offset=" . intval($offset);
 
     $json = @file_get_contents($url);
     if (!$json) return [];
 
     $data = json_decode($json, true);
-    if (!isset($data["_embedded"]["results"])) return [];
+    if (empty($data["_embedded"]["results"])) return [];
 
     $results = [];
 
     foreach ($data["_embedded"]["results"] as $item) {
-
-        if (empty($item["uri"])) continue;
+        if (empty($item["uri"]) || empty($item["title"])) continue;
 
         $uri = $item["uri"];
 
-        // API détail métier
-        $detailUrl = "https://ec.europa.eu/esco/api/resource/occupation?uri=" 
+        $detailUrl  = "https://ec.europa.eu/esco/api/resource/occupation?uri="
                     . urlencode($uri) . "&language=fr";
-
         $detailJson = @file_get_contents($detailUrl);
         if (!$detailJson) continue;
 
         $detail = json_decode($detailJson, true);
 
-        // ISCO
         $isco = $detail["code"] ?? "";
 
-        // Compétences essentielles (max 2)
         $skills = [];
-        if (isset($detail["_links"]["hasEssentialSkill"])) {
+        if (!empty($detail["_links"]["hasEssentialSkill"])) {
             foreach ($detail["_links"]["hasEssentialSkill"] as $s) {
-                if (isset($s["title"]) && is_string($s["title"])) {
+                if (!empty($s["title"])) {
                     $skills[] = $s["title"];
                 }
             }
         }
         $skills = array_slice($skills, 0, 2);
-
-        // Aucun champ "desc"
 
         $results[] = [
             "title"           => $item["title"],
@@ -900,6 +876,35 @@ function escoSearch(string $query): array {
     return $results;
 }
 
+
+function escoTranslateToFrench(string $text): string {
+    // ⭐ Simple trado automatique avec l’API LibreTranslate (gratuite)
+    $url = "https://libretranslate.de/translate";
+
+    $payload = [
+        "q" => $text,
+        "source" => "en",
+        "target" => "fr",
+        "format" => "text"
+    ];
+
+    $options = [
+        "http" => [
+            "header"  => "Content-Type: application/json",
+            "method"  => "POST",
+            "content" => json_encode($payload)
+        ]
+    ];
+
+    $context  = stream_context_create($options);
+    $result = @file_get_contents($url, false, $context);
+
+    if ($result === false) return $text; // fallback EN si API HS
+
+    $json = json_decode($result, true);
+    return $json["translatedText"] ?? $text;
+}
+
 function escoGetMetier(string $uri): ?array {
 
     $url = "https://ec.europa.eu/esco/api/resource/occupation?uri=" 
@@ -909,50 +914,164 @@ function escoGetMetier(string $uri): ?array {
     if (!$json) return null;
 
     $data = json_decode($json, true);
-
     if (!$data) return null;
 
-    // --- Récupération ISCO ---
+
+    /* ---------------------------------------------------------
+        Extract raw text from ESCO structure
+    --------------------------------------------------------- */
+    $extractText = function($value) {
+
+        // Cas normal : string
+        if (is_string($value)) {
+            return $value;
+        }
+
+        // Cas tableau : peut contenir "literal"
+        if (is_array($value)) {
+            if (isset($value["literal"])) {
+                return $value["literal"];
+            }
+
+            // parfois tableau indexé → texte dans [0]
+            return implode(" ", array_filter($value, fn($v) => is_string($v)));
+        }
+
+        return "";
+    };
+
+
+    /* ---------------------------------------------------------
+        Clean description helper
+    --------------------------------------------------------- */
+    $cleanDescription = function($txt) {
+
+        if (!is_string($txt)) return "";
+
+        $txt = trim(strip_tags($txt));
+
+        // valeurs invalides fréquemment renvoyées
+        $invalid = ["plain/text", "text/plain", "literal", "string", "null"];
+
+        if (in_array(strtolower($txt), $invalid)) {
+            return "";
+        }
+
+        // éviter les faux textes
+        if (strlen($txt) < 20) {
+            return "";
+        }
+
+        return $txt;
+    };
+
+
+    /* ---------------------------------------------------------
+        ISCO
+    --------------------------------------------------------- */
     $isco = $data["code"] ?? "";
 
-    // --- Description ---
+
+    /* ---------------------------------------------------------
+        DESCRIPTION
+    --------------------------------------------------------- */
     $description = "";
+
+    // 1) DESCRIPTION FR
     if (isset($data["description"]["fr"])) {
-        $description = strip_tags($data["description"]["fr"]);
+        $raw = $extractText($data["description"]["fr"]);
+        $description = $cleanDescription($raw);
     }
 
-    // --- Synonymes ---
-    $altLabels = $data["alternativeLabel"] ?? [];
+    // 2) Fallback EN
+    if (empty($description) && isset($data["description"]["en"])) {
+        $rawEN = $extractText($data["description"]["en"]);
+        $cleanEN = $cleanDescription($rawEN);
 
-    // --- Compétences essentielles ---
+        if (!empty($cleanEN)) {
+            $description = escoTranslateToFrench($cleanEN);
+        }
+    }
+
+    // 3) Fallback final
+    if (empty($description)) {
+        $description = "Ce métier est associé au code ISCO {$isco} et regroupe différentes activités professionnelles nécessitant des compétences spécialisées.";
+    }
+
+
+    /* ---------------------------------------------------------
+        SYNONYMES
+    --------------------------------------------------------- */
+    $alt = [];
+    if (!empty($data["alternativeLabel"])) {
+        foreach ($data["alternativeLabel"] as $lbl) {
+            if (!empty($lbl["fr"])) {
+                $alt[] = $lbl["fr"];
+            }
+        }
+    }
+
+
+    /* ---------------------------------------------------------
+        COMPÉTENCES
+    --------------------------------------------------------- */
     $skillsEssential = [];
-    if (isset($data["_links"]["hasEssentialSkill"])) {
+    if (!empty($data["_links"]["hasEssentialSkill"])) {
         foreach ($data["_links"]["hasEssentialSkill"] as $s) {
-            if (isset($s["title"])) {
+            if (!empty($s["title"])) {
                 $skillsEssential[] = $s["title"];
             }
         }
     }
+    $skillsEssential = array_slice($skillsEssential, 0, 3);
 
-    // --- Compétences optionnelles ---
     $skillsOptional = [];
-    if (isset($data["_links"]["hasOptionalSkill"])) {
+    if (!empty($data["_links"]["hasOptionalSkill"])) {
         foreach ($data["_links"]["hasOptionalSkill"] as $s) {
-            if (isset($s["title"])) {
+            if (!empty($s["title"])) {
                 $skillsOptional[] = $s["title"];
             }
         }
     }
+    $skillsOptional = array_slice($skillsOptional, 0, 3);
+
 
     return [
         "title"           => $data["preferredLabel"]["fr"] ?? "Métier",
         "isco"            => $isco,
         "description"     => $description,
-        "altLabels"       => $altLabels,
+        "altLabels"       => $alt,
         "skillsEssential" => $skillsEssential,
-        "skillsOptional"  => $skillsOptional,
+        "skillsOptional"  => $skillsOptional
     ];
 }
+
+
+function cleanDescription($txt) {
+    if (!is_string($txt)) return "";
+
+    $txt = trim($txt);
+
+    // Supprimer les valeurs parasites type "plain/text"
+    $invalid = ["plain/text", "text/plain", "plain", "string", "null"];
+
+    if (in_array(strtolower($txt), $invalid)) {
+        return "";
+    }
+
+    // Si la description est trop courte → non pertinente
+    if (strlen($txt) < 20) {
+        return "";
+    }
+
+    return strip_tags($txt);
+}
+
+
+
+
+
+
 
 
 /**
