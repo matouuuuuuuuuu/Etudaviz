@@ -107,7 +107,7 @@ button, .btn {
 button:hover, .btn:hover {
   transform: translateY(-3px);
   box-shadow: 0 6px 14px rgba(0,0,0,0.15);
-  background: linear-gradient(135deg,#007296, #3BE4D3;
+  background: linear-gradient(135deg,#007296, #3BE4D3);
 }
 
 /* ----- BOUTON GROUPE (CTA) ----- */
@@ -443,7 +443,7 @@ nav ul.submenu li a:hover {
         width: 220px;
         padding: 15px;
         border-radius: 8px;
-        background-color: #344E5C
+        background-color: #344E5C;
         box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         z-index: 9999;
     }
@@ -3487,7 +3487,7 @@ nav ul.menu {
         color: #333;
         cursor: pointer;
         z-index: 10000;
-		padding: 0;
+		    padding: 0;
     }
 
     nav ul.menu {
@@ -3503,11 +3503,6 @@ nav ul.menu {
         box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         z-index: 9999;
     }
-
-    nav ul.menu.open {
-        display: flex;
-    }
-
     .menu li > ul.submenu {
         display: none;
         position: static;
