@@ -107,7 +107,7 @@ button, .btn {
 button:hover, .btn:hover {
   transform: translateY(-3px);
   box-shadow: 0 6px 14px rgba(0,0,0,0.15);
-  background: linear-gradient(135deg,#007296, #3BE4D3;
+  background: linear-gradient(135deg,#007296, #3BE4D3);
 }
 
 /* ----- BOUTON GROUPE (CTA) ----- */
@@ -239,7 +239,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  background: #1D2B3A; 
+  background: #344E5C; 
   padding: 15px 40px;
   border-bottom: 1px solid rgba(87,117,144,0.25);
   gap: 30px;
@@ -248,7 +248,7 @@ header {
 }
 
 header.visited {
-  background: #344E5C; 
+  background: #1A7F6A; 
 }
 
 header img {
@@ -262,7 +262,7 @@ header img {
   ========================================================= */
 
 footer {
-  background: #1d2b3a;
+  background: #1A7F6A;
   color: #F9FCFD; /* texte clair */
   padding: 20px 10px;
   text-align: center;
@@ -443,7 +443,7 @@ nav ul.submenu li a:hover {
         width: 220px;
         padding: 15px;
         border-radius: 8px;
-        background-color: #344E5C
+        background-color: #344E5C;
         box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         z-index: 9999;
     }
@@ -535,7 +535,7 @@ section:nth-child(even) {
 }
 
 .hero-text h2 {
-  color: #343e5c;
+  color: #277DA1;
   margin-bottom: 20px;
   line-height: 1.2;
 }

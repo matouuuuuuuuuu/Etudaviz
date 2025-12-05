@@ -104,7 +104,7 @@ function renderMetierCard(array $m): string
 {
     $html = '<div class="etab-card">';
 
-    $html .= '<h4><a href="fiche-metier.php?uri=' . urlencode($m['uri']) . '">'
+    $html .= '<h4><a href="fiche_metier.php?uri=' . urlencode($m['uri']) . '">'
        . ucfirstUtf8(htmlspecialchars($m['title'])) . '</a></h4>';
 
     if (!empty($m['isco'])) {
@@ -899,6 +899,61 @@ function escoSearch(string $query): array {
 
     return $results;
 }
+
+function escoGetMetier(string $uri): ?array {
+
+    $url = "https://ec.europa.eu/esco/api/resource/occupation?uri=" 
+            . urlencode($uri) . "&language=fr";
+
+    $json = @file_get_contents($url);
+    if (!$json) return null;
+
+    $data = json_decode($json, true);
+
+    if (!$data) return null;
+
+    // --- Récupération ISCO ---
+    $isco = $data["code"] ?? "";
+
+    // --- Description ---
+    $description = "";
+    if (isset($data["description"]["fr"])) {
+        $description = strip_tags($data["description"]["fr"]);
+    }
+
+    // --- Synonymes ---
+    $altLabels = $data["alternativeLabel"] ?? [];
+
+    // --- Compétences essentielles ---
+    $skillsEssential = [];
+    if (isset($data["_links"]["hasEssentialSkill"])) {
+        foreach ($data["_links"]["hasEssentialSkill"] as $s) {
+            if (isset($s["title"])) {
+                $skillsEssential[] = $s["title"];
+            }
+        }
+    }
+
+    // --- Compétences optionnelles ---
+    $skillsOptional = [];
+    if (isset($data["_links"]["hasOptionalSkill"])) {
+        foreach ($data["_links"]["hasOptionalSkill"] as $s) {
+            if (isset($s["title"])) {
+                $skillsOptional[] = $s["title"];
+            }
+        }
+    }
+
+    return [
+        "title"           => $data["preferredLabel"]["fr"] ?? "Métier",
+        "isco"            => $isco,
+        "description"     => $description,
+        "altLabels"       => $altLabels,
+        "skillsEssential" => $skillsEssential,
+        "skillsOptional"  => $skillsOptional,
+    ];
+}
+
 
 /**
  * Génère un token d'activation (de compte) et le stocke en base pour l'utilisateur donné.
