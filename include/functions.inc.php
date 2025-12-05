@@ -925,6 +925,52 @@ function createActivationToken(PDO $pdo, int $idUtilisateur): ?string {
     return $token;
 }
 
+/**
+ * Envoie un mail de contact à l'adresse du site.
+ */
+function sendContactMail(string $fromMail, string $fromName, string $subject, string $messageText): bool {
+    global $mail_host, $mail_port, $mail_username, $mail_password, $mail_from, $mail_from_name;
+
+    $mail = new PHPMailer(true);
+
+    try {
+        $mail->isSMTP();
+        $mail->Host       = $mail_host;
+        $mail->SMTPAuth   = true;
+        $mail->Username   = $mail_username;
+        $mail->Password   = $mail_password;
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+        $mail->Port       = $mail_port;
+        $mail->CharSet    = 'UTF-8';
+
+        $mail->setFrom($mail_from, $mail_from_name);
+        $mail->addAddress($mail_from, $mail_from_name); 
+
+        $mail->addReplyTo($fromMail, $fromName);
+
+        $mail->Subject = 'Contact Etudaviz : ' . $subject;
+
+        $textBody = "Message envoyé depuis le formulaire de contact Etudaviz.\n\n"
+                  . "De : $fromName <$fromMail>\n"
+                  . "Sujet : $subject\n\n"
+                  . "Message :\n$messageText\n";
+
+        $htmlBody = "<p><strong>Nouveau message depuis le formulaire de contact Etudaviz</strong></p>"
+                  . "<p><strong>De :</strong> " . htmlspecialchars($fromName) . " &lt;" . htmlspecialchars($fromMail) . "&gt;</p>"
+                  . "<p><strong>Sujet :</strong> " . htmlspecialchars($subject) . "</p>"
+                  . "<p><strong>Message :</strong><br>" . nl2br(htmlspecialchars($messageText)) . "</p>";
+
+        $mail->isHTML(true);
+        $mail->Body    = $htmlBody;
+        $mail->AltBody = $textBody;
+
+        $mail->send();
+        return true;
+
+    } catch (Exception $e) {
+        return false;
+    }
+}
 
 
 
