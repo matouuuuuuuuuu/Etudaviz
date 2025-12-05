@@ -823,50 +823,47 @@ function mergeFormationRecords(array $old, array $new): array {
 
 
 
-function escoSearch(string $query): array {
+function escoSearch(string $query, int $limit = 4, int $offset = 0): array {
     if (strlen($query) < 2) return [];
 
-    $url = "https://ec.europa.eu/esco/api/search?text=" . urlencode($query)
-         . "&type=occupation&language=fr&limit=20";
+    $url = "https://ec.europa.eu/esco/api/search?"
+         . "text=" . urlencode($query)
+         . "&type=occupation"
+         . "&language=fr"
+         . "&limit=" . intval($limit)
+         . "&offset=" . intval($offset);
 
     $json = @file_get_contents($url);
     if (!$json) return [];
 
     $data = json_decode($json, true);
-    if (!isset($data["_embedded"]["results"])) return [];
+    if (empty($data["_embedded"]["results"])) return [];
 
     $results = [];
 
     foreach ($data["_embedded"]["results"] as $item) {
-
-        if (empty($item["uri"])) continue;
+        if (empty($item["uri"]) || empty($item["title"])) continue;
 
         $uri = $item["uri"];
 
-        // API détail métier
-        $detailUrl = "https://ec.europa.eu/esco/api/resource/occupation?uri=" 
+        $detailUrl  = "https://ec.europa.eu/esco/api/resource/occupation?uri="
                     . urlencode($uri) . "&language=fr";
-
         $detailJson = @file_get_contents($detailUrl);
         if (!$detailJson) continue;
 
         $detail = json_decode($detailJson, true);
 
-        // ISCO
         $isco = $detail["code"] ?? "";
 
-        // Compétences essentielles (max 2)
         $skills = [];
-        if (isset($detail["_links"]["hasEssentialSkill"])) {
+        if (!empty($detail["_links"]["hasEssentialSkill"])) {
             foreach ($detail["_links"]["hasEssentialSkill"] as $s) {
-                if (isset($s["title"]) && is_string($s["title"])) {
+                if (!empty($s["title"])) {
                     $skills[] = $s["title"];
                 }
             }
         }
         $skills = array_slice($skills, 0, 2);
-
-        // Aucun champ "desc"
 
         $results[] = [
             "title"           => $item["title"],
@@ -878,6 +875,7 @@ function escoSearch(string $query): array {
 
     return $results;
 }
+
 
 function escoTranslateToFrench(string $text): string {
     // ⭐ Simple trado automatique avec l’API LibreTranslate (gratuite)
