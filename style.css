@@ -10,8 +10,8 @@
   ========================================================= */
 
 body {
-  background-color: #FFFFFF; /* fond clair légèrement bleuté */
-  color: #212121; /* texte principal */
+  background-color: #F9FCFD; /* fond clair légèrement bleuté */
+  color: #577590; /* texte principal */
   line-height: 1.7;
   font-size: 16px;
   margin: 0;
@@ -31,19 +31,18 @@ p {
   text-justify: inter-word;
   font-size: 1.1rem;
   line-height: 1.7;
-  color: #344E5C;
 }
 
 /* ----- LIEN ----- */
 
 a {
-  color: #00A896; 
+  color: #277DA1; /* Cerulean */
   text-decoration: none;
   transition: color 0.3s, transform 0.2s;
 }
 
 a:hover {
- color: #FFC300; 
+ color: #ded7d4; 
  transform: translateY(-1px);
 }
 
@@ -56,17 +55,17 @@ h1, h2 {
 
 h1 {
   font-size: 2.6rem;
-  color: #007296; 
+  color: #277DA1; /* accent bleu */
   letter-spacing: -1px;
 }
 
 h2 {
   font-size: 2rem;
-  color: #344E5C; 
+  color: #577590; /* gris bleuté */
 }
 
 h3 {
-  color: #00A896;
+  color: #4D908E; /* Dark Cyan */
   font-weight: 600;
   margin-bottom: 15px;
   font-size: 1.5rem;
@@ -84,7 +83,7 @@ ul {
 }
 
 ul li::before {
-  color: #FFC300; 
+  color: #F9C74F; /* Saffron (petit accent chaud) */
   margin-right: 8px;
 }
 
@@ -92,7 +91,7 @@ ul li::before {
 
 button, .btn {
   display: inline-block;
-  background: linear-gradient(135deg, #00A896, #43AA8B); 
+  background: linear-gradient(135deg, #F94144, #F8961E); /* rouge → orange */
   color: white;
   padding: 12px 24px;
   border-radius: 8px;
@@ -107,7 +106,7 @@ button, .btn {
 button:hover, .btn:hover {
   transform: translateY(-3px);
   box-shadow: 0 6px 14px rgba(0,0,0,0.15);
-  background: linear-gradient(135deg,#007296, #3BE4D3);
+  background: linear-gradient(135deg, #F3722C, #F9C74F); /* orange → jaune */
 }
 
 /* ----- BOUTON GROUPE (CTA) ----- */
@@ -122,13 +121,13 @@ button:hover, .btn:hover {
 .cta h2 {
   
   margin-bottom: 20px;
-  color: #007296;
+  color: #277DA1;
 }
 
 .cta p {
   font-size: 1.1rem;
   margin-bottom: 30px;
-  color: #344E5C;
+  color: #577590;
 }
 
 /* ----- TABLEAU ----- */
@@ -137,7 +136,7 @@ table {
   width: 100%;
   border-collapse: collapse;
   margin: 20px auto;
-  background: #FFFFFF;
+  background: white;
   border-radius: 10px;
   overflow: hidden;
 }
@@ -149,7 +148,7 @@ th, td {
 }
 
 th {
-  background: #00A896; 
+  background: #43AA8B; /* Zomp */
   color: white;
   font-weight: 600;
 }
@@ -163,7 +162,7 @@ th {
   margin-right: 4px;
   position: fixed;
   padding: 10px;
-  background-color: rgba(0,168,150,0.4);
+  background-color: rgba(77,144,142,0.3); /* teinte Dark Cyan */
   border-radius: 90px;
 }
 
@@ -183,7 +182,7 @@ th {
 .header-search-bar {
   display: flex;
   align-items: center;
-  background: #FFFFFF;
+  background: white;
   border-radius: 25px;
   padding: 5px 10px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
@@ -200,7 +199,6 @@ th {
   width: 100%;
   font-size: 14px;
   max-width: 180px; /* ne dépassera jamais */
-  color: #212121
 }
 
 .header-search-bar button {
@@ -208,14 +206,14 @@ th {
   background: transparent;
   cursor: pointer;
   font-size: 16px;
-  color: #00A896;
+  color: #277DA1;
 }
 
 /* ----- NECESSAIRE DE CONNEXION ----- */
 
 .btn-connexion {
   padding: 8px 18px;
-  background: #344E5C; 
+  background: #43AA8B; /* vert bleuté élégant */
   color: white;
   text-decoration: none;
   border-radius: 25px;
@@ -225,9 +223,8 @@ th {
 }
 
 .btn-connexion:hover {
-  background: #FFC300;
+  background: #F3722C; /* accent orange au survol */
   transform: translateY(-2px);
-  color: #212121
 }
 
 
@@ -239,7 +236,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  background: #1D2B3A; 
+  background: #4D908E; /* Dark Cyan */
   padding: 15px 40px;
   border-bottom: 1px solid rgba(87,117,144,0.25);
   gap: 30px;
@@ -248,7 +245,7 @@ header {
 }
 
 header.visited {
-  background: #344E5C; 
+  background: #417F7C; /* Zomp - version plus vive au scroll */
 }
 
 header img {
@@ -262,7 +259,7 @@ header img {
   ========================================================= */
 
 footer {
-  background: #1d2b3a;
+  background: #277DA1; /* Cerulean */
   color: #F9FCFD; /* texte clair */
   padding: 20px 10px;
   text-align: center;
@@ -314,14 +311,14 @@ footer {
 }
 
 .footer-links a {
-  color: #3BE4D3;
+  color: #90BE6D; /* Pistachio - doux sur fond bleu */
   font-size: 13px;
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 .footer-links a:hover {
-  color: #FFC300; 
+  color: #F9C74F; /* accent jaune */
 }
 
 .footer-copy {
@@ -342,13 +339,13 @@ nav ul {
 }
 
 nav ul li a {
-  color: #FFFFFF; 
+  color: #F9FCFD; /* texte clair sur fond foncé */
   font-weight: 500;
   transition: color 0.3s;
 }
 
 nav ul li a:hover {
-  color: #FFC300; /* orange accent au survol */
+  color: #F3722C; /* orange accent au survol */
 }
 
 .nav-icon {
@@ -365,7 +362,6 @@ nav ul li a:hover {
     background: none;
     border: none;
     cursor: pointer;
-    color: #FFFFFF
 }
 
 /* ---------- MENU DESKTOP ---------- */
@@ -407,7 +403,7 @@ nav ul.submenu {
     top: 100%;
     left: 0;
     list-style: none;
-    background-color: #FFFFFF;
+    background-color: #F9FCFD;
     border: 1px solid rgba(87,117,144,0.25);
     border-radius: 6px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
@@ -419,13 +415,13 @@ nav ul.submenu {
 nav ul.submenu li a {
     display: block;
     padding: 10px 15px;
-    color: #007296;
+    color: #277DA1;
     text-decoration: none;
 }
 
 nav ul.submenu li a:hover {
-    background-color: #00A89633;
-    color: #FFC300;
+    background-color: #43AA8B33;
+    color: #F94144;
 }
 
 /* ---------- MOBILE ---------- */
@@ -443,7 +439,7 @@ nav ul.submenu li a:hover {
         width: 220px;
         padding: 15px;
         border-radius: 8px;
-        background-color: #344E5C;
+        background-color: #43AA8B;
         box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         z-index: 9999;
     }
@@ -489,7 +485,7 @@ section {
 }
 
 section:nth-child(even) {
-  background: #F8F8F8; 
+  background: #F9FCFD; /* alternance bleu très clair */
 }
 
 /* ============================
@@ -498,7 +494,7 @@ section:nth-child(even) {
 .hero-section {
   width: 100%;
   min-height: auto;
-  background: linear-gradient(135deg, #FFC300 0%, #00a896 100%);
+  background: linear-gradient(135deg, #F9C74F 0%, #277DA1 100%);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -535,13 +531,13 @@ section:nth-child(even) {
 }
 
 .hero-text h2 {
-  color: #343e5c;
+  color: #577590; /* Payne’s Gray */
   margin-bottom: 20px;
   line-height: 1.2;
 }
 
 .hero-text p {
-  color: #555555; /* Dark Cyan */
+  color: #4D908E; /* Dark Cyan */
   margin-bottom: 30px;
 }
 
@@ -3487,7 +3483,7 @@ nav ul.menu {
         color: #333;
         cursor: pointer;
         z-index: 10000;
-		    padding: 0;
+		padding: 0;
     }
 
     nav ul.menu {
@@ -3503,6 +3499,11 @@ nav ul.menu {
         box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         z-index: 9999;
     }
+
+    nav ul.menu.open {
+        display: flex;
+    }
+
     .menu li > ul.submenu {
         display: none;
         position: static;
