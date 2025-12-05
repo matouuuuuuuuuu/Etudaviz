@@ -660,18 +660,19 @@ function sendVerificationMail(string $to, string $pseudo, string $link): bool {
         $mail->SMTPAuth   = true;
         $mail->Username   = $mail_username;
         $mail->Password   = $mail_password;
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; 
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
         $mail->Port       = $mail_port;
         $mail->CharSet    = 'UTF-8';
 
         $mail->setFrom($mail_from, $mail_from_name);
         $mail->addAddress($to, $pseudo);
 
-        $mail->Subject = 'Vérification de votre compte Etudaviz';
+        $mail->Subject = 'Activation de votre compte Etudaviz';
 
         $textBody = "Bonjour $pseudo,\n\n"
-                . "Votre compte Etudaviz a bien été créé.\n"
-                . "Vous pouvez vous connecter ici :\n$link\n\n";
+                  . "Merci de vous être inscrit sur Etudaviz.\n"
+                  . "Pour activer votre compte, cliquez sur le lien suivant :\n$link\n\n"
+                  . "Si vous n'êtes pas à l'origine de cette demande, ignorez ce message.\n";
 
         $htmlBody = "<p>Bonjour <strong>$pseudo</strong>,</p>"
                   . "<p>Merci de vous être inscrit sur Etudaviz.</p>"
@@ -690,6 +691,7 @@ function sendVerificationMail(string $to, string $pseudo, string $link): bool {
         return false;
     }
 }
+
 
 function captchaInit(): void {
     ensureSession();
@@ -723,18 +725,27 @@ function validateRegistrationInput(
     string $password2,
     string $captchaAnswer
 ): ?string {
+    // Champs vides
     if ($pseudo === '' || $mail === '' || $password === '' || $password2 === '' || $captchaAnswer === '') {
         return "Veuillez remplir tous les champs.";
     }
 
+    // Pseudo : uniquement des lettres, longueur 2 à 12
+    if (!preg_match('/^[A-Za-z]{2,12}$/', $pseudo)) {
+        return "Le pseudo doit contenir uniquement des lettres et faire entre 2 et 12 caractères.";
+    }
+
+    // Mail valide
     if (!filter_var($mail, FILTER_VALIDATE_EMAIL)) {
         return "Adresse mail invalide.";
     }
 
+    // Mots de passe identiques
     if ($password !== $password2) {
         return "Les mots de passe ne correspondent pas.";
     }
 
+    // Captcha
     if (!captchaCheck($captchaAnswer)) {
         return "Captcha incorrect.";
     }
@@ -766,9 +777,9 @@ function isPseudoOrMailUsed(PDO $pdo, string $pseudo, string $mail): bool {
 function createUser(PDO $pdo, string $pseudo, string $mail, string $password): ?int {
     $hash = password_hash($password, PASSWORD_DEFAULT);
 
-    // ici on met le compte directement "actif"
+    // Le compte est créé comme "inactif"
     $sql = "INSERT INTO Utilisateur (pseudo, mail, mot_de_passe, date_inscription, statut_compte)
-            VALUES (:pseudo, :mail, :mot_de_passe, NOW(), 'actif')";
+            VALUES (:pseudo, :mail, :mot_de_passe, NOW(), 'inactif')";
 
     $stmt = $pdo->prepare($sql);
     $ok = $stmt->execute([
@@ -889,6 +900,30 @@ function escoSearch(string $query): array {
     return $results;
 }
 
+/**
+ * Génère un token d'activation (de compte) et le stocke en base pour l'utilisateur donné.
+ * Retourne le token ou null en cas d'erreur.
+ */
+function createActivationToken(PDO $pdo, int $idUtilisateur): ?string {
+    // 64 caractères hexadécimaux
+    $token = bin2hex(random_bytes(32));
+
+    $sql = "UPDATE Utilisateur
+            SET token_activation = :token
+            WHERE id_utilisateur = :id";
+
+    $stmt = $pdo->prepare($sql);
+    $ok = $stmt->execute([
+        'token' => $token,
+        'id'    => $idUtilisateur,
+    ]);
+
+    if (!$ok) {
+        return null;
+    }
+
+    return $token;
+}
 
 
 

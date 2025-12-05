@@ -22,17 +22,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($identifiant !== '' && $password !== '') {
 
         $user = verifyLoginDb($identifiant, $password);
-
         if ($user !== null) {
-            
-            loginUser($user);
 
-            header('Location: private.php');
-            exit;
+            if ($user['statut_compte'] !== 'actif') {
+                $erreur = "Votre compte n'est pas encore activé. Merci de cliquer sur le lien d'activation reçu par email.";
+            } else {
+                loginUser($user);
+                header('Location: index.php');
+                exit;
+            }
+
         } else {
             $erreur = "Identifiant (pseudo ou mail) ou mot de passe incorrect.";
         }
-
+        
     } else {
         $erreur = "Veuillez remplir tous les champs.";
     }

@@ -40,16 +40,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($idUtilisateur === null) {
                 $erreur = "Erreur lors de la création du compte.";
             } else {
-                $baseUrl = "https://" . $_SERVER['HTTP_HOST'];
-                $lienConnexion = $baseUrl . "/login.php";
+                // Générer un token d'activation et envoyer un mail avec le lien
+                $token = createActivationToken($pdo, $idUtilisateur);
 
-                if (sendVerificationMail($mail, $pseudo, $lienConnexion)) {
-                    $message = "Compte créé ! Un email de confirmation vous a été envoyé.";
+                if ($token === null) {
+                    $erreur = "Compte créé, mais impossible de générer le lien d'activation. Contactez l'administrateur.";
                 } else {
-                    $message = "Compte créé, mais impossible d'envoyer l'email de confirmation.";
-                }
-                //$message = "Compte créé ! (test sans envoi d'email)";
+                    $baseUrl = "https://" . $_SERVER['HTTP_HOST'];
+                    $lienActivation = $baseUrl . "/activation.php?token=" . urlencode($token);
 
+                    if (sendVerificationMail($mail, $pseudo, $lienActivation)) {
+                        $message = "Compte créé ! Un email d'activation vous a été envoyé.";
+                    } else {
+                        $message = "Compte créé, mais impossible d'envoyer l'email d'activation.";
+                    }
+                }
                 captchaInit();
             }
         }
