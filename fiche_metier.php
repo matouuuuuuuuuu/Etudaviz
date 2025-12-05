@@ -8,7 +8,7 @@ $metier = escoGetMetier($uri);
 if (!$metier) die("Aucune donnée disponible pour ce métier.");
 
 $title = "Métier : " . htmlspecialchars($metier["title"]);
-$h1 = htmlspecialchars($metier["title"]);
+$h1 = ucfirstUtf8(htmlspecialchars($metier["title"]));
 
 require "./include/header.inc.php";
 ?>
@@ -37,28 +37,36 @@ require "./include/header.inc.php";
         </ul>
     </div>
 
+    <?php if (!empty($metier["skillsEssential"]) || !empty($metier["skillsOptional"])): ?>
+        <div class="metier-skill-columns">
 
-    <?php if (!empty($metier["skillsEssential"])): ?>
-        <div class="formation-section debouches">
-            <h3>Compétences essentielles</h3>
-            <ul>
-                <?php foreach ($metier["skillsEssential"] as $skill): ?>
-                    <li><?= htmlspecialchars($skill) ?></li>
-                <?php endforeach; ?>
-            </ul>
+            <?php if (!empty($metier["skillsEssential"])): ?>
+                <div class="metier-skill-card">
+                    <h3 class="metier-skill-title">Compétences essentielles</h3>
+                    <ul class="metier-skill-list">
+                        <?php foreach ($metier["skillsEssential"] as $skill): ?>
+                            <li><?= htmlspecialchars(ucfirst($skill)) ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            <?php endif; ?>
+
+            <?php if (!empty($metier["skillsOptional"])): ?>
+                <div class="metier-skill-card">
+                    <h3 class="metier-skill-title">Compétences optionnelles</h3>
+                    <ul class="metier-skill-list">
+                        <?php foreach ($metier["skillsOptional"] as $skill): ?>
+                            <li><?= htmlspecialchars(ucfirst($skill)) ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            <?php endif; ?>
+
         </div>
     <?php endif; ?>
 
-    <?php if (!empty($metier["skillsOptional"])): ?>
-        <div class="formation-section debouches">
-            <h3>Compétences optionnelles</h3>
-            <ul>
-                <?php foreach ($metier["skillsOptional"] as $skill): ?>
-                    <li><?= htmlspecialchars($skill) ?></li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
-    <?php endif; ?>
+
+
 
 </section>
 
