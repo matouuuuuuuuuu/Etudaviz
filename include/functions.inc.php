@@ -104,8 +104,8 @@ function renderMetierCard(array $m): string
 {
     $html = '<div class="etab-card">';
 
-    $html .= '<h4><a href="fiche_metier.php?uri=' . urlencode($m['uri']) . '">'
-       . ucfirstUtf8(htmlspecialchars($m['title'])) . '</a></h4>';
+    $html .= '<h3><a href="fiche_metier.php?uri=' . urlencode($m['uri']) . '">'
+       . ucfirstUtf8(htmlspecialchars($m['title'])) . '</a></h3>';
 
     if (!empty($m['isco'])) {
         $html .= '<p><strong>Code ISCO :</strong> ' . htmlspecialchars($m['isco']) . '</p>';
@@ -1145,6 +1145,24 @@ function sendContactMail(string $fromMail, string $fromName, string $subject, st
         return false;
     }
 }
+
+function getAvisByFormationId($id_formation) {
+    global $pdo;
+
+    $sql = "
+    SELECT a.*, u.pseudo 
+    FROM Avis a
+    JOIN Utilisateur u ON a.id_utilisateur = u.id_utilisateur
+    WHERE a.id_formation = ? AND a.statut = 'actif'
+    ORDER BY a.date_publication DESC
+    ";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$id_formation]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
 
 
 
