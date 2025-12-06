@@ -876,34 +876,71 @@ section:nth-child(even) {
   ========================================================= */
 
 .avis {
-  background: #FFFFFF;
-  border-radius: 20px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
-  max-width: 1000px;
-  margin: 80px auto;
-  text-align: left;
+    margin: 60px auto;
+    text-align: center;
 }
 
 .avis h2 {
-  color: #277DA1;
-  text-align: center;
-  margin-bottom: 50px;
+    color: #0a6c7d;
+    margin-bottom: 30px;
 }
 
+.slideshow-container {
+    background: #f7fdfd;
+    border-radius: 20px;
+    padding: 40px 50px;
+    max-width: 900px;
+    margin: auto;
+    position: relative;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+}
+
+.mySlides {
+    display: none;
+    padding: 20px 10px;
+}
+
+
+.quote-mark {
+    font-size: 60px;
+    font-weight: 700;
+    color: #0a6c7d;
+    opacity: 0.25;
+    display: block;
+    margin-bottom: -15px;
+}
+
+/* Texte de l’avis */
 .quote {
-  font-size: 1.3rem;
-  font-style: italic;
-  color: #4D908E;
-  line-height: 1.8;
-  margin-left: 40px;
-  margin-bottom: 25px;
+    font-style: italic;
+    color: #2d6d73;
+    line-height: 1.6;
+    margin: 20px auto 25px;
+    max-width: 750px;
 }
 
+/* Signature */
 .author {
-  font-size: 1rem;
-  color: #577590;
-  font-weight: 500;
-  margin-left: 40px;
+    font-weight: 600;
+    color: #0a6c7d;
+}
+
+.slider-controls {
+    margin-top: 20px;
+}
+
+.prev, .next {
+    cursor: pointer;
+    font-size: 26px;
+    font-weight: bold;
+    margin: 0 10px;
+    color: #0a6c7d;
+    transition: 0.2s ease;
+}
+
+.prev:hover, .next:hover {
+    color: #048c99;
+    transform: scale(1.2);
 }
 
 /* =========================================================
@@ -2251,14 +2288,12 @@ section:nth-child(even) {
 }
 
 .roadmap-title {
-  font-size: 2.3rem;
   color: #277DA1;
   margin-bottom: 10px;
   font-weight: 700;
 }
 
 .roadmap-subtitle {
-  font-size: 1.15rem;
   color: #577590;
   max-width: 650px;
   margin: 0 auto 50px;

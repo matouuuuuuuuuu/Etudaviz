@@ -1,41 +1,68 @@
 <?php
-	$title="Recherche de formations sur Etudaviz";
-	$description="Page de recherche permettant d'accèder aux formations en fonction de mots clés";
-    $h1="Résultats associés à votre recherche :";
-    $canonical = "https://etudaviz.alwaysdata.net/recherche.php";
-    $query = isset($_GET['q']) ? trim($_GET['q']) : "";
+require "./include/functions.inc.php";
 
-    require "./include/header.inc.php";
+$title="Recherche sur Etudaviz";
+$description="Formations + métiers correspondant à votre recherche.";
+$h1="Résultats pour votre recherche";
+$canonical="https://etudaviz.alwaysdata.net/recherche.php";
+
+$query = isset($_GET['q']) ? trim($_GET['q']) : "";
+
+require "./include/header.inc.php";
+
+// Résultats FORMATIONS
+$formations = [];
+if ($query !== "") {
+    $rawResults = getEtablissementsSupPublics([
+        "search" => $query,
+        "limit" => 5
+    ]);
+
+    if (!empty($rawResults) && !isset($rawResults["error"])) {
+        foreach ($rawResults as $record) {
+            $formations[] = formatEtablissement($record["fields"], $record["recordid"]);
+        }
+    }
+}
+
+// Résultats MÉTIERS (via ESCO)
+$metiers = ($query !== "" ? escoSearch($query) : []);
 ?>
 
-    <section class="search-container">
-        <?php if (!empty($query)) : ?>
-            <p>Vous avez recherché : <strong><?php echo htmlspecialchars($query); ?></strong></p>
+<section class="search-container">
 
-            <div class="results">
-                <div class="result-item">
-                    <h3>Formation en Informatique</h3>
-                    <p>Découvrez nos cursus en développement web, cybersécurité et IA.</p>
-                    <a href="formations.php">Voir la formation</a>
-                </div>
+<?php if ($query): ?>
 
-                <div class="result-item">
-                    <h3>Orientation après le bac</h3>
-                    <p>Conseils pratiques pour bien choisir son parcours post-bac.</p>
-                    <a href="orientation.php">Lire l'article</a>
-                </div>
+    <p>Vous avez recherché : <strong><?= htmlspecialchars($query) ?></strong></p>
 
-                <div class="result-item">
-                    <h3>À propos d’Etudaviz</h3>
-                    <p>En savoir plus sur notre mission et notre accompagnement étudiant.</p>
-                    <a href="apropos.php">Découvrir</a>
-                </div>
-            </div>
-        <?php else : ?>
-            <p>Aucun mot-clé saisi. <a href="index.php">Retour à l'accueil</a></p>
-        <?php endif; ?>
-        </section>
+    <!-- 🟦 FORMATIONS -->
+    <h2>Formations trouvées</h2>
+    <?php if ($formations): ?>
+        <div class="results-grid">
+            <?php foreach ($formations as $etab): ?>
+                <?= renderEtablissementCard($etab); ?>
+            <?php endforeach; ?>
+        </div>
+    <?php else: ?>
+        <p>Aucune formation trouvée.</p>
+    <?php endif; ?>
 
-<?php
-    require "./include/footer.inc.php";
-?>
+    <!-- 🟧 MÉTIERS -->
+    <h2>Métiers trouvés</h2>
+    <?php if ($metiers): ?>
+        <div class="results-grid">
+            <?php foreach ($metiers as $m): ?>
+                <?= renderMetierCard($m); ?>
+            <?php endforeach; ?>
+        </div>
+    <?php else: ?>
+        <p>Aucun métier trouvé.</p>
+    <?php endif; ?>
+
+<?php else: ?>
+    <p>Aucun mot-clé saisi. <a href="index.php">Retour à l'accueil</a></p>
+<?php endif; ?>
+
+</section>
+
+<?php require "./include/footer.inc.php"; ?>

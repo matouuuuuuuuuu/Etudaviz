@@ -1,5 +1,7 @@
 <?php
     require "./include/functions.inc.php";
+    ensureSession();
+    $latestAvis = getLatestAvis(10); // on récupère les 10 derniers avis
     $satisfaction = getTauxSatisfaction();
     $avis= getNombreAvis();
     $partenaires = getNombrePartenaires();
@@ -145,38 +147,43 @@
     </section>
 
     <section class="avis">
-        <h2>Ce qu’en disent les étudiants 🎓</h2>
-        <div class="slideshow-container">
-            <div class="mySlides fade">
-                <span class="quote-mark">“</span>
-                <p class="quote">
-                Grâce à Etudaviz, j’ai découvert une école d’ingénieur qui correspondait parfaitement à mon profil !
-                </p>
-                <p class="author">— Léo, ancien lycéen</p>
-            </div>
+    <h2>Ce qu’en disent les étudiants 🎓</h2>
+
+    <div class="slideshow-container">
+
+        <?php if (!empty($latestAvis)): ?>
+            <?php foreach ($latestAvis as $a): ?>
+                <div class="mySlides fade">
+                    <span class="quote-mark">“</span>
+
+                    <p class="quote">
+                        <?= nl2br(htmlspecialchars($a['description'])) ?>
+                    </p>
+
+                    <p class="author">
+                        — <?= htmlspecialchars($a['pseudo']) ?>
+                        <?php if (!empty($a['date_experience'])): ?>
+                            , expérience : <?= htmlspecialchars($a['date_experience']) ?>
+                        <?php endif; ?>
+                    </p>
+                </div>
+            <?php endforeach; ?>
+        <?php else: ?>
 
             <div class="mySlides fade">
                 <span class="quote-mark">“</span>
-                <p class="quote">
-                Les avis des autres étudiants m’ont vraiment aidée à choisir ma licence pro en communication.
-                </p>
-                <p class="author">— Inès, étudiante à CY</p>
+                <p class="quote">Aucun avis pour le moment. Revenez bientôt !</p>
             </div>
 
-            <div class="mySlides fade">
-                <span class="quote-mark">“</span>
-                <p class="quote">
-                J’ai pu comparer les parcours et trouver une formation en alternance près de chez moi.
-                </p>
-                <p class="author">— Thomas, étudiant en BTS</p>
-            </div>
+        <?php endif; ?>
 
-            <div class="slider-controls">
+        <div class="slider-controls">
             <span class="prev" onclick="plusSlides(-1)">&#10094;</span>
             <span class="next" onclick="plusSlides(1)">&#10095;</span>
-            </div>
         </div>
-    </section>
+
+    </div>
+</section>
 
 
 <script type="module" src="/js/slides.js"></script>
