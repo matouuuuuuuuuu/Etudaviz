@@ -19,7 +19,6 @@ require "./include/header.inc.php";
                   étape par étape vers un choix d’orientation éclairé.
               </p>
               <div class="orientation-hero-cta">
-                  <a href="#profils">Choisir mon profil</a>
                   <a href="test-orientation.php" class="btn-primary">🔥 Faire le test d’orientation</a>
               </div>
               <p class="orientation-hero-note">
@@ -195,10 +194,10 @@ require "./include/header.inc.php";
         </div>
 
         <div class="roadmap-card">
-            <div class="roadmap-icon">🤝</div>
-            <h3>4. Tester, rencontrer, essayer</h3>
-            <p>Portes ouvertes, immersions, échanges avec des étudiants.</p>
-            <a href="articles.php" class="roadmap-link">Découvrir les événements →</a>
+            <div class="roadmap-icon">🧩</div>
+            <h3>4. S'informer et échanger avec les étudiants</h3>
+            <p>La meilleure manière de se renseigner, c'est de parler avec les principaux concernés. Prends donc contact avec d'anciens étudiants !</p>
+            <a href="avis.php" class="roadmap-link">Les avis reccueillis →</a>
         </div>
 
     </div>

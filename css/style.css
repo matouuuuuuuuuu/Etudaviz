@@ -876,34 +876,71 @@ section:nth-child(even) {
   ========================================================= */
 
 .avis {
-  background: #FFFFFF;
-  border-radius: 20px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
-  max-width: 1000px;
-  margin: 80px auto;
-  text-align: left;
+    margin: 60px auto;
+    text-align: center;
 }
 
 .avis h2 {
-  color: #277DA1;
-  text-align: center;
-  margin-bottom: 50px;
+    color: #0a6c7d;
+    margin-bottom: 30px;
 }
 
+.slideshow-container {
+    background: #f7fdfd;
+    border-radius: 20px;
+    padding: 40px 50px;
+    max-width: 900px;
+    margin: auto;
+    position: relative;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+}
+
+.mySlides {
+    display: none;
+    padding: 20px 10px;
+}
+
+
+.quote-mark {
+    font-size: 60px;
+    font-weight: 700;
+    color: #0a6c7d;
+    opacity: 0.25;
+    display: block;
+    margin-bottom: -15px;
+}
+
+/* Texte de l’avis */
 .quote {
-  font-size: 1.3rem;
-  font-style: italic;
-  color: #4D908E;
-  line-height: 1.8;
-  margin-left: 40px;
-  margin-bottom: 25px;
+    font-style: italic;
+    color: #2d6d73;
+    line-height: 1.6;
+    margin: 20px auto 25px;
+    max-width: 750px;
 }
 
+/* Signature */
 .author {
-  font-size: 1rem;
-  color: #577590;
-  font-weight: 500;
-  margin-left: 40px;
+    font-weight: 600;
+    color: #0a6c7d;
+}
+
+.slider-controls {
+    margin-top: 20px;
+}
+
+.prev, .next {
+    cursor: pointer;
+    font-size: 26px;
+    font-weight: bold;
+    margin: 0 10px;
+    color: #0a6c7d;
+    transition: 0.2s ease;
+}
+
+.prev:hover, .next:hover {
+    color: #048c99;
+    transform: scale(1.2);
 }
 
 /* =========================================================
@@ -2009,7 +2046,6 @@ section:nth-child(even) {
 }
 
 .orientation-result-domain {
-    font-size: 1.5rem;
     color: #43AA8B;
     margin-bottom: 25px;
 }
@@ -2031,7 +2067,6 @@ section:nth-child(even) {
     background: #277DA1;
     color: white;
     border-radius: 10px;
-    font-weight: 600;
     text-decoration: none;
     transition: .3s;
 }
@@ -2253,14 +2288,12 @@ section:nth-child(even) {
 }
 
 .roadmap-title {
-  font-size: 2.3rem;
   color: #277DA1;
   margin-bottom: 10px;
   font-weight: 700;
 }
 
 .roadmap-subtitle {
-  font-size: 1.15rem;
   color: #577590;
   max-width: 650px;
   margin: 0 auto 50px;
@@ -2745,6 +2778,163 @@ section:nth-child(even) {
     height: 220px;
     margin-bottom: 30px;
 }
+
+/* Conteneur global */
+.avis-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    margin-top: 20px;
+}
+
+/* Carte d'avis */
+.avis-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 22px;
+    border: 1px solid #e8e8e8;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    transition: 0.2s ease;
+}
+
+.avis-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.10);
+}
+
+/* Haut de l'avis */
+.avis-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.avis-title {
+    font-size: 1.25rem;
+    color: #007b7f;
+    margin: 0;
+    font-weight: 700;
+}
+
+/* Auteur */
+.avis-author {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    color: #444;
+    font-size: 0.95rem;
+}
+
+.avis-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+}
+
+/* Description */
+.avis-description {
+    font-size: 1rem;
+    color: #333;
+    line-height: 1.55;
+    margin: 12px 0 18px;
+}
+
+/* Meta informations */
+.avis-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.avis-meta span strong {
+    color: #222;
+}
+
+/* Titre du formulaire */
+.avis-form-title {
+    margin-top: 30px;
+    font-size: 1.4rem;
+    color: #007b7f;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+/* Carte contenant le formulaire */
+.avis-form {
+    background: #ffffff;
+    padding: 22px;
+    border-radius: 14px;
+    border: 1px solid #e8e8e8;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    margin-top: 10px;
+    max-width: 650px;
+    text-align: center;
+}
+
+/* Groupe d'inputs */
+.avis-form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 18px;
+}
+
+.avis-form-group label {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 6px;
+}
+
+.avis-form-wrapper {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.avis-form-group input,
+.avis-form-group textarea {
+    border: 1px solid #d3d3d3;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 1rem;
+    width: 100%;
+    transition: 0.2s;
+    text-align: center;
+  color: gray;
+}
+
+.avis-form-group input:focus,
+.avis-form-group textarea:focus {
+    border-color: #00a398;
+    box-shadow: 0 0 4px rgba(0,163,152,0.4);
+    outline: none;
+}
+
+/* Bouton */
+.avis-submit-btn {
+    background: #00a398;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.avis-submit-btn:hover {
+    background: #008c82;
+}
+
+
+
+
 
 
 
@@ -3309,14 +3499,6 @@ nav ul.menu {
   .etab-card {
     padding: 14px;
     margin-bottom: 16px;
-  }
-
-  .etab-card h4 {
-    font-size: 1.1rem;
-  }
-
-  .etab-card p {
-    font-size: 0.9rem;
   }
 
   /* ---------- FICHE FORMATION ---------- */

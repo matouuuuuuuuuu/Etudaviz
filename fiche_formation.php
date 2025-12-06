@@ -1,10 +1,12 @@
 <?php
 require "./include/functions.inc.php";
+ensureSession();
 
 $id = $_GET['id'] ?? null;
 if (!$id) die("Formation introuvable.");
 
 $etab = getEtablissementById($id);
+
 if (!$etab) die("Aucune donnée trouvée.");
 
 $debouches = getDebouchesDepuisOnisep(
@@ -156,7 +158,83 @@ require "./include/header.inc.php";
           <?php endif; ?>
       </div>
     <?php endif; ?>
-  </section>
+
+     <div class="formation-section avis">
+    <h3>Avis des étudiants</h3>
+
+    <?php $avis = getAvisByFormationId($id); ?>
+
+    <?php if (!empty($avis)): ?>
+    <div class="avis-wrapper">
+        <?php foreach ($avis as $a): ?>
+            <div class="avis-card">
+
+                <div class="avis-top">
+                    <div class="avis-info">
+                        <h4 class="avis-title"><?= htmlspecialchars($a['titre_avis']) ?></h4>
+                        <p class="avis-author">
+                            <img src="/images/avatars/default-avatar.png" class="avis-avatar" alt="avatar">
+                            <span>Par <strong><?= htmlspecialchars($a['pseudo']) ?></strong></span>
+                        </p>
+                    </div>
+                </div>
+
+                <p class="avis-description">
+                    <?= nl2br(htmlspecialchars($a['description'])) ?>
+                </p>
+
+                <div class="avis-meta">
+                    <span>📅 Expérience : <strong><?= htmlspecialchars($a['date_experience']) ?></strong></span>
+                    <span>🕒 Publié le : <strong><?= htmlspecialchars($a['date_publication']) ?></strong></span>
+                </div>
+
+            </div>
+        <?php endforeach; ?>
+    </div>
+  <?php else: ?>
+      <p>Aucun avis pour cette formation. Soyez le premier à partager votre expérience !</p>
+  <?php endif; ?>
+
+
+
+    <?php if (isLoggedIn()): ?>
+
+    <h4 class="avis-form-title">Déposer un avis</h4>
+      <div class="avis-form-wrapper">
+
+        <form action="ajouter_avis.php" method="POST" class="avis-form">
+            <input type="hidden" name="id_formation" value="<?= $etab['id'] ?>">
+
+            <div class="avis-form-group">
+                <label for="titre_avis">Titre</label>
+                <input type="text" name="titre_avis" id="titre_avis" required>
+            </div>
+
+            <div class="avis-form-group">
+                <label for="date_experience">Date de l'expérience</label>
+                <input type="date" name="date_experience" id="date_experience" required>
+            </div>
+
+            <div class="avis-form-group">
+                <label for="description">Votre avis</label>
+                <textarea name="description" id="description" rows="4" required></textarea>
+            </div>
+
+            <button type="submit" class="avis-submit-btn">Envoyer mon avis</button>
+        </form>
+      </div>
+    <?php else: ?>
+
+        <p style="margin-top:20px;">
+            🔒 Vous devez être connecté pour déposer un avis.<br>
+            <a href="login.php">Se connecter</a> — 
+            <a href="inscription.php">Créer un compte</a>
+        </p>
+
+    <?php endif; ?>
+
+
+</section>
 
 
 

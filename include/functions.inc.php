@@ -104,8 +104,8 @@ function renderMetierCard(array $m): string
 {
     $html = '<div class="etab-card">';
 
-    $html .= '<h4><a href="fiche_metier.php?uri=' . urlencode($m['uri']) . '">'
-       . ucfirstUtf8(htmlspecialchars($m['title'])) . '</a></h4>';
+    $html .= '<h3><a href="fiche_metier.php?uri=' . urlencode($m['uri']) . '">'
+       . ucfirstUtf8(htmlspecialchars($m['title'])) . '</a></h3>';
 
     if (!empty($m['isco'])) {
         $html .= '<p><strong>Code ISCO :</strong> ' . htmlspecialchars($m['isco']) . '</p>';
@@ -515,49 +515,6 @@ function getFranceTravailAccessToken() {
     return json_decode($response, true);
 }
 
-function searchMetierRome($token, $query)
-{
-    $url = "https://api.francetravail.io/partenaire/rome-metiers/v1/metiers/metier/recherche?" . http_build_query([
-        "q" => $query,
-        "op" => "OR",
-        "champs" => "libelle,code,riasecMajeur,riasecMineur"
-    ]);
-
-    $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        "Authorization: Bearer $token",
-        "Accept: application/json"
-    ]);
-
-    $response = curl_exec($ch);
-    curl_close($ch);
-
-    $json = json_decode($response, true);
-
-    if (!$json) {
-        return ["error" => "JSON invalide", "raw" => $response];
-    }
-
-    return $json;
-}
-
-function getMetierDetails($token, $codeRome)
-{
-    $url = "https://api.francetravail.io/partenaire/rome-metiers/v1/metiers/" . urlencode($codeRome);
-
-    $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        "Authorization: Bearer $token",
-        "Accept: application/json"
-    ]);
-
-    $response = curl_exec($ch);
-    curl_close($ch);
-
-    return json_decode($response, true);
-}
 
 
 function ensureSession(): void {
@@ -713,6 +670,22 @@ function captchaCheck(string $answer): bool {
     }
     return (int)$answer === (int)$_SESSION['captcha_result'];
 }
+
+function searchEtablissements(string $query): array {
+    $raw = getEtablissementsSupPublics([
+        "search" => $query,
+        "limit" => 12
+    ]);
+    if (empty($raw) || isset($raw["error"])) {
+        return [];
+    }
+    $results = [];
+    foreach ($raw as $record) {
+        $results[] = formatEtablissement($record["fields"], $record["recordid"]);
+    }
+    return $results;
+}
+
 
 /**
  * Valide les champs d'inscription.
@@ -1145,6 +1118,44 @@ function sendContactMail(string $fromMail, string $fromName, string $subject, st
         return false;
     }
 }
+
+function getAvisByFormationId($id_formation) {
+    global $pdo;
+
+    $sql = "
+    SELECT a.*, u.pseudo 
+    FROM Avis a
+    JOIN Utilisateur u ON a.id_utilisateur = u.id_utilisateur
+    WHERE a.id_formation = ? AND a.statut = 'actif'
+    ORDER BY a.date_publication DESC
+    ";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$id_formation]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
+function getLatestAvis(int $limit = 10): array {
+    global $pdo;
+
+    $sql = "
+        SELECT a.*, u.pseudo 
+        FROM Avis a
+        JOIN Utilisateur u ON a.id_utilisateur = u.id_utilisateur
+        WHERE statut = 'actif'
+        ORDER BY date_publication DESC
+        LIMIT ?
+    ";
+    
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindValue(1, $limit, PDO::PARAM_INT);
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
 
 
 
