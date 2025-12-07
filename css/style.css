@@ -165,6 +165,7 @@ th {
   padding: 10px;
   background-color: rgba(0,168,150,0.4);
   border-radius: 90px;
+  z-index:9999;
 }
 
 /* ----- GROUPE DE RECHERCHE ----- */
@@ -3965,40 +3966,8 @@ button:hover,
   filter: brightness(1.03);
 }
 
-/* ========= HEADER / NAV ========= */
+/* ========= BOUTON CONNEXION (réutilise le style V2) ========= */
 
-header {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  padding: 14px 40px;
-  background: rgba(8, 15, 40, 0.85);
-  backdrop-filter: blur(18px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  display: flex;
-  align-items: center;
-  gap: 32px;
-}
-
-header img {
-  width: 90px;
-  height: auto;
-}
-
-nav ul.menu {
-  gap: 22px;
-}
-
-nav ul.menu > li > a {
-  color: #f8f9ff;
-  font-weight: 500;
-}
-
-nav ul.menu > li > a:hover {
-  color: #ffffff;
-}
-
-/* bouton Connexion dans le header */
 .btn-connexion {
   background: #ffffff;
   color: #111827;
@@ -4021,14 +3990,14 @@ nav ul.menu > li > a:hover {
   overflow: hidden;
 }
 
-/* image ou gradient derrière (change l’URL si tu veux une autre photo) */
+/* image de fond + gradient sombre */
 .hero-section::before {
   content: "";
   position: absolute;
   inset: 0;
   background:
     linear-gradient(145deg, rgba(13, 19, 54, 0.88), rgba(26, 35, 98, 0.82)),
-    url("../images/etudiants.png") center/cover no-repeat;
+    url("../images/hero-etudiants.png") center/cover no-repeat;
   opacity: 1;
   z-index: -2;
 }
@@ -4056,6 +4025,10 @@ nav ul.menu > li > a:hover {
   display: grid;
   grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
   gap: 40px;
+
+  /* pour être au-dessus de l’image + blobs */
+  position: relative;
+  z-index: 1;
 }
 
 /* bloc gauche : texte */
@@ -4264,9 +4237,6 @@ footer {
 /* ========= RESPONSIVE ========= */
 
 @media (max-width: 900px) {
-  header {
-    padding-inline: 18px;
-  }
 
   .hero-section {
     padding-top: 90px;
