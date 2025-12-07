@@ -21,33 +21,51 @@
     require "./include/header.inc.php";
 ?>
 
-    <section class="hero-section">
-        <div class="hero-container">
-            <div class="hero-text">
-                <h2>Ton futur mérite mieux que le hasard</h2>
-                <p>
-                    Etudaviz t’accompagne dans la construction de ton avenir.
-                    Découvre les formations qui te correspondent, explore les parcours possibles après le bac et 
-                    inspire-toi des témoignages d’étudiants qui ont trouvé leur voie.
-                    Que tu sois lycéen, étudiant ou en prépa, fais le bon choix grâce à des informations claires, fiables et à ton rythme.
-                </p>
-                <div class="hero-buttons">
-                    <a href="formations.php" class="btn-primary">Explorer les formations</a>
-                    <a href="orientation.php" class="btn-secondary">Trouver ma voie</a>
-                </div>
-            </div>
-            <div class="profil-buttons">
-                <h3 class="profil-title">Quel est ton profil&nbsp;?</h3>
-                    <div class="profil-grid">
-                        <a href="orientation.php?profil=lyceen" class="btn-profil lyceen"> Je suis lycéen</a>
-                        <a href="formations.php?profil=etudiant" class="btn-profil etudiant"> Je suis déjà en Etude Sup</a>
-                        <a href="formations.php?profil=cpge" class="btn-profil cpge"> Je suis en prépa (CPGE)</a>
-                        <a href="metiers.php" class="btn-profil metiers">Je veux découvrir des métiers</a>
-                    </div>
-            </div>
+    <section class="hero-landing">
+  <div class="hero-inner">
+    <!-- COLONNE GAUCHE : texte + boutons -->
+    <div class="hero-text">
+      <p class="hero-eyebrow">Bienvenue sur Etudaviz</p>
 
-        </div>
+      <h1 class="hero-title">Ton futur mérite mieux que le hasard</h1>
+
+      <p class="hero-lead">
+        Etudaviz t’accompagne dans la construction de ton avenir. Découvre les formations
+        qui te correspondent, explore les parcours possibles après le bac et inspire-toi
+        des témoignages d’étudiants qui ont trouvé leur voie. Que tu sois lycéen,
+        étudiant ou en prépa, fais le bon choix grâce à des informations claires,
+        fiables et à ton rythme.
+      </p>
+
+      <div class="hero-actions">
+        <a href="formations.php" class="btn hero-primary">Explorer les formations</a>
+        <a href="orientation.php" class="btn hero-secondary">Trouver ma voie</a>
+      </div>
+    </div>
+
+    <!-- COLONNE DROITE : carte profil (celle que tu aimes) -->
+    <aside class="hero-profil-card">
+      <h3>Quel est ton profil ?</h3>
+
+      <a href="orientation.php?profil=lyceen" class="profil-pill pill-1">
+        Je suis lycéen
+      </a>
+      <a href="orientation.php?profil=etudiant" class="profil-pill pill-2">
+        Je suis déjà en Etude Sup
+      </a>
+      <a href="orientation.php?profil=cpge" class="profil-pill pill-3">
+        Je suis en prépa (CPGE)
+      </a>
+      <a href="metiers.php" class="profil-pill pill-4">
+        Je veux découvrir des métiers
+      </a>
+    </aside>
+  </div>
+
+  <!-- vague en bas -->
+  <div class="hero-wave"></div>
     </section>
+
 
     <section class="trust-section">
         <div class="trust-intro">
