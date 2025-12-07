@@ -1,314 +1,136 @@
 /**********************************************************
-  ETUDAVIZ - THEME CLAIR GLOBAL
-  (remplace tout le contenu précédent de style.css)
+  OVERRIDES  —  FIX HEADER + HERO + LAYOUT JOUR
+  À COLLER TOUT EN BAS DE style.css
 ***********************************************************/
 
-/* ================== VARIABLES GLOBALES ================== */
-
-:root {
-  --bg-page: #f5f7ff;
-  --bg-page-soft: #f9fbff;
-  --bg-card: #ffffff;
-
-  --primary: #2563eb;     /* bleu */
-  --primary-alt: #7c3aed; /* violet */
-  --accent-pink: #ec4899;
-  --accent-green: #14b8a6;
-  --accent-yellow: #f59e0b;
-
-  --text-main: #0f172a;
-  --text-muted: #6b7280;
-  --text-contrast: #ffffff;
-
-  --border-soft: rgba(148, 163, 184, 0.4);
-  --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.12);
-
-  --radius-large: 28px;
-  --radius-card: 20px;
-  --radius-chip: 999px;
-}
-
-/* =================== RESET / BASE ======================= */
-
-*,
-*::before,
-*::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
+/* ===== Base très claire (mode jour) ===== */
 
 body {
+  background: radial-gradient(circle at top left, #fdfbff 0, #f4f6ff 40%, #eef3ff 100%);
+  color: #0f172a;
+  overflow-x: hidden;           /* enlève la barre horizontale */
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  font-size: 16px;
-  line-height: 1.7;
-  color: var(--text-main);
-  background: radial-gradient(circle at top left, #fdf2ff 0, #f5f7ff 35%, #edf2ff 100%);
 }
 
+/* main recentré proprement */
 main {
   max-width: 1180px;
-  margin: 0 auto;
-  padding: 40px 16px 80px;
+  margin: 0 auto 80px;
+  padding: 0 24px;
 }
 
-p {
-  font-size: 1rem;
-  color: var(--text-muted);
-  text-align: justify;
+/* sections générales : largeur centrée, fond très léger */
+section {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto 60px;
+  padding: 32px 24px;
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
 }
 
-h1, h2, h3, h4 {
-  color: var(--text-main);
-  font-weight: 700;
+/* sections alternées en très léger gris/violet */
+section:nth-of-type(even) {
+  background: #f7f8ff;
+  border-radius: 24px;
 }
 
-h1 { font-size: 2.4rem; }
-h2 { font-size: 2rem; }
-h3 { font-size: 1.4rem; }
-
-/* liens */
-a {
-  color: var(--primary);
-  text-decoration: none;
-  transition: color .2s ease, transform .15s ease, box-shadow .15s ease;
-}
-
-a:hover {
-  color: var(--primary-alt);
-  transform: translateY(-1px);
-}
-
-/* boutons génériques */
-button,
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 11px 24px;
-  border-radius: var(--radius-chip);
-  border: none;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 0.95rem;
-  background: linear-gradient(120deg, var(--primary), var(--primary-alt));
-  color: var(--text-contrast);
-  box-shadow: 0 12px 26px rgba(37, 99, 235, 0.35);
-  transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
-}
-
-button:hover,
-.btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 18px 38px rgba(37, 99, 235, 0.45);
-  filter: brightness(1.03);
-}
-
-/* =========================================
-   HEADER
-   ========================================= */
+/* ===== HEADER ===== */
 
 header {
   position: sticky;
   top: 0;
-  z-index: 1000;
-  width: 100%;
+  z-index: 999;
   background: rgba(255, 255, 255, 0.96);
-  backdrop-filter: blur(14px);
-  border-bottom: 1px solid rgba(148, 163, 184, 0.25);
-}
-
-header .header-container {
-  max-width: 1180px;
-  margin: 0 auto;
-  padding: 10px 18px;
+  backdrop-filter: blur(10px);
   display: flex;
   align-items: center;
-  gap: 24px;
+  justify-content: space-between;   /* logo/nav à gauche, recherche/connexion à droite */
+  padding: 10px 32px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.35);
 }
 
-/* gauche : logo + nom */
-.header-left {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
+/* logo à gauche */
 header img {
-  width: 42px;
+  width: 52px;
   height: auto;
-  object-fit: contain;
 }
 
-.site-title {
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  color: var(--text-main);
-}
-
-/* NAVIGATION */
-
+/* NAV : liens au centre/gauche, plus fins, flèches petites */
 nav {
   flex: 1;
+  margin-left: 32px;
 }
 
-nav ul.menu {
+nav ul {
   display: flex;
-  justify-content: center;
   align-items: center;
-  list-style: none;
-  gap: 26px;
+  gap: 22px;
 }
 
-nav ul.menu > li > a {
+nav ul li a {
   font-size: 0.95rem;
   font-weight: 500;
-  color: #020617;
-  padding: 6px 0;
-  position: relative;
+  color: #0f172a;
 }
 
-/* petit soulignement au survol */
-nav ul.menu > li > a::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -4px;
-  width: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--primary), var(--primary-alt));
-  transition: width .2s ease;
+nav ul li a:hover {
+  color: #2563eb;
 }
 
-nav ul.menu > li > a:hover::after,
-nav ul.menu > li > a.active::after {
-  width: 100%;
-}
-
-/* sous-menu */
-nav ul.submenu {
-  list-style: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background: #ffffff;
-  border-radius: 14px;
-  border: 1px solid rgba(148, 163, 184, 0.25);
-  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.16);
-  padding: 8px 0;
-  min-width: 220px;
-  display: none;
-  z-index: 2000;
-}
-
-nav ul.menu li {
-  position: relative;
-}
-
-nav ul.menu li:hover > ul.submenu,
-nav ul.menu li:focus-within > ul.submenu {
-  display: block;
-}
-
-nav ul.submenu li a {
-  display: block;
-  padding: 8px 16px;
+/* si tes chevrons ">" sont dans des <span class="nav-arrow"> */
+.nav-arrow {
   font-size: 0.9rem;
-  color: #111827;
+  opacity: 0.6;
 }
 
-nav ul.submenu li a:hover {
-  background: #eff3ff;
-}
-
-/* HEADER RIGHT : search + theme + login */
-
+/* bloc recherche + lune + connexion collé à droite */
 .header-right {
   display: flex;
   align-items: center;
   gap: 12px;
+  margin-left: auto;
 }
 
-/* barre de recherche */
+/* barre de recherche header : petite pastille */
 .header-search-bar {
-  display: flex;
-  align-items: center;
-  background: #f9fafb;
+  max-width: 240px;
+  padding: 6px 12px;
   border-radius: 999px;
-  padding: 4px 10px;
-  border: 1px solid rgba(148, 163, 184, 0.4);
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.18);
 }
 
+/* champ texte dans la barre */
 .header-search-bar input {
-  border: none;
-  background: transparent;
-  outline: none;
-  padding: 4px 6px;
-  min-width: 160px;
-  max-width: 210px;
+  max-width: 150px;
   font-size: 0.9rem;
-  color: #111827;
 }
 
-.header-search-bar button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 4px;
-  box-shadow: none;
-}
-
-.header-search-bar button img {
-  width: 18px;
-}
-
-/* theme toggle */
-.theme-toggle {
-  width: 38px;
-  height: 38px;
-  border-radius: 999px;
-  border: 1px solid rgba(148, 163, 184, 0.6);
-  background: #f9fafb;
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-  box-shadow: 0 4px 10px rgba(148, 163, 184, 0.45);
-}
-
-.theme-toggle img {
-  width: 22px;
-  height: 22px;
-}
-
-/* bouton connexion */
+/* bouton Connexion : pastille bleu/violet comme la maquette */
 .btn-connexion {
-  background: linear-gradient(120deg, #2563eb, #7c3aed);
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
   color: #f9fafb;
-  padding: 8px 18px;
   border-radius: 999px;
+  padding: 8px 20px;
   font-size: 0.9rem;
-  box-shadow: 0 12px 28px rgba(37, 99, 235, 0.45);
+  box-shadow: 0 12px 28px rgba(37, 99, 235, 0.4);
 }
 
 .btn-connexion:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 18px 40px rgba(37, 99, 235, 0.65);
+  background: linear-gradient(135deg, #1d4ed8, #6366f1);
+  color: #ffffff;
 }
 
-/* burger (mobile) */
-.burger {
-  display: none;
-  background: none;
-  border: none;
-  font-size: 26px;
-  cursor: pointer;
+/* bouton lune : petit, discret */
+.theme-toggle {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.25);
 }
 
-/* ======================== FLECHE UP ===================== */
+/* ===== FLECHE "REMONTER EN HAUT" ===== */
 
 .fleche {
   position: fixed;
@@ -316,717 +138,319 @@ nav ul.submenu li a:hover {
   bottom: 18px;
   width: 40px;
   height: 40px;
+  padding: 0;
+  background-color: rgba(37, 99, 235, 0.9);
   border-radius: 999px;
-  background: #ffffff;
-  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.18);
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-  z-index: 1200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.35);
 }
 
-.fleche img {
+.fleche img,
+.fleche svg {
   width: 18px;
+  height: 18px;
 }
 
-/* ======================== SECTIONS GLOBALES ============= */
-
-section {
-  width: 100%;
-  margin: 0;
-  padding: 60px 0;
-}
-
-section:nth-of-type(even) {
-  background: var(--bg-page-soft);
-}
-
-/* ========================================================
-   HERO ACCUEIL
-   ======================================================== */
+/* ===== HERO ACCUEIL (image en vrai background + waves) ===== */
 
 .hero-section {
-  width: 100%;
-  padding: 0;
-  margin: 0;
   position: relative;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);     /* plein écran */
+  padding: 120px 0 110px;
   color: #f9fafb;
   overflow: hidden;
-}
-
-/* image + dégradé */
-.hero-section::before {
-  content: "";
-  position: absolute;
-  inset: 0;
   background:
-    linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.55)),
-    url("../images/hero-etudiants.png") center/cover no-repeat;
-  z-index: -2;
+    linear-gradient(180deg, rgba(15, 23, 42, 0.2) 0%, rgba(15, 23, 42, 0.65) 55%, rgba(15, 23, 42, 0.85) 100%),
+    url("images/etudiants-hero.jpg") center/cover no-repeat;  /* 👈 adapte le chemin */
 }
 
-/* waves bleues/violettes en bas */
+/* grosses waves violet/bleu sur les côtés comme la maquette */
+.hero-section::before,
 .hero-section::after {
   content: "";
   position: absolute;
-  left: -120px;
-  right: -120px;
-  bottom: -120px;
-  height: 260px;
-  background:
-    radial-gradient(circle at 0 0, rgba(59, 130, 246, 0.9), transparent 60%),
-    radial-gradient(circle at 100% 0, rgba(129, 140, 248, 0.9), transparent 60%),
-    radial-gradient(circle at 50% 0, rgba(56, 189, 248, 0.8), transparent 60%);
-  opacity: 0.9;
-  z-index: -1;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  filter: blur(4px);
+  opacity: 0.85;
+  pointer-events: none;
 }
 
+.hero-section::before {
+  left: -140px;
+  bottom: -120px;
+  background: radial-gradient(circle at 30% 30%, rgba(96, 165, 250, 0.9), rgba(129, 140, 248, 0.2));
+}
+
+.hero-section::after {
+  right: -160px;
+  bottom: -160px;
+  background: radial-gradient(circle at 40% 0%, rgba(96, 165, 250, 0.9), rgba(129, 140, 248, 0.15));
+}
+
+/* contenu hero posé par-dessus l’image */
 .hero-container {
+  position: relative;
+  z-index: 1;
   max-width: 1180px;
   margin: 0 auto;
-  padding: 90px 16px 120px;
+  padding: 0 32px;
   display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.9fr);
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.9fr);
   gap: 40px;
-  align-items: center;
 }
 
-/* texte gauche */
+/* colonne texte gauche */
+.hero-text {
+  background: transparent;
+  box-shadow: none;
+  padding: 0;
+}
+
 .hero-text h2 {
-  font-size: clamp(2.4rem, 3.3vw, 3rem);
-  line-height: 1.15;
+  font-size: clamp(2.4rem, 3vw, 3rem);
+  line-height: 1.1;
   letter-spacing: -0.03em;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
   color: #f9fafb;
 }
 
 .hero-text p {
+  max-width: 34rem;
+  color: rgba(226, 232, 240, 0.93);
   font-size: 0.98rem;
-  max-width: 36rem;
-  color: rgba(241, 245, 249, 0.92);
 }
 
+/* boutons du hero */
 .hero-buttons {
+  margin-top: 26px;
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  margin-top: 22px;
 }
 
-.hero-buttons a {
-  border-radius: var(--radius-chip);
-}
-
-/* CTA principal */
 .hero-buttons .btn-primary {
-  background-image: linear-gradient(120deg, var(--primary), var(--primary-alt));
-  color: #f9fafb;
+  background-image: linear-gradient(120deg, #2563eb, #7c3aed);
+  box-shadow: 0 18px 40px rgba(37, 99, 235, 0.6);
 }
 
-/* CTA secondaire */
 .hero-buttons .btn-secondary {
   background: rgba(15, 23, 42, 0.85);
   color: #e5e7eb;
   border: 1px solid rgba(148, 163, 184, 0.65);
-  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.7);
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.55);
 }
 
-.hero-buttons .btn-secondary:hover {
-  background: rgba(15, 23, 42, 1);
-}
-
-/* carte profil à droite */
-
+/* colonne droite : on laisse ton bloc "Quel est ton profil ?" tel quel,
+   juste on garantit la bonne largeur & position */
 .profil-buttons {
-  background: rgba(248, 250, 252, 0.97);
-  border-radius: 26px;
-  padding: 24px 24px 26px;
-  box-shadow:
-    0 20px 50px rgba(15, 23, 42, 0.75),
-    0 0 0 1px rgba(148, 163, 184, 0.22);
-  color: #0f172a;
+  position: relative;
+  z-index: 1;
+  max-width: 380px;
+  margin-left: auto;
 }
 
-.profil-title {
-  font-size: 1.05rem;
-  font-weight: 700;
-  margin-bottom: 16px;
-  text-align: center;
-  color: #0f172a;
-}
+/* ===== BLOCS SECONDAIRES (sous le hero) ===== */
 
-.profil-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-/* boutons profil */
-.btn-profil {
-  width: 100%;
-  padding: 11px 16px;
-  border-radius: 999px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #f9fafb;
-  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.28);
-}
-
-/* couleurs par profil */
-.btn-profil.lyceen {
-  background-image: linear-gradient(120deg, var(--accent-pink), var(--accent-purple, #a855f7));
-}
-
-.btn-profil.etudiant {
-  background-image: linear-gradient(120deg, var(--primary), var(--primary-alt));
-}
-
-.btn-profil.cpge {
-  background-image: linear-gradient(120deg, var(--accent-yellow), #eab308);
-}
-
-.btn-profil.metiers {
-  background-image: linear-gradient(120deg, var(--accent-green), #22c55e);
-}
-
-.btn-profil:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 16px 30px rgba(15, 23, 42, 0.38);
-}
-
-/* ========================================================
-   SECTION CONFIANCE ("Pourquoi faire confiance...")
-   ======================================================== */
-
+/* bloc "Pourquoi faire confiance à Etudaviz ?" */
 .trust-section {
   width: 100vw;
   margin-left: calc(50% - 50vw);
   padding: 80px 0 90px;
-  background: linear-gradient(180deg, #f6f8ff 0, #edf3ff 100%);
+  background: linear-gradient(180deg, #f6f8ff 0%, #edf3ff 100%);
 }
 
 .trust-intro {
+  max-width: 980px;
+  margin: 0 auto 30px;
+  padding: 0 24px;
   text-align: center;
-  max-width: 900px;
-  margin: 0 auto 50px;
 }
 
 .trust-intro h2 {
   font-size: 2rem;
-  margin-bottom: 12px;
-}
-
-.trust-intro h2 span {
-  background: linear-gradient(120deg, var(--primary), var(--primary-alt));
-  -webkit-background-clip: text;
-  color: transparent;
+  color: #111827;
 }
 
 .trust-intro p {
-  color: var(--text-muted);
+  color: #4b5563;
 }
 
-/* 3 colonnes de highlights */
+/* cartes stats */
 .trust-highlights {
   max-width: 1180px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 26px;
+  padding: 0 24px;
 }
 
 .highlight {
-  background: #ffffff;
-  border-radius: var(--radius-card);
-  padding: 26px 22px;
-  box-shadow: 0 16px 40px rgba(148, 163, 184, 0.5);
-  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 24px;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
 }
 
-.highlight h3 {
-  margin-bottom: 8px;
-}
-
-/* stats */
-.trust-extra {
-  margin-top: 50px;
+/* citation "On ne choisit pas un avenir au hasard..." centrée */
+.trust-quote {
+  max-width: 720px;
+  margin: 50px auto 10px;
   text-align: center;
+  font-style: italic;
 }
 
-.trust-extra .stats {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 18px;
-  margin-top: 18px;
-}
+/* ===== PAGES "FORMATIONS" ===== */
 
-.stat-item {
-  background: #ffffff;
-  border-radius: var(--radius-chip);
-  padding: 10px 22px;
-  box-shadow: 0 10px 26px rgba(148, 163, 184, 0.7);
-  color: var(--primary);
-}
-
-/* ========================================================
-   SERVICES (index)
-   ======================================================== */
-
-.services {
+/* zone filtres à gauche / résultats à droite déjà OK,
+   on harmonise juste le fond de la page */
+body.page-formations main {
   max-width: 1180px;
-  margin: 0 auto;
 }
 
-.services-title {
-  text-align: center;
-  font-size: 2rem;
-  margin-bottom: 45px;
-}
+/* ===== PAGES À PROPOS & ORIENTATION  ===== */
 
-.service-block {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 40px;
-  margin-bottom: 40px;
-  padding: 26px;
-  border-radius: var(--radius-card);
-  background: #ffffff;
-  box-shadow: var(--shadow-soft);
-  border: 1px solid rgba(148, 163, 184, 0.25);
-}
-
-.service-text h3 {
-  margin-bottom: 10px;
-}
-
-.service-text p {
-  margin-bottom: 12px;
-}
-
-.service-image img {
-  width: 100%;
-  max-width: 420px;
-  border-radius: 18px;
-  object-fit: cover;
-  box-shadow: 0 16px 35px rgba(15, 23, 42, 0.18);
-}
-
-/* ========================================================
-   AVIS / TEMOIGNAGES
-   ======================================================== */
-
-.avis {
+/* 2 colonnes : texte / image, images à taille correcte */
+.about-story {
   max-width: 1180px;
-  margin: 70px auto;
-  padding: 40px 40px 34px;
-  border-radius: var(--radius-large);
-  background: #ffffff;
-  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.14);
-}
-
-.avis h2 {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.avis-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-/* carte d'avis */
-.avis-card {
-  background: #f9fafb;
-  border-radius: 16px;
-  padding: 18px 20px;
-  border: 1px solid rgba(148, 163, 184, 0.35);
-  box-shadow: 0 8px 24px rgba(148, 163, 184, 0.45);
-}
-
-.avis-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-}
-
-/* ========================================================
-   FORMATIONS (formations.php)
-   ======================================================== */
-
-.page-formations {
-  background: var(--bg-page-soft);
-}
-
-.page-formations main {
-  padding-top: 40px;
-}
-
-/* titre */
-.page-formations h1 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-/* barre de recherche formations */
-.search-bar {
-  display: flex;
-  justify-content: center;
-  margin: 20px 0 30px;
-}
-
-.search-bar form {
-  display: inline-flex;
-  gap: 8px;
-  background: #ffffff;
-  padding: 6px;
-  border-radius: 999px;
-  box-shadow: 0 12px 28px rgba(148, 163, 184, 0.6);
-  border: 1px solid rgba(148, 163, 184, 0.4);
-}
-
-.search-bar input {
-  border: none;
-  outline: none;
-  padding: 8px 12px;
-  border-radius: 999px;
-  width: 260px;
-  font-size: 0.95rem;
-}
-
-.search-bar button {
-  border-radius: 999px;
-  padding-inline: 16px;
-  font-size: 0.9rem;
-}
-
-/* layout filtres + résultats */
-
-.layout {
-  max-width: 1180px;
-  margin: 0 auto 60px;
+  margin: 40px auto;
+  padding: 0 24px;
   display: grid;
-  grid-template-columns: 260px minmax(0, 1fr);
-  gap: 26px;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 40px;
+  align-items: center;
 }
 
-/* bloc filtres à gauche */
-.filters {
-  background: #ffffff;
-  border-radius: 18px;
-  padding: 18px 16px;
-  border: 1px solid rgba(148, 163, 184, 0.4);
-  box-shadow: 0 14px 32px rgba(148, 163, 184, 0.6);
+.story-block p {
+  text-align: left;
 }
 
-/* cartes établissements */
-.results {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
+.story-image {
+  width: 100%;
+  min-height: 260px;
 }
 
-.etab-card {
-  background: #ffffff;
-  border-radius: 18px;
-  padding: 18px 20px;
-  border: 1px solid rgba(148, 163, 184, 0.4);
-  box-shadow: 0 12px 28px rgba(148, 163, 184, 0.6);
+.story-image img {
+  width: 100%;
+  max-height: 320px;
+  object-fit: cover;
+  border-radius: 24px;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.18);
 }
 
-.etab-card h4 {
-  margin-bottom: 6px;
-  color: var(--primary);
-}
-
-/* bouton voir plus */
-.results button#voir-plus {
-  margin: 10px auto 0;
-  display: block;
-}
-
-/* ========================================================
-   ORIENTATION (orientation.php)
-   ======================================================== */
-
+/* orientation hero */
 .orientation-hero {
   width: 100vw;
   margin-left: calc(50% - 50vw);
-  background: linear-gradient(180deg, #eff6ff 0, #e0f2fe 100%);
-  padding: 70px 16px 80px;
+  padding: 80px 0;
+  background: linear-gradient(180deg, #f3f5ff 0%, #e5edff 100%);
 }
 
 .orientation-hero-wrapper {
   max-width: 1180px;
   margin: 0 auto;
-  display: flex;
-  align-items: center;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
   gap: 40px;
-}
-
-.orientation-hero-title {
-  font-size: 2rem;
-  margin-bottom: 10px;
-}
-
-.orientation-hero-subtext {
-  max-width: 520px;
+  align-items: center;
 }
 
 .orientation-hero-right img {
+  width: 100%;
+  max-height: 340px;
+  object-fit: cover;
   border-radius: 24px;
-  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.18);
-}
-
-/* roadmaps / parcours / outils → on garde structure existante
-   mais on éclaircit les couleurs */
-
-.orientation-roadmap,
-.parcours-section,
-.orientation-tools,
-.orientation-profil-section {
-  width: 100vw;
-  margin-left: calc(50% - 50vw);
-  padding: 70px 16px 80px;
-  background: var(--bg-page-soft);
-}
-
-.orientation-roadmap .roadmap-card,
-.parcours-step,
-.tool-card,
-.profil-card {
-  background: #ffffff;
-  border-radius: 22px;
-  box-shadow: var(--shadow-soft);
-  border: 1px solid rgba(148, 163, 184, 0.3);
-}
-
-/* ========================================================
-   A PROPOS (about)
-   ======================================================== */
-
-.about-story {
-  max-width: 1180px;
-  margin: 40px auto 60px;
-  padding: 0 16px;
-  display: flex;
-  align-items: center;
-  gap: 40px;
-}
-
-.story-image img {
-  border-radius: 22px;
   box-shadow: 0 18px 40px rgba(15, 23, 42, 0.18);
 }
 
-.about-contact {
-  max-width: 1180px;
-  margin: 40px auto 60px;
-}
-
-/* ========================================================
-   CONTACT (contact.php)
-   ======================================================== */
+/* ===== CONTACT ===== */
 
 .login-container {
-  min-height: calc(100vh - 140px);
-  padding: 70px 16px;
+  padding: 80px 16px;
   background:
-    radial-gradient(circle at top left, rgba(59, 130, 246, 0.18), transparent 55%),
-    radial-gradient(circle at bottom right, rgba(129, 140, 248, 0.3), transparent 50%),
-    #eef2ff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    radial-gradient(circle at top left, rgba(59,130,246,0.18), transparent 55%),
+    radial-gradient(circle at bottom right, rgba(129,140,248,0.18), transparent 50%),
+    #f5f7ff;
 }
 
 .login-box {
-  background: #ffffff;
-  padding: 32px 26px 30px;
   border-radius: 24px;
   box-shadow:
-    0 18px 40px rgba(148, 163, 184, 0.7),
-    0 0 0 1px rgba(148, 163, 184, 0.25);
-  max-width: 420px;
-  width: 100%;
+    0 18px 40px rgba(148,163,184,0.55),
+    0 0 0 1px rgba(148,163,184,0.18);
 }
 
-.login-box h2 {
-  text-align: center;
-  margin-bottom: 22px;
-}
-
-.login-box form {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.login-box input,
-.login-box textarea {
-  border-radius: 10px;
-  border: 1px solid rgba(148, 163, 184, 0.7);
-  padding: 10px 12px;
-  font-size: 0.95rem;
-}
-
-.login-box button {
-  margin-top: 4px;
-}
-
-/* ========================================================
-   FOOTER
-   ======================================================== */
+/* ===== FOOTER ===== */
 
 footer {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
   background: #020617;
   color: rgba(226, 232, 240, 0.9);
-  padding: 20px 16px 16px;
-  margin-top: 40px;
+  padding: 26px 24px 20px;
 }
 
-footer .footer-infos,
-footer .footer-links {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 14px;
-  font-size: 0.85rem;
+.footer-socials img,
+.footer-socials svg {
+  width: 22px;
+  height: 22px;
 }
 
-.footer-links a {
-  color: #c7d2fe;
-}
+/* ===== RESPONSIVE QUICK FIXES ===== */
 
-.footer-links a:hover {
-  color: #ffffff;
-}
-
-/* ========================================================
-   RESPONSIVE
-   ======================================================== */
-
-/* tablettes */
 @media (max-width: 900px) {
+
+  header {
+    padding-inline: 16px;
+  }
+
+  .hero-section {
+    padding: 90px 0 80px;
+  }
+
+  .hero-container {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding-inline: 20px;
+  }
+
+  .profil-buttons {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 380px;
+  }
+
+  .about-story,
+  .orientation-hero-wrapper {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+
   main {
     padding-inline: 14px;
   }
 
-  .hero-container {
-    grid-template-columns: 1fr;
-    padding: 80px 16px 100px;
-    gap: 26px;
-  }
-
-  .hero-text {
-    text-align: left;
-  }
-
-  .profil-buttons {
-    max-width: 380px;
-    margin: 0 auto;
-  }
-
-  .layout {
-    grid-template-columns: 1fr;
-  }
-
-  .filters {
-    order: -1;
-  }
-
-  .orientation-hero-wrapper {
-    flex-direction: column;
-  }
-
-  .about-story {
-    flex-direction: column;
-  }
-}
-
-/* mobile */
-@media (max-width: 768px) {
-
-  header .header-container {
-    gap: 10px;
-  }
-
   nav {
-    position: relative;
+    margin-left: 16px;
   }
 
-  nav ul.menu {
-    position: absolute;
-    top: 52px;
-    right: 0;
-    flex-direction: column;
-    align-items: flex-start;
-    background: #ffffff;
-    padding: 10px 16px;
-    border-radius: 16px;
-    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.25);
-    display: none;
-    width: 230px;
+  nav ul {
+    gap: 14px;
   }
 
-  nav ul.menu.open {
-    display: flex;
-  }
-
-  .burger {
-    display: block;
-  }
-
-  .header-search-bar {
-    display: none; /* plus simple sur petit écran */
-  }
-
-  .hero-container {
-    padding-top: 70px;
+  .hero-text h2 {
+    font-size: 2.1rem;
   }
 
   .hero-buttons a {
     width: 100%;
+    justify-content: center;
   }
 
-  .services-title {
-    font-size: 1.6rem;
-  }
-
-  .service-block {
-    flex-direction: column;
-  }
-
-  .avis {
-    padding-inline: 20px;
-  }
-
-  .orientation-roadmap,
-  .parcours-section,
-  .orientation-tools,
-  .orientation-profil-section {
-    padding-inline: 16px;
-  }
-}
-
-/* très petit mobile */
-@media (max-width: 480px) {
-  .hero-text h2 {
-    font-size: 2rem;
-  }
-
-  .profil-buttons {
-    padding-inline: 18px;
-  }
-
-  .trust-section {
-    padding-inline: 10px;
-  }
-
-  .login-box {
-    padding-inline: 20px;
+  .fleche {
+    right: 12px;
+    bottom: 12px;
   }
 }
