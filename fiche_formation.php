@@ -3,12 +3,17 @@ require "./include/functions.inc.php";
 ensureSession();
 
 $id = $_GET['id'] ?? null;
-if (!$id) die("Formation introuvable.");
+if (!$id) {
+    header("Location: index.php?error=formation_introuvable");
+    exit;
+}
 
 $etab = getEtablissementById($id);
 
-if (!$etab) die("Aucune donnée trouvée.");
-
+if (!$etab) {
+    header("Location: index.php?error=formation_inexistante");
+    exit;
+}
 $debouches = getDebouchesDepuisOnisep(
     $etab['nom'] ?? '',
     $etab['code_formation'] ?? null

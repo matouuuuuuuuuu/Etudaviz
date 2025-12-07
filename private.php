@@ -15,10 +15,10 @@
 
     <div class="dashboard-header">
         <div class="user-info">
-            <img src="images/avatars/<?= htmlspecialchars($currentAvatar) ?>" class="avatar">
+            <img src="images/avatars/<?= htmlspecialchars($currentAvatar) ?>" class="avatar" alt="avatar par défault de l utilisateur">
             <div>
                 <h2>Bonjour, <?= htmlspecialchars($username) ?> 👋</h2>
-                <p>Dernière connexion :</strong> a definir avec la bd</p>
+                <p>Dernière connexion : a definir avec la bd</p>
             </div>
         </div>
 
@@ -36,8 +36,8 @@
     <div class="card bloc1">
         <h3>Statistiques</h3>
         <ul>
-            <li><strong>Connexions : a poursuivre avec la BD</li>
-            <li><strong>Dernière action :</strong> a poursuivre avec la BD  </li>
+            <li><strong>Connexions : a poursuivre avec la BD</strong></li>
+            <li><strong>Dernière action :</strong> a poursuivre avec la BD</li>
         </ul>
 
     </div>

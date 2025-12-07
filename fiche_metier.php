@@ -2,10 +2,15 @@
 require "./include/functions.inc.php";
 
 $uri = $_GET["uri"] ?? null;
-if (!$uri) die("Métier introuvable.");
-
+if (!$uri) {
+    header("Location: index.php?error=metier_introuvable");
+    exit;
+}
 $metier = escoGetMetier($uri);
-if (!$metier) die("Aucune donnée disponible pour ce métier.");
+if (!$metier) {
+    header("Location: index.php?error=metier_inexistant");
+    exit;
+}
 
 $title = "Métier : " . htmlspecialchars($metier["title"]);
 $h1 = ucfirstUtf8(htmlspecialchars($metier["title"]));
