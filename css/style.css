@@ -311,12 +311,23 @@ nav ul li:hover .nav-icon {
 .hero-section {
   position: relative;
   width: 100%;
-  min-height: 600px;
-  padding: 80px 0;
-  margin-bottom: 60px;
-  overflow: hidden;
-  background: linear-gradient(135deg, #667EEA 0%, #764BA2 100%);
+  min-height: 90vh; /* 🔹 le hero prend presque tout l'écran */
+  padding: 120px 0 80px; /* 🔹 laisse de la place pour le header au-dessus */
+  margin: 0;
+
+  background:
+    linear-gradient(115deg,
+      rgba(2, 6, 23, 0.85) 0%,
+      rgba(2, 6, 23, 0.65) 55%,
+      rgba(2, 6, 23, 0.30) 100%
+    ),
+    url("../images/hero-etudiants.png") center/cover no-repeat;
+
+  color: #f9fafb;
+  display: flex;
+  align-items: center;
 }
+
 
 /* Overlay pour meilleure lisibilité */
 .hero-section::before {
@@ -348,18 +359,21 @@ nav ul li:hover .nav-icon {
 
 .hero-container {
   position: relative;
-  z-index: 2;
-  max-width: 1200px;
+  z-index: 1;
+  max-width: 1180px;
   margin: 0 auto;
-  padding: 60px 32px;
+  padding: 0 32px;
+
   display: grid;
-  grid-template-columns: 1.3fr 1fr;
-  gap: 60px;
-  align-items: center;
-  background: rgba(255, 255, 255, 0.98);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-lg);
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: 40px;
+
+  /* 🔹 on enlève la grosse carte blanche qui cachait l’image */
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
 }
+
 
 /* Texte Hero */
 .hero-text {
@@ -924,12 +938,4 @@ footer {
   .hero-buttons .btn-secondary {
     width: 100%;
   }
-}
-.hero-section::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(145deg, rgba(13, 19, 54, 0.88), rgba(26, 35, 98, 0.82)),
-    url("../images/hero-etudiants.png") center/cover no-repeat;
 }
