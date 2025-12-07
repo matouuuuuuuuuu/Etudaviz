@@ -1155,6 +1155,31 @@ function getLatestAvis(int $limit = 10): array {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+function getAvisParFormation(): array {
+    global $pdo;
+    $sql = "
+        SELECT 
+            a.id_avis,
+            a.id_formation,
+            a.titre_avis,
+            a.description,
+            a.date_publication,
+            a.date_experience,
+            a.likes,
+            u.pseudo AS auteur
+        FROM Avis a
+        INNER JOIN Utilisateur u ON a.id_utilisateur = u.id_utilisateur
+        WHERE a.statut = 'actif'
+        ORDER BY a.date_publication DESC
+    ";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
 
 
 
