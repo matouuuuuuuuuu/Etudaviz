@@ -31,9 +31,28 @@ if (isset($etablissements['error'])) {
 } elseif (empty($etablissements)) {
     $messageErreur = "Aucun établissement trouvé.";
 } else {
+   $resultats = [];
+    $indexUnicite = [];
+
     foreach ($etablissements as $record) {
-        $resultats[] = formatEtablissement($record['fields'], $record['recordid']);    
+        $formatted = formatEtablissement($record['fields'], $record['recordid']);
+        if (empty($formatted)) continue;
+
+        // ✅ Clé métier pour éviter les doublons visuels
+        $cle = mb_strtolower(
+            trim($formatted['nom']) . '|' .
+            trim($formatted['ville']) . '|' .
+            trim($formatted['etablissement'])
+        );
+
+        if (isset($indexUnicite[$cle])) {
+            continue; // ✅ doublon ignoré
+        }
+
+        $indexUnicite[$cle] = true;
+        $resultats[] = $formatted;
     }
+
 }
 
 $title = "Formations diplômantes";

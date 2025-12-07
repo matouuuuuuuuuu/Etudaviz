@@ -82,23 +82,47 @@ function loadDepartements(string $regionName, string $csvPath): array
  */
 function renderEtablissementCard(array $etab): string
 {
-    $html = '<div class="etab-card">';
-    $html .= '<h4><a href="fiche_formation.php?id=' . urlencode($etab['id']) . '">'
-           . htmlspecialchars($etab['nom']) . '</a></h4>';
-    $html .= '<p><strong>Type :</strong> ' . htmlspecialchars($etab['type']) . '</p>';
-    $html .= '<p><strong>Adresse :</strong> ' . htmlspecialchars($etab['adresse']) . '</p>';
+    // ✅ Sécurité visuelle sur la longueur du titre
+    $nomAffiche = mb_strimwidth($etab['nom'], 0, 50, '…');
 
-    if (!empty($etab['services'])) {
-        $html .= '<p><strong>Services :</strong> ' . htmlspecialchars(implode(', ', $etab['services'])) . '</p>';
+    $html = '<div class="etab-card">';
+
+    // ✅ Titre + lien fiche formation
+    $html .= '<h4><a href="fiche_formation.php?id=' . urlencode($etab['id']) . '">'
+           . htmlspecialchars($nomAffiche) . '</a></h4>';
+    // ✅ AFFICHAGE DU BADGE (DÉJÀ CALCULÉ DANS formatEtablissement)
+    if (!empty($etab['badge'])) {
+        $html .= '<span class="badge-formation">'
+              . htmlspecialchars($etab['badge'])
+              . '</span>';
     }
 
+    // ✅ Type
+    $html .= '<p><strong>Type :</strong> ' . htmlspecialchars($etab['type']) . '</p>';
+
+    // ✅ Adresse
+    $html .= '<p><strong>Adresse :</strong> ' . htmlspecialchars($etab['adresse']) . '</p>';
+
+    // ✅ Services (si présents)
+    if (!empty($etab['services'])) {
+        $html .= '<p><strong>Services :</strong> ' 
+              . htmlspecialchars(implode(', ', $etab['services'])) 
+              . '</p>';
+    }
+
+    // ✅ Ouverture (si présente)
     if (!empty($etab['ouverture'])) {
-        $html .= '<p><strong>Ouverture :</strong> ' . htmlspecialchars($etab['ouverture']) . '</p>';
+        $html .= '<p><strong>Ouverture :</strong> ' 
+              . htmlspecialchars($etab['ouverture']) 
+              . '</p>';
     }
 
     $html .= '</div>';
+
     return $html;
 }
+
+
 
 function renderMetierCard(array $m): string
 {
@@ -201,6 +225,8 @@ function getNombrePartenaires() {
  */
 function buildEtablissementsApiParams(array $options = []): array
 {
+    $limit = isset($options['limit']) ? (int)$options['limit'] : 100;
+    $limit = max(1, min(20, $limit)); 
     $base = [
         'dataset' => 'fr-esr-cartographie_formations_parcoursup',
         'rows'    => $options['limit'] ?? 100,
@@ -208,7 +234,9 @@ function buildEtablissementsApiParams(array $options = []): array
     ];
 
     if (!empty($options['offset'])) $base['start'] = (int)$options['offset'];
-    if (!empty($options['search'])) $base['q'] = $options['search'];
+    if (!empty($options['search'])) {
+        $base['q'] = trim(strip_tags($options['search']));
+    }
 
     $filtres = ['region' => 'region', 'departement' => 'departement', 'commune' => 'ville'];
     foreach ($filtres as $apiField => $userParam) {
@@ -279,20 +307,40 @@ function getEtablissementsSupPublics(array $options = []): array
  * @version 2.0
  */
 function callOpenDataApi(string $url): array {
-        $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
+    $ch = curl_init($url);
+
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_CONNECTTIMEOUT => 5,
+        CURLOPT_TIMEOUT => 10,
+        CURLOPT_FAILONERROR => true,
+        CURLOPT_HTTPHEADER => [
+            'Accept: application/json'
+        ],
+    ]);
+
     $response = curl_exec($ch);
+
     if (curl_errno($ch)) {
         $error = curl_error($ch);
         curl_close($ch);
         return ['error' => $error];
     }
+
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
+
+    if ($httpCode !== 200) {
+        return ['error' => 'Erreur API HTTP ' . $httpCode];
+    }
+
     $data = json_decode($response, true);
+
     return is_array($data)
         ? $data
-        : ['error' => 'Réponse invalide de l’API (JSON mal formé ou vide).'];
+        : ['error' => 'Réponse API invalide'];
 }
+
 
 
 
@@ -371,20 +419,54 @@ function getRegionsDepuisAPI(): array
  */
 function formatEtablissement(array $fields, string $recordid = null): array
 {
-    // Nom de la formation
-    $nom = $fields['fl']
-        ?? $fields['nm']
-        ?? 'Nom inconnu';
+    // ❗ Sécurité : sans ID API fiable → on ignore
+    if (empty($recordid)) {
+        return [];
+    }
 
-    // Type (Licence, BUT, BTS…)
-    $type = $fields['tf']
-        ?? 'Type inconnu';
+    // ===== ✅ NETTOYAGE DU NOM DE FORMATION =====
+    $rawNom = $fields['fl'] ?? $fields['nm'] ?? 'Nom inconnu';
 
-    // Nom de l’établissement
-    $etablissement = $fields['etab_nom']
-        ?? 'Établissement non précisé';
+    $splitters = ['|', ' / ', ' ; ', 'L1 -', 'L2 -', 'L3 -'];
+    foreach ($splitters as $s) {
+        if (substr_count($rawNom, $s) > 1) {
+            $parts = array_filter(array_map('trim', explode($s, $rawNom)));
+            $rawNom = reset($parts);
+            break;
+        }
+    }
 
-    // Adresse complète
+    if (mb_strlen($rawNom) > 120) {
+        $rawNom = mb_substr($rawNom, 0, 120) . '…';
+    }
+
+    $nom = trim($rawNom);
+
+    // ===== ✅ DÉTECTION BADGE LAS / DOUBLE DIPLÔME (CORRIGÉE) =====
+    $badge = null;
+
+    $searchZone = strtolower(
+        ($fields['aut'] ?? '') . ' ' .          // ✅ LAS est ICI dans ton API
+        ($fields['libelle_long'] ?? '') . ' ' .
+        ($fields['fl'] ?? '') . ' ' .
+        ($fields['parcours'] ?? '')
+    );
+
+    if (preg_match('/\blas\b|acc[eè]s\s*sant[eé]/', $searchZone)) {
+        $badge = 'Accès Santé (LAS)';
+    }
+
+    if (preg_match('/double\s*dipl[oô]me/', $searchZone)) {
+        $badge = 'Double diplôme';
+    }
+
+    // ===== TYPE =====
+    $type = $fields['tf'] ?? 'Type inconnu';
+
+    // ===== ÉTABLISSEMENT =====
+    $etablissement = $fields['etab_nom'] ?? 'Établissement non précisé';
+
+    // ===== ADRESSE =====
     $adresseParts = [];
     if (!empty($fields['commune']))     $adresseParts[] = $fields['commune'];
     if (!empty($fields['departement'])) $adresseParts[] = $fields['departement'];
@@ -392,34 +474,31 @@ function formatEtablissement(array $fields, string $recordid = null): array
     $adresse_complete = implode(', ', $adresseParts);
 
     return [
-        // ⭐ IMPORTANT : on garde recordid pour que fiche_formation.php continue de marcher
-        'id'             => $recordid ?? uniqid('formation_'),
-
-        // Champs principaux
+        'id'             => $recordid,
         'nom'            => $nom,
         'type'           => $type,
         'etablissement'  => $etablissement,
         'adresse'        => $adresse_complete ?: 'Adresse inconnue',
+        'badge'          => $badge,
 
-        // Localisation
         'ville'          => $fields['commune'] ?? '',
         'departement'    => $fields['departement'] ?? '',
         'region'         => $fields['region'] ?? '',
 
-        // Liens
         'site'           => $fields['etab_url'] ?? '',
         'lien'           => $fields['fiche'] ?? '',
 
-        // Coordonnées GPS
         'coordonnees'    => $fields['etab_gps'] ?? null,
 
-        // Métadonnées utiles
         'annee'          => $fields['annee'] ?? '',
         'code_formation' => $fields['code_formation'] ?? '',
         'apprentissage'  => $fields['app'] ?? '',
         'aut'            => $fields['aut'] ?? '',
     ];
 }
+
+
+
 
 /**
  * Récupère les informations détaillées d’une formation à partir de son identifiant ONISEP.
