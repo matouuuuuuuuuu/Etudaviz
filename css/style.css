@@ -4597,3 +4597,17 @@ footer {
     padding-inline: 20px;
   }
 }
+/* === PATCH HERO — image de fond maquette === */
+
+.hero-section {
+  /* On écrase l'ancien fond jaune/vert */
+  background:
+    linear-gradient(135deg, rgba(15, 23, 42, 0.25), rgba(15, 23, 42, 0.70)),
+    url("../images/hero-etudiants.png") center/cover no-repeat;
+}
+
+/* On neutralise l'ancienne pseudo-image pour éviter les superpositions */
+.hero-section::before,
+.hero-section::after {
+  content: none;
+}
