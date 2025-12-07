@@ -85,17 +85,19 @@ function renderEtablissementCard(array $etab): string
     // ✅ Sécurité visuelle sur la longueur du titre
     $nomAffiche = mb_strimwidth($etab['nom'], 0, 50, '…');
 
-    $html = '<div class="etab-card">';
+    $html = '<div class="etab-card" style="position:relative;">';
 
     // ✅ Titre + lien fiche formation
     $html .= '<h4><a href="fiche_formation.php?id=' . urlencode($etab['id']) . '">'
            . htmlspecialchars($nomAffiche) . '</a></h4>';
-    // ✅ AFFICHAGE DU BADGE (DÉJÀ CALCULÉ DANS formatEtablissement)
+
+    // ✅ BADGE LAS / DOUBLE DIPLÔME (déjà calculé dans formatEtablissement)
     if (!empty($etab['badge'])) {
         $html .= '<span class="badge-formation">'
               . htmlspecialchars($etab['badge'])
               . '</span>';
     }
+
 
     // ✅ Type
     $html .= '<p><strong>Type :</strong> ' . htmlspecialchars($etab['type']) . '</p>';
@@ -126,15 +128,19 @@ function renderEtablissementCard(array $etab): string
 
 function renderMetierCard(array $m): string
 {
-    $html = '<div class="etab-card">';
+    $html = '<div class="etab-card" style="position:relative;">';
 
+    // ✅ Titre + lien fiche métier
     $html .= '<h3><a href="fiche_metier.php?uri=' . urlencode($m['uri']) . '">'
-       . ucfirstUtf8(htmlspecialchars($m['title'])) . '</a></h3>';
+           . ucfirstUtf8(htmlspecialchars($m['title'])) . '</a></h3>';
 
+
+    // ✅ Code ISCO
     if (!empty($m['isco'])) {
         $html .= '<p><strong>Code ISCO :</strong> ' . htmlspecialchars($m['isco']) . '</p>';
     }
 
+    // ✅ Compétences clés
     if (!empty($m['essentialSkills'])) {
         $html .= '<p><strong>Compétences clés :</strong> '
                . htmlspecialchars(implode(', ', $m['essentialSkills']))
@@ -142,6 +148,7 @@ function renderMetierCard(array $m): string
     }
 
     $html .= '</div>';
+
     return $html;
 }
 
@@ -1257,11 +1264,6 @@ function getAvisParFormation(): array {
 
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
-
-
-
-
-
 
 
 

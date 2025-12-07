@@ -1,7 +1,7 @@
 <?php
 require "./include/functions.inc.php";
+ensureSession();
 
-// Récupération des filtres utilisateur
 $regionChoisie = $_GET['region'] ?? '';
 $departementChoisi = $_GET['departement'] ?? '';
 $typeChoisi = $_GET['type'] ?? '';
