@@ -2932,6 +2932,17 @@ section:nth-child(even) {
     background: #008c82;
 }
 
+.badge-formation {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 4px 10px;
+  background: #e6f7f2;
+  color: #0a7c5a;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
 
 
 

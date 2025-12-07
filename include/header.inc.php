@@ -100,11 +100,7 @@
 				</li>
 				<li>
 					<a href="apropos.php"><img src="images/fleche-droite.png" alt="Flèche" class="nav-icon">À propos</a>
-					<ul class="submenu">
-						<li><a href="#">A définir</a></li>
-						<li><a href="#">A définir</a></li>
-						<li><a href="#">A définir</a></li>
-					</ul>
+				
 				</li>
 				<li>
 					<a href="contact.php"><img src="images/fleche-droite.png" alt="Flèche" class="nav-icon">Contact</a>
