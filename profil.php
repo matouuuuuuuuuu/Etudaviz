@@ -27,13 +27,13 @@ if (isset($_POST['selected_avatar'])) {
 
 $title = "Choix de l'avatar";
 $description = "page destinée au choix de la photo de profil";
-$h1 = "Choisissez votre avatar";
+$h1 = "Modification du profil";
 
 require "./include/header.inc.php";
 ?>
 
 <section class="avatar-section">
-
+    <h2> Veuillez choisir un avatar pour votre profil</h2>
     <?php if (!empty($message)) : ?>
         <p class="avatar-message">
             <?= $message; ?>

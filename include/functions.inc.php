@@ -82,47 +82,40 @@ function loadDepartements(string $regionName, string $csvPath): array
  */
 function renderEtablissementCard(array $etab): string
 {
-    // ✅ Sécurité visuelle sur la longueur du titre
     $nomAffiche = mb_strimwidth($etab['nom'], 0, 50, '…');
 
-    $html = '<div class="etab-card" style="position:relative;">';
+    $html = '<li class="etab-card" style="position:relative;">';
 
-    // ✅ Titre + lien fiche formation
     $html .= '<h4><a href="fiche_formation.php?id=' . urlencode($etab['id']) . '">'
            . htmlspecialchars($nomAffiche) . '</a></h4>';
 
-    // ✅ BADGE LAS / DOUBLE DIPLÔME (déjà calculé dans formatEtablissement)
     if (!empty($etab['badge'])) {
         $html .= '<span class="badge-formation">'
               . htmlspecialchars($etab['badge'])
               . '</span>';
     }
 
-
-    // ✅ Type
     $html .= '<p><strong>Type :</strong> ' . htmlspecialchars($etab['type']) . '</p>';
 
-    // ✅ Adresse
     $html .= '<p><strong>Adresse :</strong> ' . htmlspecialchars($etab['adresse']) . '</p>';
 
-    // ✅ Services (si présents)
     if (!empty($etab['services'])) {
         $html .= '<p><strong>Services :</strong> ' 
               . htmlspecialchars(implode(', ', $etab['services'])) 
               . '</p>';
     }
 
-    // ✅ Ouverture (si présente)
     if (!empty($etab['ouverture'])) {
         $html .= '<p><strong>Ouverture :</strong> ' 
               . htmlspecialchars($etab['ouverture']) 
               . '</p>';
     }
 
-    $html .= '</div>';
+    $html .= '</li>';
 
     return $html;
 }
+
 
 
 

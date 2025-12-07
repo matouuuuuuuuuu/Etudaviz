@@ -3,7 +3,8 @@ require "./include/functions.inc.php";
 ensureSession();
 
 if (!isLoggedIn()) {
-    die("Vous devez être connecté pour déposer un avis.");
+    header("Location: login.php?error=connexion");
+    exit;
 }
 
 $id_formation     = $_POST['id_formation']     ?? null;
@@ -11,10 +12,11 @@ $titre            = $_POST['titre_avis']       ?? null;
 $description      = $_POST['description']      ?? null;
 $date_experience  = $_POST['date_experience']  ?? null;
 
-$id_utilisateur = currentUser()['id']; // ✔ Récupération propre
+$id_utilisateur = currentUser()['id'];
 
 if (!$id_formation || !$titre || !$description || !$date_experience) {
-    die("Formulaire incomplet.");
+    header("Location: fiche_formation.php?id=$id_formation&avis=erreur");
+    exit;
 }
 
 $stmt = $pdo->prepare("

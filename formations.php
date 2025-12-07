@@ -66,7 +66,7 @@ require "./include/header.inc.php";
     <section>
          <!-- 🟪 Barre de recherche centrale -->
         <div class="search-bar">
-            <form method="GET" action="">
+            <form method="GET" action="<?= htmlspecialchars($_SERVER['PHP_SELF']) ?>">
                 <input type="text" name="search" placeholder="Rechercher une formation, une ville..." value="<?= htmlspecialchars($search) ?>">
                 <button type="submit">Rechercher</button>
             </form>
@@ -97,7 +97,7 @@ require "./include/header.inc.php";
                         <?php endif; ?>
                     </ul>
 
-                    <form method="GET" action="">
+                    <form method="GET" action="<?= htmlspecialchars($_SERVER['PHP_SELF']) ?>">
                         <label for="region">Région :</label>
                         <select name="region" id="region">
                             <option value="">-- Toutes les régions --</option>

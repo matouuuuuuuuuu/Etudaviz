@@ -121,7 +121,7 @@
                     <label><input type="radio" name="q3" value="I"> Lieux calmes (laboratoire, bibliothèque)</label>
                     <label><input type="radio" name="q3" value="A"> Espace créatif</label>
                     <label><input type="radio" name="q3" value="S"> En interaction avec les autres</label>
-                    <label><input type="radio"name="q3"value="E"> Environnement dynamique / business</label>
+                    <label><input type="radio" name="q3" value="E"> Environnement dynamique / business</label>
                     <label><input type="radio" name="q3" value="C"> Bureau structuré</label>
                 </div>
 
@@ -177,18 +177,8 @@
                 </section>
             <?php endif; ?>
     </section>
+</section>
 
-
-
-
-
-
-
-
-
-
-
-    
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <script>
