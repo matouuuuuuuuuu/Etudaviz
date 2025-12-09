@@ -1,6 +1,10 @@
     <?php
     session_start();
 
+	if (!isset($_SESSION['user'])) {
+		header("Location: index.php");
+		exit();
+	}
     $title = "Page privée";
     $description = "Espace personnel utilisateur";
     $h1 = "Mon tableau de bord";
