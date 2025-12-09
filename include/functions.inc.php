@@ -1258,6 +1258,10 @@ function getAvisParFormation(): array {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-
-
+function getPseudo() {
+    if (isset($_SESSION['user']['pseudo'])) {
+        return $_SESSION['user']['pseudo'];
+    }
+    return '';
+}
 ?>
