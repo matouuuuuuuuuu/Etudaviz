@@ -114,6 +114,18 @@ require "./include/header.inc.php";
 
 </section>
 
+<section class="user-benefits">
+  <div class="container">
+    <h2>Vos avantages en tant que membre de la communauté Etudaviz</h2>
+    <p>En étant connecté à votre espace personnel, vous pouvez :</p>
+    <ul>
+      <li>Calculer la distance entre votre domicile et nos établissements.</li>
+      <li>Consulter les avis des autres utilisateurs.</li>
+      <li>Contribuer et partager vos expériences sur notre blog.</li>
+    </ul>
+  </div>
+</section>
+
 <?php
 require "./include/footer.inc.php";
 ?>
