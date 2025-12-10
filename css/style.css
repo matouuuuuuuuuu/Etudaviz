@@ -488,9 +488,10 @@ section {
   box-sizing: border-box;
 }
 
-section:nth-child(even) {
-  background: #F9FFFF; 
+section:nth-child(even):not(.user-reviews-wrapper) {
+  background: #F9FFFF;
 }
+
 
 /* ============================
    SECTION HERO — Accueil principal
@@ -2943,7 +2944,29 @@ section:nth-child(even) {
   font-weight: 600;
 }
 
+.user-reviews-wrapper {
+  position: relative;       /* nécessaire si tu veux ajouter du contenu dessus */
+  width: 100vw;             /* prend toute la largeur de la fenêtre */
+  left: 50%;                /* centre le wrapper horizontalement */
+  right: 50%;
+  margin-left: -50vw;       /* corrige le centrage */
+  margin-right: -50vw;
+  background: linear-gradient(180deg, #E3F5EE 0%, #C8E9DA 100%);
+  padding: 50px 0;
+  box-sizing: border-box;
+}
 
+
+.user-reviews-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+  border-top: 1px solid #e5ebf8;
+  box-sizing: border-box;
+  display: flex;          /* active flexbox */
+  flex-direction: column; /* empile les avis verticalement */
+  gap: 20px;              /* espace uniforme entre chaque carte */
+}
 
 
 
