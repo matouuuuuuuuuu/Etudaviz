@@ -28,7 +28,7 @@ require "./include/header.inc.php";
 
 <section class="formation-detail">
   <div class="formation-section presentation">
-    <h3>Présentation de la formation</h3>
+    <h2>Présentation de la formation</h2>
 
     <?php
       $fl = $etab['nom'] ?? '';
@@ -83,9 +83,7 @@ require "./include/header.inc.php";
       }
     ?>
 
-    <p class="intro">
-      <?= nl2br(htmlspecialchars($introTexte)) ?>
-    </p>
+    <p class="intro"><?= nl2br(htmlspecialchars($introTexte)) ?></p>
 
     <ul class="presentation-details">
       <?php if (!empty($etab['annee'])): ?>

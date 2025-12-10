@@ -1258,6 +1258,23 @@ function getAvisParFormation(): array {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+function getAvisByUser(int $id_utilisateur): array {
+    global $pdo;
+
+    $stmt = $pdo->prepare("
+        SELECT *
+        FROM Avis
+        WHERE id_utilisateur = ?
+        ORDER BY date_publication DESC
+    ");
+
+    $stmt->execute([$id_utilisateur]);
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
+
 function getPseudo() {
     if (isset($_SESSION['user']['pseudo'])) {
         return $_SESSION['user']['pseudo'];
