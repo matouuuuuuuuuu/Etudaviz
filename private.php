@@ -58,8 +58,8 @@ require "./include/header.inc.php";
     </div>
 
     <div class="dashboard-actions" style = "display:grid">
-        <button href="profil.php" class="btn-primary-private">Modifier mon profil</button>
-        <button href="logout.php" class="btn-primary-private">Déconnexion</button>
+        <a href="profil.php"><button class="btn-primary-private">Modifier mon profil</button></a>
+        <a href="logout.php"><button class="btn-primary-private">Déconnexion</button></a>
     </div>
 </div>
 
