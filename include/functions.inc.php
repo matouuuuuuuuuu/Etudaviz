@@ -765,6 +765,28 @@ function searchEtablissements(string $query): array {
     return $results;
 }
 
+function checkStatutCompte(?string $statut, string $context = 'login'): ?string
+{
+    $statut = strtolower(trim((string)$statut));
+
+    return match ($statut) {
+        'actif' => null,
+
+        'inactif' => ($context === 'reset_password')
+            ? "Votre compte n'est pas activé. Activez d'abord votre compte via l'email reçu, puis réessayez."
+            : "Votre compte n'est pas encore activé. Merci de cliquer sur le lien d'activation reçu par email.",
+
+        'suspendu' =>
+            "Votre compte est suspendu car vous n’avez pas respecté nos règles. "
+            . "Si vous pensez qu’il s’agit d’une erreur, contactez l’administration via le formulaire de contact du site.",
+
+        default =>
+            "Statut de compte inconnu. Contactez l'administration via le formulaire de contact du site.",
+    };
+}
+
+
+
 function forbiddenMotPseudo(string $pseudo, string $pathTxt): bool
 {
     if (!is_readable($pathTxt)) return false;
@@ -1297,5 +1319,110 @@ function getPseudo() {
     }
     return '';
 }
+
+function findUserByEmail(PDO $pdo, string $mail): ?array
+{
+    $sql = "SELECT id_utilisateur, pseudo, mail, statut_compte
+            FROM Utilisateur
+            WHERE mail = :mail
+            LIMIT 1";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['mail' => $mail]);
+    $u = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    return $u ?: null;
+}
+
+function createPasswordResetToken(PDO $pdo, int $idUtilisateur): ?string
+{
+    $token = bin2hex(random_bytes(32));
+
+    $sql = "UPDATE Utilisateur
+            SET token_activation = :token
+            WHERE id_utilisateur = :id";
+
+    $stmt = $pdo->prepare($sql);
+    $ok = $stmt->execute([
+        'token' => $token,
+        'id'    => $idUtilisateur,
+    ]);
+
+    return $ok ? $token : null;
+}
+
+function sendPasswordResetMail(string $to, string $pseudo, string $link): bool
+{
+    global $mail_host, $mail_port, $mail_username, $mail_password, $mail_from, $mail_from_name;
+
+    $mail = new PHPMailer(true);
+
+    try {
+        $mail->isSMTP();
+        $mail->Host       = $mail_host;
+        $mail->SMTPAuth   = true;
+        $mail->Username   = $mail_username;
+        $mail->Password   = $mail_password;
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+        $mail->Port       = $mail_port;
+        $mail->CharSet    = 'UTF-8';
+
+        $mail->setFrom($mail_from, $mail_from_name);
+        $mail->addAddress($to, $pseudo);
+
+        $mail->Subject = 'Réinitialisation de votre mot de passe Etudaviz';
+
+        $textBody = "Bonjour $pseudo,\n\n"
+                  . "Vous avez demandé à réinitialiser votre mot de passe.\n"
+                  . "Cliquez sur le lien suivant :\n$link\n\n"
+                  . "Si vous n'êtes pas à l'origine de cette demande, ignorez ce message.\n";
+
+        $htmlBody = "<p>Bonjour <strong>$pseudo</strong>,</p>"
+                  . "<p>Vous avez demandé à réinitialiser votre mot de passe.</p>"
+                  . "<p><a href=\"$link\">Réinitialiser mon mot de passe</a></p>"
+                  . "<p>Si vous n'êtes pas à l'origine de cette demande, ignorez ce message.</p>";
+
+        $mail->isHTML(true);
+        $mail->Body    = $htmlBody;
+        $mail->AltBody = $textBody;
+
+        $mail->send();
+        return true;
+
+    } catch (Exception $e) {
+        return false;
+    }
+}
+
+function findUserByToken(PDO $pdo, string $token): ?array
+{
+    $sql = "SELECT id_utilisateur, pseudo, mail, statut_compte
+            FROM Utilisateur
+            WHERE token_activation = :token
+            LIMIT 1";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['token' => $token]);
+    $u = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $u ?: null;
+}
+
+function resetPasswordWithToken(PDO $pdo, int $idUtilisateur, string $token, string $newPassword): bool
+{
+    $hash = password_hash($newPassword, PASSWORD_DEFAULT);
+
+    $sql = "UPDATE Utilisateur
+            SET mot_de_passe = :hash,
+                token_activation = NULL
+            WHERE id_utilisateur = :id
+              AND token_activation = :token";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        'hash'  => $hash,
+        'id'    => $idUtilisateur,
+        'token' => $token,
+    ]);
+
+    return $stmt->rowCount() === 1;
+}
+
 
 ?>
