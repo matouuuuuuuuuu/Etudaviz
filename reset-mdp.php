@@ -3,6 +3,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+$redirect = false;
 $title = "Réinitialisation du mot de passe - Etudaviz";
 $description = "Définir un nouveau mot de passe";
 $h1 = "Réinitialiser votre mot de passe";
@@ -43,9 +44,10 @@ if ($token === '') {
             } else {
                 $ok = resetPasswordWithToken($pdo, (int)$user['id_utilisateur'], $token, $password);
 
-                if ($ok) {
-                    $message = "Votre mot de passe a été modifié. Vous pouvez maintenant vous connecter.";
-                } else {
+            if ($ok) {
+                $message = "Votre mot de passe a été modifié. Vous allez être redirigé vers la page d’accueil dans 15 secondes.";
+                $redirect = true;  
+            } else {
                     $erreur = "Impossible de réinitialiser le mot de passe. Le lien est peut-être expiré.";
                 }
             }
@@ -68,6 +70,18 @@ if ($token === '') {
             <div class="message" style="color:green; text-align:center;">
                 <?= htmlspecialchars($message) ?>
             </div>
+        
+        <?php if (!empty($redirect)): ?>
+            <div style="text-align:center; margin-top:10px;">
+                <a style="color:black;" href="index.php">Cliquez ici si vous n'êtes pas redirigé</a>
+            </div>
+        <script>
+            setTimeout(() => {
+            window.location.href = "index.php";
+            }, 15000);
+        </script>
+        <?php endif; ?>
+        
             <div class="login-links">
                 <a style="color:black;" href="login.php">Retour à la connexion</a>
             </div>
