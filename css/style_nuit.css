@@ -3290,23 +3290,3 @@ header {
         margin-top: 5px;
     }
 }
-:root {
-  --bg-page: #020617;
-  --bg-page-soft: #020617;
-  --bg-card: #020617;
-  --bg-chip-1: #fb7185;
-  --bg-chip-2: #facc15;
-  --bg-chip-3: #38bdf8;
-  --bg-chip-4: #22c55e;
-
-  --primary: #60a5fa;
-  --primary-2: #a855f7;
-  --primary-soft: #0b1120;
-
-  --text-main: #e5e7eb;
-  --text-muted: #9ca3af;
-  --text-contrast: #0b1020;
-
-  --border-soft: rgba(148, 163, 184, 0.45);
-  --shadow-soft: 0 22px 55px rgba(0, 0, 0, 0.9);
-}

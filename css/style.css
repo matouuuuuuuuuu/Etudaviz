@@ -9,43 +9,15 @@
   1. STRUCTURE GLOBALE
   ========================================================= */
 
- body {
+body {
+  background-color: #FFFFFF; /* fond clair légèrement bleuté */
+  color: #212121; /* texte principal */
+  line-height: 1.7;
+  font-size: 16px;
   margin: 0;
   padding: 0;
   width: 100%;
-  min-height: 100vh;
-  font-family: 'Stack Sans Text', Arial, sans-serif;
-  line-height: 1.7;
-  font-size: 16px;
-  color: #212121;
-  background-color: #050816; /* couleur au cas où l'image ne charge pas */
-  position: relative;
-  overflow-x: hidden;
-}
-
-/* ===== FOND GLOBAL : PHOTO DE BIBLIOTHÈQUE + REFLETS ===== */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background:
-    linear-gradient(180deg, rgba(6, 11, 40, 0.65), rgba(12, 22, 68, 0.85)),
-    url("../images/hero-etudiants.png") center/cover no-repeat;
-  z-index: -2;
-  pointer-events: none;
-}
-
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background:
-    radial-gradient(circle at 0% 20%, rgba(88, 80, 236, 0.45), transparent 60%),
-    radial-gradient(circle at 100% 80%, rgba(147, 51, 234, 0.45), transparent 55%);
-  z-index: -1;
-  pointer-events: none;
-  mix-blend-mode: soft-light;
-}
+}    
 
 main {
   max-width: 1100px;
@@ -82,17 +54,11 @@ h1, h2 {
   margin-bottom: 0px;
 }
 
-
 h1 {
-    color: #ffffff !important;                      
-    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.85);    
-    font-size: 2.8rem;
-    font-weight: 700;
-    margin: 60px 0 30px;                           
-    z-index: 10;
-    position: relative;
+  font-size: 2.6rem;
+  color: #007296; 
+  letter-spacing: -1px;
 }
-
 
 h2 {
   font-size: 2rem;
@@ -199,7 +165,6 @@ th {
   padding: 10px;
   background-color: rgba(0,168,150,0.4);
   border-radius: 90px;
-  z-index:9999;
 }
 
 /* ----- GROUPE DE RECHERCHE ----- */
@@ -234,7 +199,7 @@ th {
   border-radius: 20px;
   width: 100%;
   font-size: 14px;
-  max-width: 180px; /* ne dÃ©passera jamais */
+  max-width: 180px; /* ne dépassera jamais */
   color: #212121
 }
 
@@ -279,7 +244,7 @@ header {
   border-bottom: 1px solid rgba(87,117,144,0.25);
   gap: 30px;
   flex-wrap: wrap;
-  overflow-x: visible; /* sÃ©curise */
+  overflow-x: visible; /* sécurise */
 }
 
 header.visited {
@@ -470,7 +435,7 @@ nav ul.submenu li a:hover {
     }
 
     nav ul.menu {
-        display: none;  /* cachÃ© par dÃ©faut sur mobile */
+        display: none;  /* caché par défaut sur mobile */
         flex-direction: column;
         position: absolute;
         top: 60px;
@@ -487,7 +452,7 @@ nav ul.submenu li a:hover {
         display: flex;  /* visible quand on toggle */
     }
 
-    /* dÃ©sactiver hover desktop sur mobile */
+    /* désactiver hover desktop sur mobile */
     nav ul.menu li:hover > ul.submenu,
     nav ul.menu li:focus-within > ul.submenu {
         display: none;
@@ -523,13 +488,39 @@ section {
   box-sizing: border-box;
 }
 
-section:nth-child(even) {
-  background: #F9FFFF; 
+section:nth-child(even):not(.user-reviews-wrapper) {
+  background: #F9FFFF;
 }
 
+
 /* ============================
-   SECTION HERO â€” Accueil principal
+   SECTION HERO — Accueil principal
 ============================ */
+.hero-section {
+  width: 100%;
+  min-height: auto;
+  background: linear-gradient(135deg, #FFC300 0%, #00a896 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+.hero-container {
+  width: 100%;
+  max-width: 1400px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+  gap: 80px;
+  padding: 60px 5vw;
+  box-sizing: border-box;
+}
 
 .hero-text,
 .profil-buttons {
@@ -599,7 +590,7 @@ section:nth-child(even) {
   box-shadow: 0 6px 15px rgba(67,170,139,0.3);
 }
 
-/* --- Image dâ€™illustration --- */
+/* --- Image d’illustration --- */
 .hero-image {
   flex: 1;
   text-align: center;
@@ -618,7 +609,7 @@ section:nth-child(even) {
 }
 
 /* ============================
-   PROFIL BUTTONS â€” Choix du profil
+   PROFIL BUTTONS — Choix du profil
 ============================ */
 .profil-buttons {
   flex: 1 1 350px;
@@ -644,7 +635,7 @@ section:nth-child(even) {
   gap: 14px;
 }
 
-/* --- Liens (bulles colorÃ©es) --- */
+/* --- Liens (bulles colorées) --- */
 .btn-profil {
   display: flex;
   align-items: center;
@@ -659,11 +650,11 @@ section:nth-child(even) {
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-/* Couleurs par profil (associÃ©es Ã  ta palette) */
+/* Couleurs par profil (associées à ta palette) */
 .btn-profil.lyceen   { background: #F94144; } /* rouge */
 .btn-profil.etudiant { background: #F8961E; } /* orange */
 .btn-profil.cpge     { background: #F9C74F; } /* jaune */
-.btn-profil.metiers  { background: #43AA8B; } /* vert-bleutÃ© */
+.btn-profil.metiers  { background: #43AA8B; } /* vert-bleuté */
 
 /* Hover animations */
 .btn-profil:hover {
@@ -719,13 +710,13 @@ section:nth-child(even) {
 }
 
 .service-text p {
-  color: #577590; /* Payneâ€™s Gray */
+  color: #577590; /* Payne’s Gray */
   margin-bottom: 20px;
 }
 
 .btn-link {
   display: inline-block;
-  color: #43AA8B; /* vert-bleutÃ© principal */
+  color: #43AA8B; /* vert-bleuté principal */
   font-weight: bold;
   text-decoration: none;
   transition: color 0.2s ease;
@@ -812,7 +803,7 @@ section:nth-child(even) {
 }
 
 .error {
-  color: #F94144; /* rouge impÃ©rial */
+  color: #F94144; /* rouge impérial */
   margin-bottom: 15px;
   font-size: 14px;
 }
@@ -821,7 +812,7 @@ section:nth-child(even) {
   display: block;
   margin-top: 10px;
   font-size: 13px;
-  color: #43AA8B; /* vert-bleutÃ© */
+  color: #43AA8B; /* vert-bleuté */
   text-decoration: none;
   transition: color 0.3s;
 }
@@ -863,7 +854,7 @@ section:nth-child(even) {
 
 .result-item p {
   margin: 0 0 10px;
-  color: #577590; /* gris bleutÃ© */
+  color: #577590; /* gris bleuté */
 }
 
 .result-item a {
@@ -920,7 +911,7 @@ section:nth-child(even) {
     margin-bottom: -15px;
 }
 
-/* Texte de lâ€™avis */
+/* Texte de l’avis */
 .quote {
     font-style: italic;
     color: #2d6d73;
@@ -999,7 +990,7 @@ section:nth-child(even) {
   max-width: auto;
   margin: 0 auto;
   text-align: center;
-  background: #F9FCFD; /* fond clair harmonisÃ© */
+  background: #F9FCFD; /* fond clair harmonisé */
   border-radius: 20px;
 }
 
@@ -1011,7 +1002,7 @@ section:nth-child(even) {
 
 .map-intro {
   font-size: 1rem;
-  color: #577590; /* Payneâ€™s Gray */
+  color: #577590; /* Payne’s Gray */
   margin-bottom: 30px;
   max-width: 800px;
   margin-left: auto;
@@ -1024,7 +1015,7 @@ section:nth-child(even) {
   height: 480px;
   border-radius: 18px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.07);
-  border: 2px solid rgba(87,117,144,0.25); /* lÃ©ger contour bleutÃ© */
+  border: 2px solid rgba(87,117,144,0.25); /* léger contour bleuté */
   margin-top: 20px;
 }
 
@@ -1054,7 +1045,7 @@ section:nth-child(even) {
 }
 
 .search-bar button {
-  background-color: #43AA8B; /* vert-bleutÃ© */
+  background-color: #43AA8B; /* vert-bleuté */
   color: white;
   border: none;
   border-radius: 25px;
@@ -1068,7 +1059,7 @@ section:nth-child(even) {
   background-color: #F3722C; /* orange accent */
 }
 
-/* ðŸŸ¥ ðŸŸ© Layout principal */
+/* 🟥 🟩 Layout principal */
 .layout {
       display: contents;
   flex-direction: column;
@@ -1077,7 +1068,7 @@ section:nth-child(even) {
   padding: 0 30px 50px;
 }
 
-/* ðŸŸ¥ Colonne filtres */
+/* 🟥 Colonne filtres */
 .filters {
   flex: 0 0 250px;
   background-color: #F9FCFD;
@@ -1254,7 +1245,7 @@ section:nth-child(even) {
 }
 
 .etab-card strong {
-  color: #43AA8B; /* accent vert-bleutÃ© */
+  color: #43AA8B; /* accent vert-bleuté */
 }
 
 
@@ -1301,10 +1292,10 @@ section:nth-child(even) {
   background: #F3722C; /* orange accent */
 }
 
-/* === PrÃ©sentation formation === */
+/* === Présentation formation === */
 .presentation {
   background: #FFFFFF;
-  border-left: 4px solid #43AA8B; /* vert-bleutÃ© */
+  border-left: 4px solid #43AA8B; /* vert-bleuté */
   padding: 30px 35px;
   border-radius: 12px;
   margin-bottom: 40px;
@@ -1414,7 +1405,7 @@ section:nth-child(even) {
   color: #90BE6D; /* Pistachio - note secondaire */
 }
 
-/* === Zone verrouillÃ©e === */
+/* === Zone verrouillée === */
 .distance-locked {
   background: linear-gradient(180deg, #F9FCFD 0%, #EAF6F8 100%);
   border: 1px solid rgba(87,117,144,0.15);
@@ -1470,7 +1461,7 @@ section:nth-child(even) {
 }
 
 /* =========================================================
-   ORIENTATION â€” HERO
+   ORIENTATION — HERO
 ========================================================= */
 .orientation-hero {
   width: 100%;
@@ -1558,7 +1549,7 @@ section:nth-child(even) {
 
 
 /* =========================================================
-   ORIENTATION â€” TIMELINE
+   ORIENTATION — TIMELINE
 ========================================================= */
 
 .timeline {
@@ -1581,7 +1572,7 @@ section:nth-child(even) {
   border-radius: 4px;
 }
 
-/* ElÃ©ments */
+/* Eléments */
 .timeline-item {
   display: flex;
   align-items: center;
@@ -1722,16 +1713,16 @@ section:nth-child(even) {
 
 
 
-/* === SECTION DE CONFIANCE Ã‰LARGIE === */
+/* === SECTION DE CONFIANCE ÉLARGIE === */
 .trust-section {
-  max-width: 1180px;       
-  margin: 80px auto;        
-  padding: 0 16px 60px;     
-  background: transparent;  
+  width: 100vw; 
+  margin-left: calc(50% - 50vw);
+  background: linear-gradient(180deg, #E3F5EE 0%, #C8E9DA 100%);
+  padding: 100px 8%;
   text-align: center;
+  border-top: 1px solid #e5ebf8;
   box-sizing: border-box;
 }
-
 
 .trust-intro h2 {
   color: #1f3b73;
@@ -1825,16 +1816,16 @@ section:nth-child(even) {
 
 
 
-/* --- Grille dâ€™affichage des formations --- */
+/* --- Grille d’affichage des formations --- */
 #etablissement-list, #metier-list {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* ðŸ”¹ Deux colonnes fixes */
-  gap: 30px; /* ðŸ”¹ Espace entre les cartes */
-  justify-content: center; /* ðŸ”¹ Centre la grille horizontalement */
+  grid-template-columns: repeat(2, 1fr); /* 🔹 Deux colonnes fixes */
+  gap: 30px; /* 🔹 Espace entre les cartes */
+  justify-content: center; /* 🔹 Centre la grille horizontalement */
   list-style: none;
   padding: 0;
   margin: 60px auto;
-  max-width: 900px; /* ðŸ”¹ Largeur max pour garder une belle symÃ©trie */
+  max-width: 900px; /* 🔹 Largeur max pour garder une belle symétrie */
 }
 
 /* --- Cartes individuelles --- */
@@ -1864,7 +1855,7 @@ section:nth-child(even) {
 }
 
 /* =========================================================
-   TIMELINE â€” Disposition graphique
+   TIMELINE — Disposition graphique
 ========================================================= */
 
 .services-timeline {
@@ -1895,7 +1886,7 @@ section:nth-child(even) {
     top: 0;
     width: 4px;
     height: 100%;
-    background: rgba(67, 170, 139, 0.25); /* vert bleutÃ© transparent */
+    background: rgba(67, 170, 139, 0.25); /* vert bleuté transparent */
     transform: translateX(-2px);
     border-radius: 4px;
 }
@@ -2001,7 +1992,7 @@ section:nth-child(even) {
   margin-bottom: 15px;
 }
 
-/* RÃ©ponses */
+/* Réponses */
 .question-block label {
   display: block;
   padding: 10px 0;
@@ -2028,7 +2019,7 @@ section:nth-child(even) {
   font-size: 1.2rem;
   border-radius: 10px;
 }
-/* === RÃ©sultats du test dâ€™orientation === */
+/* === Résultats du test d’orientation === */
 
 .orientation-test-results {
     margin-top: 0px;
@@ -2071,7 +2062,7 @@ section:nth-child(even) {
 }
 
 .orientation-btn-results {
-    display: inline-block;   /* l'Ã©lÃ©ment se comporte comme un vrai bouton */
+    display: inline-block;   /* l'élément se comporte comme un vrai bouton */
     margin-top: 25px;        /* espace au-dessus */
     padding: 12px 26px;
     background: #277DA1;
@@ -2248,7 +2239,7 @@ section:nth-child(even) {
   grid-template-columns: 1fr 1fr;
   gap: 18px;
 
-  /* AJOUTER CECI â¬‡â¬‡â¬‡ */
+  /* AJOUTER CECI ⬇⬇⬇ */
   justify-items: center;  
   grid-auto-flow: dense;
 }
@@ -2272,9 +2263,9 @@ section:nth-child(even) {
   gap: 12px;
   align-items: center;
 
-  /* AJOUTER CECI â¬‡â¬‡â¬‡ */
+  /* AJOUTER CECI ⬇⬇⬇ */
   grid-column: 1 / -1;
-  max-width: 420px; /* optionnel : Ã©vite quâ€™il s'Ã©tire trop */
+  max-width: 420px; /* optionnel : évite qu’il s'étire trop */
 }
 
 .highlight-box,.highlight-box-last span {
@@ -2430,7 +2421,7 @@ section:nth-child(even) {
     grid-column-start: 2;
 }
 
-/* Style card gÃ©nÃ©ral */
+/* Style card général */
 .card {
     background: white;
     padding: 25px;
@@ -2601,7 +2592,7 @@ section:nth-child(even) {
     text-align: center;
 }
 
-/* Vraie liste Ã  puces stylÃ©e */
+/* Vraie liste à puces stylée */
 .metier-skill-list {
     list-style: none;
     margin: 0;
@@ -2646,10 +2637,10 @@ section:nth-child(even) {
     align-items: center;
     text-decoration: none;
 
-    /* Couleur du texte contrastÃ©e */
+    /* Couleur du texte contrastée */
     color: #1f2d3d;
 
-    /* DÃ©gradÃ© gÃ©nÃ©rÃ© par variables CSS */
+    /* Dégradé généré par variables CSS */
     background: linear-gradient(
         135deg,
         var(--color1),
@@ -2942,7 +2933,61 @@ section:nth-child(even) {
     background: #008c82;
 }
 
+.badge-formation {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 4px 10px;
+  background: #e6f7f2;
+  color: #0a7c5a;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
 
+.user-reviews-wrapper {
+  position: relative;       /* nécessaire si tu veux ajouter du contenu dessus */
+  width: 100vw;             /* prend toute la largeur de la fenêtre */
+  left: 50%;                /* centre le wrapper horizontalement */
+  right: 50%;
+  margin-left: -50vw;       /* corrige le centrage */
+  margin-right: -50vw;
+  background: linear-gradient(180deg, #E3F5EE 0%, #C8E9DA 100%);
+  padding: 50px 0;
+  box-sizing: border-box;
+}
+
+
+.user-reviews-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+  border-top: 1px solid #e5ebf8;
+  box-sizing: border-box;
+  display: flex;          /* active flexbox */
+  flex-direction: column; /* empile les avis verticalement */
+  gap: 20px;              /* espace uniforme entre chaque carte */
+}
+
+.user-benefits {
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.user-benefits h2 {
+  margin-bottom: 20px;
+}
+
+.user-benefits ul {
+  list-style-type: disc;
+  padding-left: 0;
+  margin: 20px auto 0;
+  max-width: 600px;
+  text-align: left;
+}
+
+.user-benefits ul li {
+  margin-bottom: 10px;
+}
 
 
 
@@ -2979,7 +3024,7 @@ section:nth-child(even) {
    ========================================================*/
 
 /* =========================================================
-   ðŸ“± RESPONSIVE â€“ VERSION MOBILE (max-width: 768px)
+   📱 RESPONSIVE – VERSION MOBILE (max-width: 768px)
    ========================================================= */
 @media (max-width: 768px) {
 
@@ -2995,7 +3040,7 @@ section:nth-child(even) {
     max-width: 100%;
     margin: 10px auto;
     padding: 0 10px;
-    display: block; /* Ã©vite les soucis liÃ©s Ã  la grille sur mobile */
+    display: block; /* évite les soucis liés à la grille sur mobile */
   }
 
   /* Titres */
@@ -3017,7 +3062,7 @@ section:nth-child(even) {
   /* Paragraphes */
   p {
     font-size: 0.95rem;
-    text-align: left; /* Ã©vite les riviÃ¨res de texte sur petit Ã©cran */
+    text-align: left; /* évite les rivières de texte sur petit écran */
   }
 
   /* Listes */
@@ -3033,7 +3078,7 @@ section:nth-child(even) {
    /* ---------- BOUTONS ---------- */
   button, .btn {
     width: 100%;          /* les boutons prennent toute la largeur */
-    padding: 14px 0;      /* plus faciles Ã  cliquer */
+    padding: 14px 0;      /* plus faciles à cliquer */
     font-size: 1rem;
   }
 
@@ -3057,7 +3102,7 @@ section:nth-child(even) {
 
   /* ---------- TABLEAU ---------- */
   table, thead, tbody, th, td, tr {
-    display: block;        /* transforme le tableau en blocs empilÃ©s */
+    display: block;        /* transforme le tableau en blocs empilés */
   }
 
   tr {
@@ -3153,13 +3198,13 @@ nav ul.menu {
     padding: 8px 0;
   }
 
-  /* IcÃ´nes plus larges cliquables */
+  /* Icônes plus larges cliquables */
   .nav-icon {
     width: 18px;
     height: 18px;
   }
 
-  /* Sous-menu : passe en bloc plutÃ´t qu'en position absolue */
+  /* Sous-menu : passe en bloc plutôt qu'en position absolue */
  nav ul.submenu {
   margin-top: 5px;
   padding-left: 15px;
@@ -3208,14 +3253,14 @@ nav ul.menu {
     font-size: 12px;
   }
 
-  /* Structure gÃ©nÃ©rale de la section */
+  /* Structure générale de la section */
   .hero-section {
     padding: 40px 5%;
     text-align: center;
   }
 
   .hero-container {
-    flex-direction: column;   /* colonnes â†’ vertical */
+    flex-direction: column;   /* colonnes → vertical */
     gap: 40px;
     padding: 40px 5%;
   }
@@ -3230,7 +3275,7 @@ nav ul.menu {
   }
 
   .hero-text h2 {
-    font-size: 2rem;           /* rÃ©duction du Ã©norme titre */
+    font-size: 2rem;           /* réduction du énorme titre */
     line-height: 1.3;
     text-align: center;
   }
@@ -3433,7 +3478,7 @@ nav ul.menu {
   }
 
   #map {
-    height: 300px;        /* rÃ©duit pour mobile */
+    height: 300px;        /* réduit pour mobile */
     border-radius: 12px;
   }
   
@@ -3444,7 +3489,7 @@ nav ul.menu {
     gap: 20px;
   }
 
-  /* Filtres passent au-dessus des rÃ©sultats */
+  /* Filtres passent au-dessus des résultats */
   .filters {
     width: 100%;
     flex: none;
@@ -3623,7 +3668,7 @@ nav ul.menu {
     margin: 50px auto;
   }
 
-  /* Ligne centrale dÃ©placÃ©e Ã  gauche */
+  /* Ligne centrale déplacée à gauche */
   .timeline::before {
     left: 20px;
     transform: none;
@@ -3888,372 +3933,4 @@ nav ul.menu {
         display: block;
         margin-top: 5px;
     }
-}
-/**********************************************************
-  ETUDAVIZ - THEME V2 LIGHT (inspirÃ© de la maquette)
-***********************************************************/
-
-/* ========= PALETTE GLOBALE ========= */
-
-:root {
-  --bg-page: #f2f4ff;
-  --bg-page-soft: #f7f9ff;
-  --bg-card: #ffffff;
-  --bg-chip-1: #ff6b6b;
-  --bg-chip-2: #ffb347;
-  --bg-chip-3: #29c6ff;
-  --bg-chip-4: #2dd4a7;
-
-  --primary: #3155ff;
-  --primary-2: #7b3ef7;
-  --primary-soft: #e3e7ff;
-
-  --text-main: #0b1020;
-  --text-muted: #5e6a80;
-  --text-contrast: #ffffff;
-
-  --border-soft: rgba(15, 23, 42, 0.1);
-  --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.16);
-  --radius-large: 28px;
-  --radius-card: 20px;
-  --radius-chip: 999px;
-}
-
-/* ========= BASE ========= */
-
-
-main {
-  max-width: 1180px;
-  margin: 0 auto;
-  padding: 40px 16px 80px;
-}
-
-/* liens */
-a {
-  color: var(--primary);
-  text-decoration: none;
-  transition: color 0.2s ease, transform 0.15s ease;
-}
-
-a:hover {
-  color: var(--primary-2);
-  transform: translateY(-1px);
-}
-
-/* titres */
-h1 {
-  color: #ffffff !important; 
-  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.85);
-}
- h2, h3 {
-  color: var(--text-main);
-}
-
-/* boutons / .btn globaux */
-button,
-.btn {
-  border-radius: var(--radius-chip);
-  font-weight: 600;
-  border: none;
-  cursor: pointer;
-  padding: 12px 26px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  background: linear-gradient(135deg, var(--primary), var(--primary-2));
-  color: var(--text-contrast);
-  box-shadow: 0 12px 28px rgba(49, 85, 255, 0.3);
-  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
-}
-
-button:hover,
-.btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 18px 40px rgba(49, 85, 255, 0.38);
-  filter: brightness(1.03);
-}
-
-/* ========= BOUTON CONNEXION (rÃ©utilise le style V2) ========= */
-
-.btn-connexion {
-  background: #ffffff;
-  color: #111827;
-  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.35);
-  border-radius: var(--radius-chip);
-  padding: 9px 22px;
-  font-weight: 600;
-}
-
-.btn-connexion:hover {
-  background: var(--primary);
-  color: #ffffff;
-}
-
-/* ========= HERO ========= */
-
-.hero-section {
-  position: relative;
-  padding: 80px 0 90px;
-  overflow: hidden;
-  background:transparent;
-}
-
-
-.hero-container {
-  max-width: 1180px;
-  margin: 0 auto;
-  padding: 40px 32px;
-  border-radius: var(--radius-large);
-  background: rgba(255, 255, 255, 0.94);
-  box-shadow: var(--shadow-soft);
-  display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-  gap: 40px;
-
-  /* pour Ãªtre au-dessus de lâ€™image + blobs */
-  position: relative;
-  z-index: 1;
-}
-
-/* bloc gauche : texte */
-.hero-text h2 {
-  font-size: clamp(2.4rem, 3.2vw, 3.1rem);
-  line-height: 1.1;
-  margin-bottom: 16px;
-}
-
-.hero-text p {
-  color: var(--text-muted);
-  font-size: 0.98rem;
-  line-height: 1.7;
-  max-width: 540px;
-}
-
-/* CTA sous le texte */
-.hero-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
-  margin-top: 26px;
-}
-
-.hero-buttons .btn-primary {
-  background: linear-gradient(135deg, var(--primary), var(--primary-2));
-}
-
-.hero-buttons .btn-secondary {
-  background: #ffffff;
-  color: var(--primary);
-  border: 1px solid rgba(49, 85, 255, 0.18);
-  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.12);
-}
-
-.hero-buttons .btn-secondary:hover {
-  background: #f4f6ff;
-}
-
-/* bloc droit : profils */
-.profil-buttons {
-  background: linear-gradient(145deg, #eff3ff, #ffffff);
-  border-radius: 24px;
-  padding: 22px 24px 24px;
-  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.12);
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: 18px;
-}
-
-.profil-title {
-  font-size: 1.1rem;
-  text-align: left;
-  color: #111827;
-}
-
-.profil-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-/* boutons profil (les 4 pastilles) */
-.btn-profil {
-  width: 100%;
-  border-radius: var(--radius-chip);
-  color: #ffffff;
-  font-size: 0.95rem;
-  box-shadow: 0 12px 26px rgba(88, 80, 236, 0.35);
-}
-
-.btn-profil.lyceen {
-  background: linear-gradient(135deg, #f97373, #ec4899);
-}
-
-.btn-profil.etudiant {
-  background: linear-gradient(135deg, #2563eb, #4f46e5);
-}
-
-.btn-profil.cpge {
-  background: linear-gradient(135deg, #f59e0b, #eab308);
-}
-
-.btn-profil.metiers {
-  background: linear-gradient(135deg, #10b981, #22c55e);
-}
-
-.btn-profil:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 18px 34px rgba(15, 23, 42, 0.25);
-}
-
-/* ========= SECTION "POURQUOI FAIRE CONFIANCE" ========= */
-
-
-.trust-section .trust-intro h2 {
-  font-size: 2rem;
-}
-
-.trust-highlights {
-  max-width: 1180px;
-  margin: 40px auto 0;
-}
-
-.highlight {
-  background: var(--bg-card);
-  border-radius: var(--radius-card);
-  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.09);
-  border: 1px solid rgba(148, 163, 184, 0.2);
-}
-
-.highlight h3 {
-  margin-bottom: 6px;
-}
-
-/* stats */
-.trust-extra .stats .stat-item {
-  background: #ffffff;
-  border-radius: var(--radius-chip);
-  box-shadow: 0 10px 24px rgba(148, 163, 184, 0.35);
-}
-
-/* ========= MAP SECTION ========= */
-
-.map-section {
-  background: var(--bg-page-soft);
-  padding: 70px 16px 80px;
-}
-
-.map-section .map-title {
-  font-size: 1.7rem;
-}
-
-#map {
-  border-radius: 22px;
-  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.15);
-}
-
-/* ========= SERVICES / CARTES ========= */
-
-.services {
-  padding: 80px 0 40px;
-}
-
-.services-title {
-  margin-bottom: 45px;
-}
-
-.service-block {
-  border-radius: var(--radius-card);
-  background: #ffffff;
-  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.10);
-  border: 1px solid rgba(148, 163, 184, 0.25);
-}
-
-.service-text h3 {
-  color: #111827;
-}
-
-.service-text p {
-  color: var(--text-muted);
-}
-
-/* ========= AVIS ========= */
-
-.avis {
-  background: #ffffff;
-  border-radius: var(--radius-large);
-  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.10);
-  padding: 60px 40px 40px;
-}
-
-.avis h2 {
-  font-size: 1.9rem;
-}
-
-.quote {
-  font-style: italic;
-  color: var(--text-muted);
-  font-size: 1.08rem;
-}
-
-/* ========= FOOTER ========= */
-
-footer {
-  background: #020617;
-  color: rgba(226, 232, 240, 0.9);
-  padding: 26px 16px 22px;
-}
-
-.footer-links a {
-  color: #cbd5f5;
-}
-
-.footer-links a:hover {
-  color: #ffffff;
-}
-
-/* ========= RESPONSIVE ========= */
-
-@media (max-width: 900px) {
-
-  .hero-section {
-    padding-top: 90px;
-  }
-
-  .hero-container {
-    grid-template-columns: 1fr;
-    padding: 28px 22px 26px;
-  }
-
-  .hero-text p {
-    max-width: none;
-  }
-
-  .profil-buttons {
-    margin-top: 10px;
-  }
-}
-
-@media (max-width: 600px) {
-  main {
-    padding-inline: 12px;
-  }
-
-  .hero-container {
-    padding: 24px 18px;
-    border-radius: 20px;
-  }
-
-  .hero-text h2 {
-    font-size: 2rem;
-  }
-
-  .trust-section {
-    padding-inline: 12px;
-  }
-
-  .avis {
-    padding-inline: 22px;
-  }
 }
