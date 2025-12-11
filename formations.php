@@ -65,9 +65,19 @@ require "./include/header.inc.php";
 
     <section>
          <!-- 🟪 Barre de recherche centrale -->
-        <div class="search-bar">
+       <div class="search-bar">
             <form method="GET" action="<?= htmlspecialchars($_SERVER['PHP_SELF']) ?>">
-                <input type="text" name="search" placeholder="Rechercher une formation, une ville..." value="<?= htmlspecialchars($search) ?>">
+                <!-- Label accessible et unique -->
+                <label for="search-input-2" class="visually-hidden">Rechercher une formation ou une ville</label>
+
+                <input 
+                    type="text" 
+                    id="search-input-2" 
+                    name="search" 
+                    placeholder="Rechercher une formation, une ville..." 
+                    value="<?= htmlspecialchars($search) ?>"
+                >
+
                 <button type="submit">Rechercher</button>
             </form>
 
@@ -75,7 +85,6 @@ require "./include/header.inc.php";
                 <span class="icon">⚙️</span> Filtres
             </button>
         </div>
-
         <div class="layout">
             <div id="filters-modal" class="modal hidden">
                 <div class="modal-content">

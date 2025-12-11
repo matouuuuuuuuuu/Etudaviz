@@ -115,7 +115,7 @@
         <div class="service-block">
                 <div class="service-text">
                 <h3>Formations</h3>
-                    <p>Découvre les parcours post-bac : BUT, BTS, licences, écoles spécialisées, alternance…</p>
+                    <p style="text-align: center;">Découvre les parcours post-bac : BUT, BTS, licences, écoles spécialisées, alternance…</p>
                     <a href="formations.php" class="btn-link">Voir les formations →</a>
                 </div>
                 <div class="service-image">
@@ -129,7 +129,7 @@
             </div>
             <div class="service-text">
                 <h3>Orientation</h3>
-                    <p>Mieux te connaître, comprendre les débouchés, poser les bonnes questions à temps.</p>
+                    <p style="text-align: center;">Mieux te connaître, comprendre les débouchés, poser les bonnes questions à temps.</p>
                     <a href="orientation.php" class="btn-link">En savoir plus →</a>
             </div>
         </div>
@@ -137,7 +137,7 @@
         <div class="service-block">
             <div class="service-text">
                 <h3>Avis d’étudiants</h3>
-                    <p>Lis des témoignages honnêtes d’autres jeunes et partage ton retour d’expérience.</p>
+                    <p style="text-align: center;">Lis des témoignages honnêtes d’autres jeunes et partage ton retour d’expérience.</p>
                     <a href="avis.php" class="btn-link">Découvrir les avis →</a>
             </div>
             <div class="service-image">
@@ -191,7 +191,7 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="./js/map.js"></script>
 <script>
-  const etablissementsAleatoires = <?= json_encode($etablissementsAleatoires, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) ?>;
+    const etablissementsAleatoires = <?= json_encode($etablissementsAleatoires, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) ?>;
 </script>
 <script src="./js/counter.js"></script>
 
