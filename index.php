@@ -49,6 +49,7 @@
         </div>
     </section>
 
+
     <section class="trust-section">
         <div class="trust-intro">
             <h2>Pourquoi faire confiance à <span>Etudaviz</span> ?</h2>

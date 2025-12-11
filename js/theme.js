@@ -18,14 +18,32 @@
       icon.src = moonIcon;
       icon.alt = "passer au mode nuit";
     }
-    localStorage.setItem("theme", theme);
+
+    // Enregistrement de la préférence
+    if (window.etudavizCookie) {
+      window.etudavizCookie.savePref("theme", theme);
+    } else {
+      localStorage.setItem("theme", theme);
+    }
   }
 
-  const saved = localStorage.getItem("theme") || "light";
-  setTheme(saved);
+  // Chargement du thème au démarrage
+  let saved = null;
+
+  if (window.etudavizCookie) {
+    saved = window.etudavizCookie.loadPref("theme");
+  }
+
+  if (!saved) {
+    saved = localStorage.getItem("theme");
+  }
+
+  const initialTheme = saved || "light";
+  setTheme(initialTheme);
 
   toggle?.addEventListener("click", () => {
     const isDark = link.href.includes("style_nuit.css");
     setTheme(isDark ? "light" : "dark");
   });
 })();
+
