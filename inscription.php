@@ -84,12 +84,17 @@ require "./include/header.inc.php";
         <?php endif; ?>
 
         <form method="POST">
-            <input type="text" name="pseudo" placeholder="Pseudo" required>
+            <label for="pseudo" class="visually-hidden">Pseudo</label>
+            <input type="text" id="pseudo" name="pseudo" placeholder="Pseudo" required>
 
-            <input type="email" name="mail" placeholder="Adresse mail" required>
+            <label for="mail" class="visually-hidden">Adresse mail</label>
+            <input type="email" id="mail" name="mail" placeholder="Adresse mail" required>
 
-            <input type="password" name="password" placeholder="Mot de passe" required>
-            <input type="password" name="password2" placeholder="Confirmation du mot de passe" required>
+            <label for="password" class="visually-hidden">Mot de passe</label>
+            <input type="password" id="password" name="password" placeholder="Mot de passe" required>
+
+            <label for="password2" class="visually-hidden">Confirmation du mot de passe</label>
+            <input type="password" id="password2" name="password2" placeholder="Confirmation du mot de passe" required>
 
             <label for="captcha">
                 Captcha : combien font <?= htmlspecialchars($captchaQuestion) ?> ?
@@ -99,8 +104,9 @@ require "./include/header.inc.php";
             <button type="submit">Créer mon compte</button>
         </form>
 
+
         <div class="login-links">
-            <a href="login.php">J'ai déjà un compte. Me connecter</a>
+            <a style="color:black;" href="login.php">J'ai déjà un compte. Me connecter</a>
         </div>
     </div>
 </div>

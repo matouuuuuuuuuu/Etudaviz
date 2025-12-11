@@ -53,18 +53,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endif; ?>
 
         <form method="POST">
-            <input type="text" name="identifiant"
-                   placeholder="Pseudo ou adresse mail" required>
+            <label for="identifiant" class="visually-hidden">Pseudo ou adresse mail</label>
+            <input type="text" id="identifiant" name="identifiant" placeholder="Pseudo ou adresse mail" required>
 
-            <input type="password" name="password"
-                   placeholder="Mot de passe" required>
+            <label for="password" class="visually-hidden">Mot de passe</label>
+            <input type="password" id="password" name="password" placeholder="Mot de passe" required>
 
             <button type="submit">Se connecter</button>
         </form>
 
+
         <div class="login-links">
-            <a href="mdp-oublie.php">Mot de passe oublié ?</a><br>
-            <a href="inscription.php">Je n'ai pas encore de compte. Créer un compte</a>
+            <a  style="color:black;" href="mdp-oublie.php">Mot de passe oublié ?</a>
+            <a style="color:black;" href="inscription.php">Je n'ai pas encore de compte. Créer un compte</a>
         </div>
     </div>
 </div>

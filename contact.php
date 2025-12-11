@@ -66,19 +66,29 @@ require "./include/header.inc.php";
         <?php $captchaQuestion = captchaQuestion(); ?>
 
         <form method="POST">
-            <input type="text" name="nom" placeholder="Votre nom" required>
-            <input type="email" name="mail" placeholder="Votre adresse mail" required>
-            <input type="text" name="sujet" placeholder="Sujet" required>
-            <textarea name="message" placeholder="Votre message..." rows="5" required></textarea>
+            <label for="nom" class="visually-hidden">Votre nom</label>
+            <input type="text" id="nom" name="nom" placeholder="Votre nom" required>
+
+            <label for="mail" class="visually-hidden">Votre adresse mail</label>
+            <input type="email" id="mail" name="mail" placeholder="Votre adresse mail" required>
+
+            <label for="sujet" class="visually-hidden">Sujet</label>
+            <input type="text" id="sujet" name="sujet" placeholder="Sujet" required>
+
+            <label for="message" class="visually-hidden">Votre message</label>
+            <textarea id="message" name="message" placeholder="Votre message..." rows="5" required></textarea>
+
             <label for="captcha">
-            Captcha : combien font <?= htmlspecialchars($captchaQuestion) ?> ?
+                Captcha : combien font <?= htmlspecialchars($captchaQuestion) ?> ?
             </label>
-            <input type="text" name="captcha" id="captcha" required>
+            <input type="text" id="captcha" name="captcha" required>
+
             <button type="submit">Envoyer</button>
         </form>
 
+
         <div class="login-links">
-            <a href="index.php">Retour à l'accueil</a>
+            <a  style="color:black;" href="index.php">Retour à l'accueil</a>
         </div>
     </div>
 </div>
