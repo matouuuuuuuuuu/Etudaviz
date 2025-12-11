@@ -1,7 +1,7 @@
 <?php
 require "./include/functions.inc.php";
+ensureSession();
 
-// Récupération des filtres utilisateur
 $regionChoisie = $_GET['region'] ?? '';
 $departementChoisi = $_GET['departement'] ?? '';
 $typeChoisi = $_GET['type'] ?? '';
@@ -31,9 +31,28 @@ if (isset($etablissements['error'])) {
 } elseif (empty($etablissements)) {
     $messageErreur = "Aucun établissement trouvé.";
 } else {
+   $resultats = [];
+    $indexUnicite = [];
+
     foreach ($etablissements as $record) {
-        $resultats[] = formatEtablissement($record['fields'], $record['recordid']);    
+        $formatted = formatEtablissement($record['fields'], $record['recordid']);
+        if (empty($formatted)) continue;
+
+        // ✅ Clé métier pour éviter les doublons visuels
+        $cle = mb_strtolower(
+            trim($formatted['nom']) . '|' .
+            trim($formatted['ville']) . '|' .
+            trim($formatted['etablissement'])
+        );
+
+        if (isset($indexUnicite[$cle])) {
+            continue; // ✅ doublon ignoré
+        }
+
+        $indexUnicite[$cle] = true;
+        $resultats[] = $formatted;
     }
+
 }
 
 $title = "Formations diplômantes";
@@ -47,7 +66,7 @@ require "./include/header.inc.php";
     <section>
          <!-- 🟪 Barre de recherche centrale -->
         <div class="search-bar">
-            <form method="GET" action="">
+            <form method="GET" action="<?= htmlspecialchars($_SERVER['PHP_SELF']) ?>">
                 <input type="text" name="search" placeholder="Rechercher une formation, une ville..." value="<?= htmlspecialchars($search) ?>">
                 <button type="submit">Rechercher</button>
             </form>
@@ -78,7 +97,7 @@ require "./include/header.inc.php";
                         <?php endif; ?>
                     </ul>
 
-                    <form method="GET" action="">
+                    <form method="GET" action="<?= htmlspecialchars($_SERVER['PHP_SELF']) ?>">
                         <label for="region">Région :</label>
                         <select name="region" id="region">
                             <option value="">-- Toutes les régions --</option>

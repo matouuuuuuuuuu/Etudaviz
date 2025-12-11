@@ -3,12 +3,17 @@ require "./include/functions.inc.php";
 ensureSession();
 
 $id = $_GET['id'] ?? null;
-if (!$id) die("Formation introuvable.");
+if (!$id) {
+    header("Location: index.php?error=formation_introuvable");
+    exit;
+}
 
 $etab = getEtablissementById($id);
 
-if (!$etab) die("Aucune donnée trouvée.");
-
+if (!$etab) {
+    header("Location: index.php?error=formation_inexistante");
+    exit;
+}
 $debouches = getDebouchesDepuisOnisep(
     $etab['nom'] ?? '',
     $etab['code_formation'] ?? null
@@ -23,7 +28,7 @@ require "./include/header.inc.php";
 
 <section class="formation-detail">
   <div class="formation-section presentation">
-    <h3>Présentation de la formation</h3>
+    <h2>Présentation de la formation</h2>
 
     <?php
       $fl = $etab['nom'] ?? '';
@@ -78,9 +83,7 @@ require "./include/header.inc.php";
       }
     ?>
 
-    <p class="intro">
-      <?= nl2br(htmlspecialchars($introTexte)) ?>
-    </p>
+    <p class="intro"><?= nl2br(htmlspecialchars($introTexte)) ?></p>
 
     <ul class="presentation-details">
       <?php if (!empty($etab['annee'])): ?>

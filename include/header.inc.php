@@ -94,17 +94,13 @@
 					<a href="orientation.php"><img src="images/fleche-droite.png" alt="Flèche" class="nav-icon">Apprendre à s'orienter</a>
 					<ul class="submenu">
 						<li><a href="test-orientation.php">Test d'orientation</a></li>
-						<li><a href="métiers.php">Découvrir des métiers</a></li>
+						<li><a href="metiers.php">Découvrir des métiers</a></li>
 						<li><a href="avis.php">Avis</a></li>
 					</ul>
 				</li>
 				<li>
 					<a href="apropos.php"><img src="images/fleche-droite.png" alt="Flèche" class="nav-icon">À propos</a>
-					<ul class="submenu">
-						<li><a href="#">A définir</a></li>
-						<li><a href="#">A définir</a></li>
-						<li><a href="#">A définir</a></li>
-					</ul>
+				
 				</li>
 				<li>
 					<a href="contact.php"><img src="images/fleche-droite.png" alt="Flèche" class="nav-icon">Contact</a>

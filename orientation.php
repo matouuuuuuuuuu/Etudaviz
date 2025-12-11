@@ -8,7 +8,7 @@ require "./include/header.inc.php";
 
 ?>
 
-  <section class="orientation-hero">
+<section class="orientation-hero">
       <div class="orientation-hero-wrapper">
 
           <div class="orientation-hero-left">
@@ -30,7 +30,7 @@ require "./include/header.inc.php";
           </div>
 
       </div>
-  </section>
+</section>
 
 
 
@@ -42,36 +42,35 @@ require "./include/header.inc.php";
 
     <div class="parcours-timeline">
       <div class="parcours-step" data-step>
-          <div class="step-header">
-              <div class="step-number">1</div>
-              <h3>L’entrée dans les études supérieures</h3>
-              <button class="toggle-step">+</button>
-          </div>
+        <div class="step-header">
+            <div class="step-number">1</div>
+            <h3>L’entrée dans les études supérieures</h3>
+            <button class="toggle-step">+</button>
+        </div>
 
-          <div class="step-content">
-            <p class="step-intro">
-                L’enseignement supérieur, c’est un nouveau rythme et plus d’autonomie.  
-                Voici ce qui change vraiment quand tu quittes le lycée :
-            </p>
-            <div class="step-highlights">
-
+        <div class="step-content">
+          <p class="step-intro">
+              L’enseignement supérieur, c’est un nouveau rythme et plus d’autonomie.  
+              Voici ce qui change vraiment quand tu quittes le lycée :
+          </p>
+          <div class="step-highlights">
             <div class="highlight-box">
               <span>📘</span>
               <p><strong>Un nouveau rythme</strong><br>CM pour les cours théoriques, TD/TP pour pratiquer.Moins d’encadrement, plus d’organisation personnelle.</p>
             </div>
 
             <div class="highlight-box">
-                <span>🧠</span>
-                <p><strong>Des projets concrets</strong><br>
-                Travaux en groupe, dossiers réels, oraux, mises en situation…  
-                On applique ce qu’on apprend.</p>
+                  <span>🧠</span>
+                  <p><strong>Des projets concrets</strong><br>
+                    Travaux en groupe, dossiers réels, oraux, mises en situation…  
+                    On applique ce qu’on apprend.</p>
             </div>
 
             <div class="highlight-box-last">
                 <span>💼</span>
                 <p><strong>Des stages</strong><br>
-                Selon ta filière : stages obligatoires, missions, rencontres pro.  
-                Parfait pour découvrir ce qui te plaît (ou pas !).</p>
+                  Selon ta filière : stages obligatoires, missions, rencontres pro.  
+                  Parfait pour découvrir ce qui te plaît (ou pas !).</p>
             </div>
           </div>
         </div>
@@ -90,7 +89,7 @@ require "./include/header.inc.php";
           </div>
 
           <div class="step-content">
-            <p class="step-intro"> La vie étudiante ne se résume pas aux cours. Associations, projets, rencontres… c’est souvent là que tu t’épanouis le plus, que tu découvres tes forces et que tu construis ta personnalité.<p>
+            <p class="step-intro"> La vie étudiante ne se résume pas aux cours. Associations, projets, rencontres… c’est souvent là que tu t’épanouis le plus, que tu découvres tes forces et que tu construis ta personnalité.</p>
               <div class="step-highlights">
                 <div class="highlight-box">
                   <span>🤝</span>
@@ -122,7 +121,7 @@ require "./include/header.inc.php";
           <span class="connector-line"></span>
           <span class="connector-line"></span>
       </div>
-
+  </div>
       <div class="parcours-step" data-step>
     <div class="step-header">
         <div class="step-number">3</div>
