@@ -38,21 +38,14 @@
 </footer>
 <script src="/js/theme.js"></script>
 <!-- Bandeau cookies -->
-    <div id="cookie-banner" class="cookie-banner" aria-live="polite">
-        <div class="cookie-content">
-            <p class="cookie-text">
-                Ce site utilise des cookies pour améliorer votre expérience.
-            </p>
-            <div class="cookie-actions">
-                <button id="cookie-accept" class="cookie-btn cookie-btn-primary">
-                    Accepter
-                </button>
-                <button id="cookie-refuse" class="cookie-btn cookie-btn-secondary">
-                    Refuser
-                </button>
-            </div>
-        </div>
+<div id="cookie-banner">
+    <p>Ce site utilise des cookies pour améliorer votre expérience.</p>
+
+    <div class="cookie-buttons">
+        <button id="cookie-accept">Accepter</button>
+        <button id="cookie-refuse">Refuser</button>
     </div>
+</div>
 
 <script src="js/cookies.js"></script>
 </body>
