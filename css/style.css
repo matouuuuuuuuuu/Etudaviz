@@ -37,7 +37,7 @@ p {
 /* ----- LIEN ----- */
 
 a {
-  color: #00A896; 
+  color: #1F5F60; 
   text-decoration: none;
   transition: color 0.3s, transform 0.2s;
 }
@@ -68,8 +68,8 @@ h2 {
 h3 {
   color: #00A896;
   font-weight: 600;
-  margin-bottom: 15px;
   font-size: 1.5rem;
+  margin-bottom: 15px;
   text-align: center;
 }
 
@@ -532,7 +532,7 @@ section:nth-child(even):not(.user-reviews-wrapper) {
 .hero-text {
   flex: 1;
   min-width: 300px;
-  text-align: left;
+  text-align: center;
 }
 
 .hero-text h2 {
@@ -1240,7 +1240,11 @@ section:nth-child(even):not(.user-reviews-wrapper) {
   padding: 16px;
   margin-bottom: 20px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-  transition: transform 0.2s;
+  transition: transform 0.2s; 
+}
+
+.etab-card  a {
+  color: #194C66;
 }
 
 .etab-card:hover {
@@ -1250,7 +1254,7 @@ section:nth-child(even):not(.user-reviews-wrapper) {
 
 .etab-card h4 {
   margin: 0 0 10px;
-  color: #1F5F80; 
+  color: #194C66; 
   text-align: center;
   text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
 }
@@ -1278,8 +1282,11 @@ section:nth-child(even):not(.user-reviews-wrapper) {
   margin-top: 25px;
 }
 
+.formation-section h2 {
+  margin-bottom: 20px;
+}
+
 .formation-section h4 {
-  font-size: 1.1rem;
   color: #277DA1;
   margin-bottom: 8px;
 }
@@ -1339,16 +1346,20 @@ section:nth-child(even):not(.user-reviews-wrapper) {
 }
 
 .presentation-details li {
-  background: #F1FAFA;
+  background: #E8F1F1;
   margin-bottom: 8px;
   padding: 10px 14px;
   border-radius: 8px;
   font-size: 0.95rem;
-  color: #277DA1;
+  color: #000000;
+}
+
+.presentation-details a{
+  color: #000000;
 }
 
 .presentation-details strong {
-  color: #43AA8B;
+  color: #007296;
 }
 
 .formation-description p {
@@ -1386,7 +1397,7 @@ section:nth-child(even):not(.user-reviews-wrapper) {
 }
 
 .distance-form button {
-  background: #43AA8B;
+  background: #2B7F6A;
   color: white;
   border: none;
   border-radius: 8px;
@@ -1514,6 +1525,7 @@ section:nth-child(even):not(.user-reviews-wrapper) {
   color: #577590;
   max-width: 600px;
   margin-bottom: 35px;
+  text-align: center;
 }
 
 .orientation-hero-cta {
@@ -1541,7 +1553,7 @@ section:nth-child(even):not(.user-reviews-wrapper) {
 .orientation-hero-note {
   margin-top: 20px;
   font-size: 1rem;
-  color: #4D908E;
+  color: #000000;
   opacity: 0.9;
   font-style: italic;
   text-align: center;
@@ -1995,6 +2007,8 @@ section:nth-child(even):not(.user-reviews-wrapper) {
   padding: 0 20px;
 }
 
+
+
 /* BLOCS DE QUESTION */
 .question-block {
   background: #FFFFFF;
@@ -2005,17 +2019,31 @@ section:nth-child(even):not(.user-reviews-wrapper) {
   border-left: 5px solid #43AA8B;
 }
 
-.question-block h3 {
-  color: #277DA1;
+.question-block legend {
+  font-weight: 600;
+  font-size: 1.5rem;
   margin-bottom: 15px;
+  text-align: center;
+  color: #277DA1;
+  margin-bottom: 2px;
 }
+
+.question-block legend span {
+  display: block;
+  margin-top: 50px;  
+  font-weight: 600;
+  font-size: 1.5rem;
+  text-align: center;
+  color: #277DA1;
+}
+
 
 /* Réponses */
 .question-block label {
   display: block;
   padding: 10px 0;
   cursor: pointer;
-  color: #4D908E;
+  color: #000000;
   transition: 0.2s;
 }
 
@@ -2025,7 +2053,7 @@ section:nth-child(even):not(.user-reviews-wrapper) {
 
 /* Effet hover */
 .question-block label:hover {
-  color: #277DA1;
+  color: #F54927;
   transform: translateX(4px);
 }
 
@@ -2150,7 +2178,7 @@ section:nth-child(even):not(.user-reviews-wrapper) {
 .step-number {
     width: 42px;
     height: 42px;
-    background: #43AA8B;
+    background: #277DA1;
     color: white;
     border-radius: 50%;
     display: flex;
@@ -2346,7 +2374,6 @@ section:nth-child(even):not(.user-reviews-wrapper) {
 }
 
 .roadmap-card h3 {
-  font-size: 1.35rem;
   color: #277DA1;
   margin-bottom: 12px;
   font-weight: 600;
@@ -2357,12 +2384,13 @@ section:nth-child(even):not(.user-reviews-wrapper) {
   font-size: 1rem;
   line-height: 1.55;
   margin-bottom: 20px;
+  text-align: center;
 }
 
 .roadmap-link {
   display: inline-block;
   font-weight: 600;
-  color: #43AA8B;
+  color: #277DA1;
   text-decoration: none;
   transition: color .2s;
 }
@@ -2747,7 +2775,6 @@ section:nth-child(even):not(.user-reviews-wrapper) {
 }
 
 .about-contact h2 {
-    font-size: 2.2rem;
     color: #0d6f79;
     margin-bottom: 10px;
 }
@@ -2755,13 +2782,13 @@ section:nth-child(even):not(.user-reviews-wrapper) {
 .about-contact p {
     margin-bottom: 25px;
     color: #39575c;
-    font-size: 1.15rem;
+    text-align: center;
 }
 
 .about-button {
-    background: #0d8e79;
+    background: #43AA8B;
     padding: 12px 26px;
-    color: white;
+    color: black;
     border-radius: 30px;
     font-size: 1.1rem;
     text-decoration: none;
@@ -2879,6 +2906,10 @@ section:nth-child(even):not(.user-reviews-wrapper) {
 
 .avis-meta span strong {
     color: #222;
+}
+
+.avis-formation-title{
+  color:#344E5C;
 }
 
 /* Titre du formulaire */
@@ -3035,6 +3066,103 @@ section:nth-child(even):not(.user-reviews-wrapper) {
     overflow: hidden;
     clip: rect(0,0,0,0);
     border: 0;
+}
+
+/* Section Mentions légales */
+.legal {
+    max-width: 800px;        /* limite la largeur pour la lecture */
+    margin: 40px auto;       /* centré horizontalement avec marge verticale */
+    padding: 20px 25px;      /* espace intérieur */
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    color: #333333;
+    line-height: 1.6;
+}
+
+.legal h2 {
+    color: #277DA1;          /* titre bleu foncé */
+    margin-bottom: 12px;
+    border-bottom: 2px solid #43AA8B; /* petite ligne pour distinguer sections */
+    padding-bottom: 6px;
+}
+
+.legal p {
+    margin-bottom: 18px;
+}
+
+.legal a {
+    color: #007296;          /* lien vert */
+    text-decoration: none;
+}
+
+.legal a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+    .legal {
+        padding: 15px 20px;
+    }
+
+    .legal h2 {
+        font-size: 1.4rem;
+    }
+}
+
+/* Politique de confidentialité */
+.privacy {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 25px 30px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    font-family: Arial, sans-serif;
+    color: #333333;
+    line-height: 1.6;
+}
+
+.privacy h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #277DA1;             /* bleu foncé */
+    margin-top: 25px;
+    margin-bottom: 12px;
+    border-bottom: 2px solid #43AA8B;
+    padding-bottom: 6px;
+}
+
+.privacy p {
+    margin-bottom: 18px;
+}
+
+.privacy ul {
+    margin-left: 20px;
+    margin-bottom: 18px;
+}
+
+.privacy li {
+    margin-bottom: 8px;
+}
+
+.privacy a {
+    color: #43AA8B;
+    text-decoration: none;
+}
+
+.privacy a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+    .privacy {
+        padding: 15px 20px;
+    }
+
+    .privacy h2 {
+        font-size: 1.3rem;
+    }
 }
 
 
@@ -3600,8 +3728,8 @@ nav ul.menu {
     padding: 0 10px;
   }
 
-  .formation-section h4 {
-    font-size: 1rem;
+  .formation-section h2 {
+    color: #007296;
   }
 
   .formation-links {

@@ -57,10 +57,11 @@ require "./include/header.inc.php";
         </div>
     </div>
 
-    <div class="dashboard-actions" style = "display:grid">
-        <a href="profil.php"><button class="btn-primary-private">Modifier mon profil</button></a>
-        <a href="logout.php"><button class="btn-primary-private">Déconnexion</button></a>
+    <div class="dashboard-actions" style="display: grid;">
+        <button onclick="window.location.href='profil.php'" class="btn-primary-private">Modifier mon profil</button>
+        <button onclick="window.location.href='logout.php'" class="btn-primary-private">Déconnexion</button>
     </div>
+
 </div>
 
 <section class="user-benefits">

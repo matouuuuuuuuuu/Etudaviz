@@ -179,15 +179,14 @@
         <?php endif; ?>
 
         <div class="slider-controls">
-            <span class="prev" onclick="plusSlides(-1)">&#10094;</span>
-            <span class="next" onclick="plusSlides(1)">&#10095;</span>
+            <span class="prev">‹</span>
+            <span class="next">›</span>
         </div>
 
     </div>
 </section>
 
 
-<script type="module" src="/js/slides.js"></script>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="./js/map.js"></script>
