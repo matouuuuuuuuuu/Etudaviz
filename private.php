@@ -57,11 +57,24 @@ require "./include/header.inc.php";
         </div>
     </div>
 
-    <div class="dashboard-actions" style = "display:grid">
-        <a href="profil.php" class="btn-primary">Modifier mon profil</a>
-        <a href="logout.php" class="btn-deconnexion">Déconnexion</a>
+    <div class="dashboard-actions" style="display: grid;">
+        <button onclick="window.location.href='profil.php'" class="btn-primary-private">Modifier mon profil</button>
+        <button onclick="window.location.href='logout.php'" class="btn-primary-private">Déconnexion</button>
     </div>
+
 </div>
+
+<section class="user-benefits">
+  <div class="container">
+    <h2>Vos avantages en tant que membre de la communauté Etudaviz</h2>
+    <p>En étant connecté à votre espace personnel, vous pouvez :</p>
+    <ul>
+      <li>Calculer la distance entre votre domicile et nos établissements.</li>
+      <li>Consulter les avis des autres utilisateurs.</li>
+      <li>Contribuer et partager vos expériences sur notre blog.</li>
+    </ul>
+  </div>
+</section>
 
 <section class="dashboard-grid">
 
@@ -100,7 +113,7 @@ require "./include/header.inc.php";
     <?php else: ?>
         <div class="user-reviews-section">
             <?php foreach ($mesAvis as $avis): ?>
-                <div class="avis-card">
+                <div class="user-review-card">
                     <h3><?= htmlspecialchars($avis['titre_avis']) ?></h3>
                     <p><?= nl2br(htmlspecialchars($avis['description'])) ?></p>
                     <small>
@@ -114,17 +127,7 @@ require "./include/header.inc.php";
 
 </section>
 
-<section class="user-benefits">
-  <div class="container">
-    <h2>Vos avantages en tant que membre de la communauté Etudaviz</h2>
-    <p>En étant connecté à votre espace personnel, vous pouvez :</p>
-    <ul>
-      <li>Calculer la distance entre votre domicile et nos établissements.</li>
-      <li>Consulter les avis des autres utilisateurs.</li>
-      <li>Contribuer et partager vos expériences sur notre blog.</li>
-    </ul>
-  </div>
-</section>
+
 
 <?php
 require "./include/footer.inc.php";

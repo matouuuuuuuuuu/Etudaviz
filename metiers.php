@@ -56,7 +56,8 @@ require "./include/header.inc.php";
 
     <!-- Barre de recherche -->
     <form action="metiers.php" method="get" class="search-bar">
-        <input type="text" name="q" placeholder="Rechercher un métier..." value="<?= htmlspecialchars($query) ?>">
+        <label for="searchInput" class=".visually-hidden">Rechercher un métier</label>
+        <input type="text" id="searchInput" name="q" placeholder="Rechercher un métier..." value="<?= htmlspecialchars($query) ?>">
         <button type="submit">🔍</button>
     </form>
 

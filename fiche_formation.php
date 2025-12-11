@@ -46,38 +46,28 @@ require "./include/header.inc.php";
       $introTexte = "";
       switch (true) {
         case stripos($tf, 'BTS') !== false:
-          $introTexte = "Le {$tf} {$discipline} est une formation courte et professionnalisante de niveau Bac+2. 
-          Elle prépare les étudiants à une insertion rapide dans le monde du travail tout en offrant des possibilités 
-          de poursuite d’études, notamment vers les licences professionnelles ou les écoles spécialisées.";
+          $introTexte = "Le {$tf} {$discipline} est une formation courte et professionnalisante de niveau Bac+2. Elle prépare les étudiants à une insertion rapide dans le monde du travail tout en offrant des possibilités de poursuite d’études, notamment vers les licences professionnelles ou les écoles spécialisées.";
           break;
 
         case stripos($tf, 'BUT') !== false:
-          $introTexte = "Le {$tf} {$discipline} est un diplôme de niveau Bac+3 proposé par les Instituts Universitaires 
-          de Technologie. Il associe enseignements théoriques, projets tutorés et stages, pour former des techniciens 
-          supérieurs immédiatement opérationnels.";
+          $introTexte = "Le {$tf} {$discipline} est un diplôme de niveau Bac+3 proposé par les Instituts Universitaires  de Technologie. Il associe enseignements théoriques, projets tutorés et stages, pour former des techniciens supérieurs immédiatement opérationnels.";
           break;
 
         case stripos($tf, 'Licence professionnelle') !== false:
-          $introTexte = "Cette {$tf} {$discipline} est une formation universitaire d’un an, destinée à des étudiants 
-          souhaitant se spécialiser après un Bac+2. Elle met l’accent sur la professionnalisation et l’expérience en entreprise.";
+          $introTexte = "Cette {$tf} {$discipline} est une formation universitaire d’un an, destinée à des étudiants souhaitant se spécialiser après un Bac+2. Elle met l’accent sur la professionnalisation et l’expérience en entreprise.";
           break;
 
         case stripos($tf, 'Licence') !== false:
-          $introTexte = "La {$tf} {$discipline} est un cursus universitaire en trois ans qui offre une base solide dans 
-          le domaine concerné. Elle vise à développer les connaissances académiques et les compétences fondamentales 
-          nécessaires pour la poursuite d’études ou l’entrée dans la vie active.";
+          $introTexte = "La {$tf} {$discipline} est un cursus universitaire en trois ans qui offre une base solide dans le domaine concerné. Elle vise à développer les connaissances académiques et les compétences fondamentales nécessaires pour la poursuite d’études ou l’entrée dans la vie active.";
           break;
 
         case stripos($tf, 'Master') !== false:
-          $introTexte = "Le {$tf} {$discipline} est une formation de niveau Bac+5 qui approfondit les compétences 
-          acquises en licence. Elle prépare à des fonctions d’expertise, de recherche ou de management, selon la spécialité choisie.";
+          $introTexte = "Le {$tf} {$discipline} est une formation de niveau Bac+5 qui approfondit les compétences acquises en licence. Elle prépare à des fonctions d’expertise, de recherche ou de management, selon la spécialité choisie.";
           break;
 
         default:
             $disc = $discipline ?: 'la discipline concernée';
-            $introTexte = "La formation {$fl} proposée par {$etablissement} permet d’acquérir des compétences solides 
-            dans le domaine de {$disc}. 
-            Elle associe cours théoriques, travaux pratiques et mise en situation professionnelle.";
+            $introTexte = "La formation {$fl} proposée par {$etablissement} permet d’acquérir des compétences solides dans le domaine de {$disc}. Elle associe cours théoriques, travaux pratiques et mise en situation professionnelle.";
             break;
 
       }
@@ -140,17 +130,18 @@ require "./include/header.inc.php";
 
     <?php if (!empty($etab['coordonnees'][0]) && !empty($etab['coordonnees'][1])):$lat = $etab['coordonnees'][0]; $lon = $etab['coordonnees'][1];?>
       <div class="formation-section map">
-        <h3>Localisation de l’établissement</h3>
+        <h2>Localisation de l’établissement</h2>
           <div id="map" style="height: 300px; border-radius: 10px;"></div>
       </div>
       <div class="formation-section distance-calculator">
-        <h3>Calculer la distance depuis votre domicile</h3>
+        <h3 style="color: #007296;">Calculer la distance depuis votre domicile</h3>
           <?php if (!$user_is_subscribed): ?>
             <p>Entrez votre adresse pour estimer la distance jusqu’à cet établissement :</p>
             <div class="distance-form">
+              <label for="userAddress" class="visually-hidden">Votre ville</label>
               <input type="text" id="userAddress" placeholder="Entrez votre ville (ex. : Lille)" />
-              <button id="btnDistance" onclick="calculateDistance()">Calculer</button>
-            </div>
+              <button style="background:  id="btnDistance" onclick="calculateDistance()">Calculer</button>
+          </div>
             <p id="distanceResult" class="distance-result"></p>
           <?php else: ?>
             <div class="distance-locked">
@@ -163,7 +154,7 @@ require "./include/header.inc.php";
     <?php endif; ?>
 
      <div class="formation-section avis">
-    <h3>Avis des étudiants</h3>
+    <h3 style="color: #007296;">Avis des étudiants</h3>
 
     <?php $avis = getAvisByFormationId($id); ?>
 

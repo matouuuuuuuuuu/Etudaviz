@@ -93,70 +93,70 @@
             <form  method="POST" class="test-form">
 
                 <!-- Question 1 -->
-                <div class="question-block">
-                    <h3>1. Parmi ces activités, laquelle te ressemble le plus ?</h3>
+                <fieldset class="question-block">                    
+                    <legend><span>1. Parmi ces activités, laquelle te ressemble le plus ?</span></legend>
                     <label><input type="radio" name="q1" value="R" required> Réparer, bricoler, manipuler</label>
                     <label><input type="radio" name="q1" value="I"> Comprendre comment ça marche</label>
                     <label><input type="radio" name="q1" value="A"> Créer (dessiner, imaginer…)</label>
                     <label><input type="radio" name="q1" value="S"> Aider, expliquer</label>
                     <label><input type="radio" name="q1" value="E"> Convaincre, vendre, négocier</label>
                     <label><input type="radio" name="q1" value="C"> Organiser, gérer</label>
-                </div>
+                </fieldset>
 
                 <!-- Question 2 -->
-                <div class="question-block">
-                    <h3>2. Quand tu apprends quelque chose…</h3>
+                <fieldset class="question-block">
+                    <legend><span>2. Quand tu apprends quelque chose…</span></legend>
                     <label><input type="radio" name="q2" value="R" required> Je préfère pratiquer</label>
                     <label><input type="radio" name="q2" value="I"> Je veux comprendre en profondeur</label>
                     <label><input type="radio" name="q2" value="A"> Je visualise / imagine</label>
                     <label><input type="radio" name="q2" value="S"> J’apprends grâce aux autres</label>
                     <label><input type="radio" name="q2" value="E"> J’ai besoin d’en parler</label>
                     <label><input type="radio" name="q2" value="C"> Je suis à l’aise avec les méthodes claires</label>
-                </div>
+                </fieldset>
 
                 <!-- Question 3 -->
-                <div class="question-block">
-                    <h3>3. Où te sens-tu le plus à l’aise ?</h3>
+                <fieldset class="question-block">
+                    <legend><span>3. Où te sens-tu le plus à l’aise ?</span></legend>
                     <label><input type="radio" name="q3" value="R" required> Atelier / extérieur</label>
                     <label><input type="radio" name="q3" value="I"> Lieux calmes (laboratoire, bibliothèque)</label>
                     <label><input type="radio" name="q3" value="A"> Espace créatif</label>
                     <label><input type="radio" name="q3" value="S"> En interaction avec les autres</label>
                     <label><input type="radio" name="q3" value="E"> Environnement dynamique / business</label>
                     <label><input type="radio" name="q3" value="C"> Bureau structuré</label>
-                </div>
+                </fieldset>
 
                 <!-- Question 4 -->
-                <div class="question-block">
-                    <h3>4. Pour toi, un bon métier est…</h3>
+                <fieldset class="question-block">
+                    <legend><span>4. Pour toi, un bon métier est…</span></legend>
                     <label><input type="radio" name="q4" value="R" required> Concret et utile</label>
                     <label><input type="radio" name="q4" value="I"> Intellectuel et stimulant</label>
                     <label><input type="radio" name="q4" value="A"> Créatif et original</label>
                     <label><input type="radio" name="q4" value="S"> Humain et bienveillant</label>
                     <label><input type="radio" name="q4" value="E"> Ambitieux et motivant</label>
                     <label><input type="radio" name="q4" value="C"> Stable et organisé</label>
-                </div>
+                </fieldset>
 
                 <!-- Question 5 -->
-                <div class="question-block">
-                    <h3>5. On te décrit souvent comme…</h3>
+                <fieldset class="question-block">
+                    <h3legend><span>5. On te décrit souvent comme…</span></legend>
                     <label><input type="radio" name="q5" value="R" required> Débrouillard / manuel</label>
                     <label><input type="radio" name="q5" value="I"> Curieux / logique</label>
                     <label><input type="radio" name="q5" value="A"> Créatif / sensible</label>
                     <label><input type="radio" name="q5" value="S"> Empathique / sociable</label>
                     <label><input type="radio" name="q5" value="E"> Dynamique / convaincant</label>
                     <label><input type="radio" name="q5" value="C"> Sérieux / méthodique</label>
-                </div>
+                </fieldset>
 
                 <!-- Question 6 -->
-                <div class="question-block">
-                    <h3>6. Tu préférerais passer ta journée à…</h3>
+                <fieldset class="question-block">
+                    <legend><span>6. Tu préférerais passer ta journée à…</span></legend>
                     <label><input type="radio" name="q6" value="R" required> Installer, réparer</label>
                     <label><input type="radio" name="q6" value="I"> Résoudre un problème</label>
                     <label><input type="radio" name="q6" value="A"> Imaginer / créer</label>
                     <label><input type="radio" name="q6" value="S"> Aider quelqu’un</label>
                     <label><input type="radio" name="q6" value="E"> Gérer un projet / diriger</label>
                     <label><input type="radio" name="q6" value="C"> Organiser, classer</label>
-                </div>
+                </fieldset>
 
                 <button type="submit" class="btn-primary test-btn">Voir mes résultats</button>
             </form>

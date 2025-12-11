@@ -35,21 +35,9 @@
 </head>
 
 <body>
-    <a href="#">
-        <img class="fleche" src="images/fleche.png" alt="image de fleche"/>
-    </a>
-	<script>
-		// Affiche la flèche quand l'utilisateur scrolle
-		const fleche = document.querySelector('.fleche');
-		fleche.style.display = 'none';
-		window.addEventListener('scroll', function() {
-			if (window.scrollY > 100) { // tu peux ajuster la valeur
-				fleche.style.display = 'block';
-			} else {
-				fleche.style.display = 'none';
-			}
-		});
-	</script>
+
+
+
 
     <header class="<?php echo $headerClass; ?>">
 		<div class="header-left">
@@ -110,8 +98,16 @@
 
 		<div class="header-right">
 			<form class="header-search-bar" action="recherche.php" method="get">
-				<input type="text" name="q" placeholder="Rechercher une formation..." />
-				<button type="submit">🔍</button>
+				<label for="search-input" class="visually-hidden">Rechercher une formation</label>
+				<input 
+					type="text" 
+					id="search-input" 
+					name="q" 
+					placeholder="Rechercher une formation..."
+				/>
+				<button type="submit" class="search-button" aria-label="Rechercher" style="opacity: 1; color: rgb(0, 100, 80); background-color: rgb(255, 255, 255);">
+					🔍
+				</button>
 			</form>
 
 			<button id="theme-toggle" class="theme-toggle" aria-label="Changer le thème">

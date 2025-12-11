@@ -37,7 +37,7 @@ p {
 /* ----- LIEN ----- */
 
 a {
-  color: #00A896; 
+  color: #1F5F60; 
   text-decoration: none;
   transition: color 0.3s, transform 0.2s;
 }
@@ -68,8 +68,8 @@ h2 {
 h3 {
   color: #00A896;
   font-weight: 600;
-  margin-bottom: 15px;
   font-size: 1.5rem;
+  margin-bottom: 15px;
   text-align: center;
 }
 
@@ -314,7 +314,7 @@ footer {
 }
 
 .footer-links a {
-  color: #3BE4D3;
+  color: white;
   font-size: 13px;
   text-decoration: none;
   transition: color 0.3s ease;
@@ -327,7 +327,7 @@ footer {
 .footer-copy {
   margin-top: 10px;
   font-size: 12px;
-  color: rgba(249,249,249,0.7);
+  color: white;
 }
 
 /* =========================================================
@@ -532,7 +532,7 @@ section:nth-child(even):not(.user-reviews-wrapper) {
 .hero-text {
   flex: 1;
   min-width: 300px;
-  text-align: left;
+  text-align: center;
 }
 
 .hero-text h2 {
@@ -608,6 +608,12 @@ section:nth-child(even):not(.user-reviews-wrapper) {
   transform: scale(1.02);
 }
 
+.btn-primary-private{
+  display: flex;
+  justify-content: flex-start; /* aligné à gauche */
+  gap: 10px;
+}
+
 /* ============================
    PROFIL BUTTONS — Choix du profil
 ============================ */
@@ -651,10 +657,18 @@ section:nth-child(even):not(.user-reviews-wrapper) {
 }
 
 /* Couleurs par profil (associées à ta palette) */
-.btn-profil.lyceen   { background: #F94144; } /* rouge */
-.btn-profil.etudiant { background: #F8961E; } /* orange */
-.btn-profil.cpge     { background: #F9C74F; } /* jaune */
+.btn-profil.lyceen   { background: #d63537; } /* rouge */
+.btn-profil.etudiant { background: #e07a17; } /* orange */
+.btn-profil.cpge     { background: #d9a90f; } /* jaune */
 .btn-profil.metiers  { background: #43AA8B; } /* vert-bleuté */
+
+.btn-profil.lyceen,
+.btn-profil.etudiant,
+.btn-profil.cpge,
+.btn-profil.metiers {
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
 
 /* Hover animations */
 .btn-profil:hover {
@@ -716,7 +730,7 @@ section:nth-child(even):not(.user-reviews-wrapper) {
 
 .btn-link {
   display: inline-block;
-  color: #43AA8B; /* vert-bleuté principal */
+  color: #2f7a6b; /* vert-bleuté principal */
   font-weight: bold;
   text-decoration: none;
   transition: color 0.2s ease;
@@ -1001,7 +1015,7 @@ section:nth-child(even):not(.user-reviews-wrapper) {
 }
 
 .map-intro {
-  font-size: 1rem;
+  text-align: center;
   color: #577590; /* Payne’s Gray */
   margin-bottom: 30px;
   max-width: 800px;
@@ -1053,6 +1067,10 @@ section:nth-child(even):not(.user-reviews-wrapper) {
   font-weight: bold;
   cursor: pointer;
   transition: background 0.3s;
+}
+
+.search-button{
+  color: black;
 }
 
 .search-bar button:hover {
@@ -1222,7 +1240,11 @@ section:nth-child(even):not(.user-reviews-wrapper) {
   padding: 16px;
   margin-bottom: 20px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-  transition: transform 0.2s;
+  transition: transform 0.2s; 
+}
+
+.etab-card  a {
+  color: #194C66;
 }
 
 .etab-card:hover {
@@ -1232,9 +1254,9 @@ section:nth-child(even):not(.user-reviews-wrapper) {
 
 .etab-card h4 {
   margin: 0 0 10px;
-  font-size: 1.2rem;
-  color: #277DA1; 
+  color: #194C66; 
   text-align: center;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
 }
 
 .etab-card p {
@@ -1245,7 +1267,7 @@ section:nth-child(even):not(.user-reviews-wrapper) {
 }
 
 .etab-card strong {
-  color: #43AA8B; /* accent vert-bleuté */
+  color: #1F5F80; /* accent vert-bleuté */
 }
 
 
@@ -1260,8 +1282,11 @@ section:nth-child(even):not(.user-reviews-wrapper) {
   margin-top: 25px;
 }
 
+.formation-section h2 {
+  margin-bottom: 20px;
+}
+
 .formation-section h4 {
-  font-size: 1.1rem;
   color: #277DA1;
   margin-bottom: 8px;
 }
@@ -1321,16 +1346,20 @@ section:nth-child(even):not(.user-reviews-wrapper) {
 }
 
 .presentation-details li {
-  background: #F1FAFA;
+  background: #E8F1F1;
   margin-bottom: 8px;
   padding: 10px 14px;
   border-radius: 8px;
   font-size: 0.95rem;
-  color: #277DA1;
+  color: #000000;
+}
+
+.presentation-details a{
+  color: #000000;
 }
 
 .presentation-details strong {
-  color: #43AA8B;
+  color: #007296;
 }
 
 .formation-description p {
@@ -1368,7 +1397,7 @@ section:nth-child(even):not(.user-reviews-wrapper) {
 }
 
 .distance-form button {
-  background: #43AA8B;
+  background: #2B7F6A;
   color: white;
   border: none;
   border-radius: 8px;
@@ -1496,6 +1525,7 @@ section:nth-child(even):not(.user-reviews-wrapper) {
   color: #577590;
   max-width: 600px;
   margin-bottom: 35px;
+  text-align: center;
 }
 
 .orientation-hero-cta {
@@ -1523,7 +1553,7 @@ section:nth-child(even):not(.user-reviews-wrapper) {
 .orientation-hero-note {
   margin-top: 20px;
   font-size: 1rem;
-  color: #4D908E;
+  color: #000000;
   opacity: 0.9;
   font-style: italic;
   text-align: center;
@@ -1977,6 +2007,8 @@ section:nth-child(even):not(.user-reviews-wrapper) {
   padding: 0 20px;
 }
 
+
+
 /* BLOCS DE QUESTION */
 .question-block {
   background: #FFFFFF;
@@ -1987,17 +2019,31 @@ section:nth-child(even):not(.user-reviews-wrapper) {
   border-left: 5px solid #43AA8B;
 }
 
-.question-block h3 {
-  color: #277DA1;
+.question-block legend {
+  font-weight: 600;
+  font-size: 1.5rem;
   margin-bottom: 15px;
+  text-align: center;
+  color: #277DA1;
+  margin-bottom: 2px;
 }
+
+.question-block legend span {
+  display: block;
+  margin-top: 50px;  
+  font-weight: 600;
+  font-size: 1.5rem;
+  text-align: center;
+  color: #277DA1;
+}
+
 
 /* Réponses */
 .question-block label {
   display: block;
   padding: 10px 0;
   cursor: pointer;
-  color: #4D908E;
+  color: #000000;
   transition: 0.2s;
 }
 
@@ -2007,7 +2053,7 @@ section:nth-child(even):not(.user-reviews-wrapper) {
 
 /* Effet hover */
 .question-block label:hover {
-  color: #277DA1;
+  color: #F54927;
   transform: translateX(4px);
 }
 
@@ -2132,7 +2178,7 @@ section:nth-child(even):not(.user-reviews-wrapper) {
 .step-number {
     width: 42px;
     height: 42px;
-    background: #43AA8B;
+    background: #277DA1;
     color: white;
     border-radius: 50%;
     display: flex;
@@ -2328,7 +2374,6 @@ section:nth-child(even):not(.user-reviews-wrapper) {
 }
 
 .roadmap-card h3 {
-  font-size: 1.35rem;
   color: #277DA1;
   margin-bottom: 12px;
   font-weight: 600;
@@ -2339,12 +2384,13 @@ section:nth-child(even):not(.user-reviews-wrapper) {
   font-size: 1rem;
   line-height: 1.55;
   margin-bottom: 20px;
+  text-align: center;
 }
 
 .roadmap-link {
   display: inline-block;
   font-weight: 600;
-  color: #43AA8B;
+  color: #277DA1;
   text-decoration: none;
   transition: color .2s;
 }
@@ -2393,6 +2439,13 @@ section:nth-child(even):not(.user-reviews-wrapper) {
     max-width: 1100px;
 }
 
+.dashboard-actions {
+    display: grid;
+    justify-content: start;   /* aligne tout à gauche */
+    gap: 10px;    
+    padding :20px;            /* espace entre les boutons */
+}
+
 .user-info {
     display: flex;
     align-items: center;
@@ -2412,7 +2465,7 @@ section:nth-child(even):not(.user-reviews-wrapper) {
     grid-template-rows: repeat(2, auto);
     gap: 20px;
     max-width: 1100px;
-    margin: 40px auto;
+    margin: 10px auto;
 }
 
 /* Bloc 1 sur toute la largeur */
@@ -2726,7 +2779,6 @@ section:nth-child(even):not(.user-reviews-wrapper) {
 }
 
 .about-contact h2 {
-    font-size: 2.2rem;
     color: #0d6f79;
     margin-bottom: 10px;
 }
@@ -2734,13 +2786,13 @@ section:nth-child(even):not(.user-reviews-wrapper) {
 .about-contact p {
     margin-bottom: 25px;
     color: #39575c;
-    font-size: 1.15rem;
+    text-align: center;
 }
 
 .about-button {
-    background: #0d8e79;
+    background: #43AA8B;
     padding: 12px 26px;
-    color: white;
+    color: black;
     border-radius: 30px;
     font-size: 1.1rem;
     text-decoration: none;
@@ -2860,6 +2912,10 @@ section:nth-child(even):not(.user-reviews-wrapper) {
     color: #222;
 }
 
+.avis-formation-title{
+  color:#344E5C;
+}
+
 /* Titre du formulaire */
 .avis-form-title {
     margin-top: 30px;
@@ -2964,16 +3020,28 @@ section:nth-child(even):not(.user-reviews-wrapper) {
 .user-reviews-section {
   max-width: 1200px;
   margin: 0 auto;
+  justify-content: justify;
   text-align: center;
   border-top: 1px solid #e5ebf8;
   box-sizing: border-box;
-  display: flex;          /* active flexbox */
-  flex-direction: column; /* empile les avis verticalement */
-  gap: 20px;              /* espace uniforme entre chaque carte */
+  flex-wrap: wrap;      
+  display: flex;          
+  flex-direction: row; 
+  gap: 20px;           
+}
+
+.user-review-card {
+  width: calc(50% - 20px);  /* 2 colonnes */
+  box-sizing: border-box;
+  background: #fff;
+  border-radius: 14px;
+  padding: 20px;
+  border: 1px solid #e8e8e8;
+  transition: 0.2s ease;
 }
 
 .user-benefits {
-  padding: 60px 20px;
+  padding: 20px 20px;
   text-align: center;
 }
 
@@ -2993,6 +3061,113 @@ section:nth-child(even):not(.user-reviews-wrapper) {
   margin-bottom: 10px;
 }
 
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+}
+
+/* Section Mentions légales */
+.legal {
+    max-width: 800px;        /* limite la largeur pour la lecture */
+    margin: 40px auto;       /* centré horizontalement avec marge verticale */
+    padding: 20px 25px;      /* espace intérieur */
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    color: #333333;
+    line-height: 1.6;
+}
+
+.legal h2 {
+    color: #277DA1;          /* titre bleu foncé */
+    margin-bottom: 12px;
+    border-bottom: 2px solid #43AA8B; /* petite ligne pour distinguer sections */
+    padding-bottom: 6px;
+}
+
+.legal p {
+    margin-bottom: 18px;
+}
+
+.legal a {
+    color: #007296;          /* lien vert */
+    text-decoration: none;
+}
+
+.legal a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+    .legal {
+        padding: 15px 20px;
+    }
+
+    .legal h2 {
+        font-size: 1.4rem;
+    }
+}
+
+/* Politique de confidentialité */
+.privacy {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 25px 30px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    font-family: Arial, sans-serif;
+    color: #333333;
+    line-height: 1.6;
+}
+
+.privacy h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #277DA1;             /* bleu foncé */
+    margin-top: 25px;
+    margin-bottom: 12px;
+    border-bottom: 2px solid #43AA8B;
+    padding-bottom: 6px;
+}
+
+.privacy p {
+    margin-bottom: 18px;
+}
+
+.privacy ul {
+    margin-left: 20px;
+    margin-bottom: 18px;
+}
+
+.privacy li {
+    margin-bottom: 8px;
+}
+
+.privacy a {
+    color: #43AA8B;
+    text-decoration: none;
+}
+
+.privacy a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+    .privacy {
+        padding: 15px 20px;
+    }
+
+    .privacy h2 {
+        font-size: 1.3rem;
+    }
+}
 
 
 
@@ -3255,6 +3430,7 @@ nav ul.menu {
 
   .footer-links a {
     font-size: 12px;
+    color: white;
   }
 
   /* Structure générale de la section */
@@ -3279,15 +3455,13 @@ nav ul.menu {
   }
 
   .hero-text h2 {
-    font-size: 2rem;           /* réduction du énorme titre */
     line-height: 1.3;
     text-align: center;
   }
 
   .hero-text p {
-    font-size: 1rem;
     margin-bottom: 20px;
-    text-align: center;
+    text-align: justify;
   }
 
   /* Boutons hero */
@@ -3316,7 +3490,6 @@ nav ul.menu {
   }
 
   .profil-title {
-    font-size: 1.2rem;
     margin-bottom: 20px;
   }
 
@@ -3328,12 +3501,10 @@ nav ul.menu {
     width: 100%;
     max-width: 300px;
     padding: 14px 0;
-    font-size: 1rem;
   }
 
   /* ---------- SECTION SERVICES ---------- */
   .services-title {
-    font-size: 1.6rem;
     margin-bottom: 40px;
   }
 
@@ -3350,12 +3521,8 @@ nav ul.menu {
     flex: 1 1 100%;
   }
 
-  .service-text h3 {
-    font-size: 1.4rem;
-  }
 
   .service-text p {
-    font-size: 1rem;
     margin-bottom: 15px;
   }
 
@@ -3565,8 +3732,8 @@ nav ul.menu {
     padding: 0 10px;
   }
 
-  .formation-section h4 {
-    font-size: 1rem;
+  .formation-section h2 {
+    color: #007296;
   }
 
   .formation-links {
