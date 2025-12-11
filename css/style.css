@@ -2194,6 +2194,8 @@ section:nth-child(even):not(.user-reviews-wrapper) {
     color: #277DA1;
     margin-left: 15px;
     font-weight: 700;
+    max-width: 80%;   
+    word-wrap: break-word;
 }
 
 .toggle-step {
@@ -4121,8 +4123,8 @@ nav ul.menu {
     align-items: center;
     gap: 20px;
 
-    background: #222; /* bloc sombre élégant */
-    color: #F9FCFD;   /* blanc cassé de ta DA */
+    background: #222; 
+    color: #F9FCFD;   
     padding: 18px 28px;
     border-radius: 14px;
 

@@ -36,7 +36,7 @@
         </div>
     </div>
 </footer>
-<script src="/js/theme.js"></script>
+
 <!-- Bandeau cookies -->
 <div id="cookie-banner">
     <p>Ce site utilise des cookies pour améliorer votre expérience.</p>
@@ -47,6 +47,9 @@
     </div>
 </div>
 
-<script src="js/cookies.js"></script>
+<script src="/js/cookies.js"></script>
+<script src="/js/theme.js"></script>
+
 </body>
 </html>
+
