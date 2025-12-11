@@ -765,6 +765,26 @@ function searchEtablissements(string $query): array {
     return $results;
 }
 
+function forbiddenMotPseudo(string $pseudo, string $pathTxt): bool
+{
+    if (!is_readable($pathTxt)) return false;
+
+    $liste = file($pathTxt, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    if ($liste === false) return false;
+
+    $p = mb_strtolower(trim($pseudo), 'UTF-8');
+    if ($p === '') return false;
+
+    foreach ($liste as $mot) {
+        $mot = trim($mot);
+        if ($mot === '' || str_starts_with($mot, '#')) continue;
+
+        if (mb_stripos($p, mb_strtolower($mot, 'UTF-8'), 0, 'UTF-8') !== false) {
+            return true;
+        }
+    }
+    return false;
+}
 
 /**
  * Valide les champs d'inscription.
@@ -785,6 +805,11 @@ function validateRegistrationInput(
     // Pseudo : uniquement des lettres, longueur 2 à 12
     if (!preg_match('/^[A-Za-z]{2,12}$/', $pseudo)) {
         return "Le pseudo doit contenir uniquement des lettres et faire entre 2 et 12 caractères.";
+    }
+
+    $pathTxt = dirname(__DIR__) . '/data/list-mots-interdits.txt';
+    if (forbiddenMotPseudo($pseudo, $pathTxt)) {
+    return "Ce pseudo n'est pas autorisé.";
     }
 
     // Mail valide
@@ -1119,13 +1144,6 @@ function cleanDescription($txt) {
     return strip_tags($txt);
 }
 
-
-
-
-
-
-
-
 /**
  * Génère un token d'activation (de compte) et le stocke en base pour l'utilisateur donné.
  * Retourne le token ou null en cas d'erreur.
@@ -1273,12 +1291,11 @@ function getAvisByUser(int $id_utilisateur): array {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-
-
 function getPseudo() {
     if (isset($_SESSION['user']['pseudo'])) {
         return $_SESSION['user']['pseudo'];
     }
     return '';
 }
+
 ?>
