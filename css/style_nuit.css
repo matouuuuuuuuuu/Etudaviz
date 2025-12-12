@@ -66,7 +66,7 @@ h2 {
 }
 
 h3 {
-  color: #00A896;
+  color: #0F5A4F;
   font-weight: 600;
   font-size: 1.5rem;
   margin-bottom: 15px;
@@ -92,7 +92,7 @@ ul li::before {
 
 button, .btn {
   display: inline-block;
-  background: linear-gradient(135deg, #00A896, #43AA8B); 
+  background: linear-gradient(135deg, #0F5A4F, #0F5A4F); 
   color: white;
   padding: 12px 24px;
   border-radius: 8px;
@@ -149,7 +149,7 @@ th, td {
 }
 
 th {
-  background: #00A896; 
+  background: #0F5A4F; 
   color: white;
   font-weight: 600;
 }
@@ -157,34 +157,15 @@ th {
 /* ----- FLECHE UP ----- */
 
 .fleche {
-    position: fixed;
-    bottom: 15px;
-    right: 15px;
-    padding: 12px;
-    background-color: rgba(34,197,94,0.9); /* vert vif et opaque, visible sur le fond bleu nuit */
-    border-radius: 999px;
-    z-index: 9999; /* toujours au-dessus de tout */
-    cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  bottom: 0;
+  right: 0;
+  margin-bottom: 10px;
+  margin-right: 4px;
+  position: fixed;
+  padding: 10px;
+  background-color: rgba(15, 90, 79, 0.95);
+  border-radius: 90px;
 }
-
-.fleche:hover {
-    transform: scale(1.12);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.6);
-}
-
-/* icône dedans */
-.fleche i,
-.fleche svg,
-.fleche img {
-    color: #020617 !important;  /* bleu nuit → contraste parfait */
-    fill: #020617 !important;
-    width: 20px;
-    height: 20px;
-    display: block;
-}
-
-
 
 /* ----- GROUPE DE RECHERCHE ----- */
 
@@ -522,7 +503,7 @@ section:nth-child(even):not(.user-reviews-wrapper) {
 .hero-section {
   width: 100%;
   min-height: auto;
-  background: linear-gradient(135deg, #FFC300 0%, #00a896 100%);
+  background: linear-gradient(135deg, #FFC300 0%, #0F5A4F 100%);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -601,13 +582,13 @@ section:nth-child(even):not(.user-reviews-wrapper) {
 
 /* Bouton secondaire (froid) */
 .hero-buttons .btn-secondary {
-  border: 2px solid #43AA8B;
-  color: #43AA8B;
+  border: 2px solid #0F5A4F;
+  color: #0F5A4F;
   background: transparent;
 }
 
 .hero-buttons .btn-secondary:hover {
-  background: #43AA8B;
+  background: #0F5A4F;
   color: white;
   transform: translateY(-2px);
   box-shadow: 0 6px 15px rgba(67,170,139,0.3);
@@ -826,7 +807,7 @@ section:nth-child(even):not(.user-reviews-wrapper) {
 }
 
 .login-box input:focus {
-  border-color: #43AA8B;
+  border-color: #0F5A4F;
   outline: none;
 }
 .login-box input::placeholder,
@@ -836,7 +817,7 @@ section:nth-child(even):not(.user-reviews-wrapper) {
 
 .login-box button {
   padding: 12px;
-  background: linear-gradient(135deg, #43AA8B, #277DA1);
+  background: linear-gradient(135deg, #43AA, #277DA1);
   color: white;
   border: none;
   border-radius: 8px;
@@ -860,7 +841,7 @@ section:nth-child(even):not(.user-reviews-wrapper) {
   display: block;
   margin-top: 10px;
   font-size: 13px;
-  color: #43AA8B; /* vert-bleuté */
+  color: #0F5A4F; /* vert-bleuté */
   text-decoration: none;
   transition: color 0.3s;
 }
@@ -908,7 +889,7 @@ section:nth-child(even):not(.user-reviews-wrapper) {
 .result-item a {
   text-decoration: none;
   color: white;
-  background: #43AA8B;
+  background: #0F5A4F;
   padding: 8px 15px;
   border-radius: 20px;
   font-size: 14px;
@@ -1014,13 +995,13 @@ section:nth-child(even):not(.user-reviews-wrapper) {
 }
 
 .search-bar input:focus {
-  border-color: #43AA8B;
+  border-color: #0F5A4F;
 }
 
 .search-bar button {
   padding: 10px 20px;
   border: none;
-  background-color: #43AA8B;
+  background-color: #0F5A4F;
   color: white;
   border-radius: 0 6px 6px 0;
   cursor: pointer;
@@ -1090,12 +1071,12 @@ section:nth-child(even):not(.user-reviews-wrapper) {
 }
 
 .search-bar input:focus {
-  border-color: #43AA8B;
+  border-color: #0F5A4F;
   outline: none;
 }
 
 .search-bar button {
-  background-color: #43AA8B; /* vert-bleuté */
+  background-color: #0F5A4F;
   color: white;
   border: none;
   border-radius: 25px;
@@ -1237,7 +1218,7 @@ section:nth-child(even):not(.user-reviews-wrapper) {
 
 .apply-button {
   padding: 10px 18px;
-  background-color: #43AA8B;
+  background-color: #0F5A4F;
   color: white;
   border: none;
   border-radius: 6px;
@@ -1270,7 +1251,7 @@ section:nth-child(even):not(.user-reviews-wrapper) {
    CARTE ETABLISSEMENT
 =============================== */
 .etab-card {
-  background-color: #FFFFFF;
+  background: linear-gradient(145deg, #02091c, #030712);
   border: 1px solid rgba(87,117,144,0.15);
   border-radius: 8px;
   padding: 16px;
@@ -1280,7 +1261,7 @@ section:nth-child(even):not(.user-reviews-wrapper) {
 }
 
 .etab-card  a {
-  color: #194C66;
+  color:  #38BDF8;
 }
 
 .etab-card:hover {
@@ -1290,7 +1271,7 @@ section:nth-child(even):not(.user-reviews-wrapper) {
 
 .etab-card h4 {
   margin: 0 0 10px;
-  color: #194C66; 
+  color:  #E5E7EB; 
   text-align: center;
   text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
 }
@@ -1303,7 +1284,7 @@ section:nth-child(even):not(.user-reviews-wrapper) {
 }
 
 .etab-card strong {
-  color: #1F5F80; /* accent vert-bleuté */
+  color: #E5E7EB;
 }
 
 
@@ -1342,7 +1323,7 @@ formation-section h2 {
 }
 
 .btn-site:hover {
-  background: #43AA8B;
+  background:#0F5A4F;
   color: white;
 }
 
@@ -1358,7 +1339,7 @@ formation-section h2 {
 /* === Présentation formation === */
 .presentation {
   background: linear-gradient(145deg, #02091c, #030712);
-  border-left: 4px solid #43AA8B;
+  border-left: 4px solid #0F5A4F;
   padding: 30px 35px;
   border-radius: 12px;
   margin-bottom: 40px;
@@ -1432,7 +1413,7 @@ formation-section h2 {
 }
 
 .distance-form input:focus {
-  border-color: #43AA8B;
+  border-color: #0F5A4F;
   outline: none;
 }
 
@@ -1521,7 +1502,7 @@ formation-section h2 {
 }
 
 .subscribe-link {
-  color: #43AA8B;
+  color: #0F5A4F;
 }
 
 .btn-link:hover {
@@ -1577,7 +1558,7 @@ formation-section h2 {
 .orientation-hero-cta a {
   display: inline-block;
   padding: 14px 30px;
-  background: linear-gradient(135deg, #43AA8B, #277DA1);
+  background: linear-gradient(135deg, #0F5A4F, #277DA1);
   color: white;
   font-weight: 600;
   border-radius: 12px;
@@ -1914,9 +1895,10 @@ formation-section h2 {
 
 /* --- Cartes individuelles --- */
 #etablissement-list li {
-  background: #030712;
+  background: linear-gradient(145deg, #02091c, #030712);
   border-radius: 16px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.75);
+  border: 1px solid rgba(148,163,184,0.35);
   padding: 25px 30px;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
@@ -1928,13 +1910,13 @@ formation-section h2 {
 
 /* --- Contenu des cartes --- */
 #etablissement-list h3 {
-  color: #206A83;
+  color: #E5E7EB;
   margin-bottom: 8px;
 }
 
 #etablissement-list p {
   font-size: 0.95rem;
-  color: #444;
+  color: #CBD5F5;
   margin: 5px 0;
 }
 
@@ -2070,7 +2052,7 @@ formation-section h2 {
   margin-bottom: 28px;
   border-radius: 12px;
   box-shadow: 0 4px 14px rgba(0,0,0,0.06);
-  border-left: 5px solid #43AA8B;
+  border-left: 5px solid #0F5A4F;
 }
 
 .question-block legend {
@@ -2147,7 +2129,7 @@ formation-section h2 {
 }
 
 .orientation-result-domain {
-    color: #43AA8B;
+    color: #0F5A4F;
     margin-bottom: 25px;
 }
 
@@ -2214,6 +2196,10 @@ formation-section h2 {
     transition: transform .25s ease, box-shadow .25s ease;
     border: 1px solid rgba(148,163,184,0.35);
     position: relative;
+    width: 100%;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 
@@ -2851,7 +2837,7 @@ formation-section h2 {
 }
 
 .about-button {
-    background: #43AA8B;
+    background: #0F5A4F;
     padding: 12px 26px;
     color: black;
     border-radius: 30px;
@@ -3150,7 +3136,7 @@ formation-section h2 {
 .legal h2 {
     color: #277DA1;          /* titre bleu foncé */
     margin-bottom: 12px;
-    border-bottom: 2px solid #43AA8B; /* petite ligne pour distinguer sections */
+    border-bottom: 2px solid #0F5A4F; /* petite ligne pour distinguer sections */
     padding-bottom: 6px;
 }
 
@@ -3196,7 +3182,7 @@ formation-section h2 {
     color: #277DA1;             /* bleu foncé */
     margin-top: 25px;
     margin-bottom: 12px;
-    border-bottom: 2px solid #43AA8B;
+    border-bottom: 2px solid #0F5A4F;
     padding-bottom: 6px;
 }
 
@@ -3214,7 +3200,7 @@ formation-section h2 {
 }
 
 .privacy a {
-    color: #43AA8B;
+    color: #0F5A4F;
     text-decoration: none;
 }
 
@@ -4148,7 +4134,7 @@ nav ul.menu {
         width: 220px;
         padding: 15px;
         border-radius: 8px;
-        background-color: #43AA8B;
+        background-color: #0F5A4F;
         box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         z-index: 9999;
     }
@@ -4169,86 +4155,3 @@ nav ul.menu {
     }
 }
 
-/* ===============
-   COOKIE BANNER 
-==================*/
-
-#cookie-banner {
-    position: fixed;
-    bottom: 25px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 9999;
-
-    display: none;
-    align-items: center;
-    gap: 20px;
-
-    background: #222; 
-    color: #F9FCFD;   
-    padding: 18px 28px;
-    border-radius: 14px;
-
-    box-shadow: 0 8px 25px rgba(0,0,0,0.25);
-    max-width: 700px;
-    width: calc(100% - 40px);
-}
-
-#cookie-banner p {
-    margin: 0;
-    font-size: 1rem;
-    line-height: 1.3;
-    color:#ffffff;
-}
-
-.cookie-buttons {
-    display: flex;
-    gap: 12px;
-}
-
-/* Boutons */
-#cookie-accept, 
-#cookie-refuse {
-    padding: 10px 20px;
-    border-radius: 50px;
-    border: none;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 0.95rem;
-    transition: 0.25s ease;
-}
-
-/* Accept → couleur principale #00A896 */
-#cookie-accept {
-    background: #00A896;
-    color: white;
-}
-#cookie-accept:hover {
-    background: #F8961E; /* ton orange chaud */
-    transform: translateY(-2px);
-}
-
-/* Refuse → style neutre mais dans ta palette */
-#cookie-refuse {
-    background: #F94144;
-    color: white;
-}
-#cookie-refuse:hover {
-    background: #F3722C;
-    color: white;
-    transform: translateY(-2px);
-}
-
-/* Responsive */
-@media (max-width: 600px) {
-    #cookie-banner {
-        flex-direction: column;
-        text-align: center;
-        padding: 18px 20px;
-        border-radius: 12px;
-    }
-    .cookie-buttons {
-        justify-content: center;
-        width: 100%;
-    }
-}

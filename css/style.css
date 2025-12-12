@@ -2160,6 +2160,10 @@ section:nth-child(even):not(.user-reviews-wrapper) {
     transition: transform .25s ease, box-shadow .25s ease;
     border: 1px solid #E0ECF4;
     position: relative;
+    width: 100%;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .parcours-step:hover {
@@ -4108,86 +4112,3 @@ nav ul.menu {
     }
 }
 
-/* ===============
-   COOKIE BANNER 
-==================*/
-
-#cookie-banner {
-    position: fixed;
-    bottom: 25px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 9999;
-
-    display: none;
-    align-items: center;
-    gap: 20px;
-
-    background: #222; 
-    color: #F9FCFD;   
-    padding: 18px 28px;
-    border-radius: 14px;
-
-    box-shadow: 0 8px 25px rgba(0,0,0,0.25);
-    max-width: 700px;
-    width: calc(100% - 40px);
-}
-
-#cookie-banner p {
-    margin: 0;
-    font-size: 1rem;
-    line-height: 1.3;
-    color:#ffffff;
-}
-
-.cookie-buttons {
-    display: flex;
-    gap: 12px;
-}
-
-/* Boutons */
-#cookie-accept, 
-#cookie-refuse {
-    padding: 10px 20px;
-    border-radius: 50px;
-    border: none;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 0.95rem;
-    transition: 0.25s ease;
-}
-
-/* Accept → couleur principale #00A896 */
-#cookie-accept {
-    background: #00A896;
-    color: white;
-}
-#cookie-accept:hover {
-    background: #F8961E; /* ton orange chaud */
-    transform: translateY(-2px);
-}
-
-/* Refuse → style neutre mais dans ta palette */
-#cookie-refuse {
-    background: #F94144;
-    color: white;
-}
-#cookie-refuse:hover {
-    background: #F3722C;
-    color: white;
-    transform: translateY(-2px);
-}
-
-/* Responsive */
-@media (max-width: 600px) {
-    #cookie-banner {
-        flex-direction: column;
-        text-align: center;
-        padding: 18px 20px;
-        border-radius: 12px;
-    }
-    .cookie-buttons {
-        justify-content: center;
-        width: 100%;
-    }
-}

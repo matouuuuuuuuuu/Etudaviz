@@ -36,18 +36,6 @@
         </div>
     </div>
 </footer>
-
-<!-- Bandeau cookies -->
-<div id="cookie-banner">
-    <p>Ce site utilise des cookies pour améliorer votre expérience.</p>
-
-    <div class="cookie-buttons">
-        <button id="cookie-accept">Accepter</button>
-        <button id="cookie-refuse">Refuser</button>
-    </div>
-</div>
-
-<script src="/js/cookies.js"></script>
 <script src="/js/theme.js"></script>
 
 </body>
