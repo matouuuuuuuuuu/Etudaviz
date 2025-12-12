@@ -16,8 +16,8 @@ Etudaviz est une plateforme web dédiée à l'orientation étudiante, permettant
 - **Backend** : PHP 8+, MySQL (via PDO)
 - **Frontend** : HTML5, CSS3, JavaScript
 - **Bibliothèques** : PHPMailer pour les emails, cURL pour les APIs
-- **APIs externes** : ONISEP (formations), ESCO (métiers), Parcoursup (données éducatives)
-- **Documentation** : Générée avec Doxygen (dossiers `doc/` et `phpdocs/`)
+- **APIs externes** : ONISEP (formations), ESCO (métiers), Parcoursup (données éducatives), reCAPTCHA v3 (captcha de protection)
+- **Documentation** : Générée avec Doxygen (dossiers `doc/`)
 
 ## Installation
 
@@ -93,7 +93,6 @@ Le projet est organisé de manière modulaire pour faciliter la maintenance et l
 
 ### Dossiers
 
-- ` auth/` : Scripts liés à l'authentification.
 - ` css/` : Feuilles de style CSS.
   - ` css/style.css` : Styles principaux.
   - ` css/style_nuit.css` : Mode nuit.
