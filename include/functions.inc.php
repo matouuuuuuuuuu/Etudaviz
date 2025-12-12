@@ -855,7 +855,6 @@ function validateRegistrationInput(
         return "Les mots de passe ne correspondent pas.";
     }
 
-
     if (strlen($password) < 8) {
         return "Le mot de passe doit faire au moins 8 caractères.";
     }
@@ -866,6 +865,10 @@ function validateRegistrationInput(
 
     if (!preg_match('/[\*\/\-]/', $password)) {
         return "Le mot de passe doit contenir au moins un caractère spécial parmi * / -.";
+    }
+
+    if (!preg_match('/[0-9]/', $password)) {
+    return "Le mot de passe doit contenir au moins un chiffre.";
     }
 
     return null;
