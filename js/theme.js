@@ -3,8 +3,8 @@
   const toggle = document.getElementById("theme-toggle");
   const icon = document.getElementById("theme-icon");
 
-  const darkHref = "css/style_nuit.css";
-  const lightHref = "css/style.css";
+  const darkHref = "/css/style_nuit.css";
+  const lightHref = "/css/style.css";
   const sunIcon = "/images/soleil.png";
   const moonIcon = "/images/lune.png";
 
@@ -46,4 +46,3 @@
     setTheme(isDark ? "light" : "dark");
   });
 })();
-
