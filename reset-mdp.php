@@ -1,7 +1,6 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+ini_set('display_errors', '0');
 
 $redirect = false;
 $title = "Réinitialisation du mot de passe - Etudaviz";
@@ -81,7 +80,7 @@ if ($token === '') {
             }, 15000);
         </script>
         <?php endif; ?>
-        
+
             <div class="login-links">
                 <a style="color:black;" href="login.php">Retour à la connexion</a>
             </div>
