@@ -1,7 +1,17 @@
 <?php
 session_start();
+require "./include/functions.inc.php"; 
+ensureSession();
 
-// Liste des avatars
+if (!isLoggedIn()) {
+    header("Location: login.php");
+    exit;
+}
+
+$user = currentUser();
+$userId = $user['id'] ?? null;
+
+// Liste des avatars disponibles
 $avatars = [
     "avatar1.png",
     "avatar2.png",
@@ -14,31 +24,40 @@ $avatars = [
     "avatar10.png",
 ];
 
-$currentAvatar = $_SESSION['avatar'] ?? "default-avatar.png";
+$currentAvatar = "default-avatar.png";
 
-// Enregistrement + Redirection
-if (isset($_POST['selected_avatar'])) {
-    $_SESSION['avatar'] = $_POST['selected_avatar'];
-    header("Location: private.php"); // ⬅️ Redirection immédiate
+// Récupérer l'avatar actuel depuis la base
+if ($userId) {
+    $stmt = $pdo->prepare("SELECT avatar FROM Utilisateur WHERE id_utilisateur = ?");
+    $stmt->execute([$userId]);
+    $avatar = $stmt->fetchColumn();
+    if ($avatar) {
+        $currentAvatar = $avatar;
+    }
+}
+
+// Enregistrement du nouvel avatar si formulaire soumis
+if (isset($_POST['selected_avatar']) && in_array($_POST['selected_avatar'], $avatars)) {
+    $selectedAvatar = $_POST['selected_avatar'];
+
+    // Mise à jour en base
+    $stmt = $pdo->prepare("UPDATE Utilisateur SET avatar = ? WHERE id_utilisateur = ?");
+    $stmt->execute([$selectedAvatar, $userId]);
+
+    // Redirection vers la page privée
+    header("Location: private.php");
     exit;
 }
 
-
-
 $title = "Choix de l'avatar";
-$description = "page destinée au choix de la photo de profil";
+$description = "Page destinée au choix de la photo de profil";
 $h1 = "Modification du profil";
 
 require "./include/header.inc.php";
 ?>
 
 <section class="avatar-section">
-    <h2> Veuillez choisir un avatar pour votre profil</h2>
-    <?php if (!empty($message)) : ?>
-        <p class="avatar-message">
-            <?= $message; ?>
-        </p>
-    <?php endif; ?>
+    <h2>Veuillez choisir un avatar pour votre profil</h2>
 
     <form method="POST" class="avatar-form">
         <div class="avatar-grid">
@@ -47,17 +66,16 @@ require "./include/header.inc.php";
                     <input 
                         type="radio" 
                         name="selected_avatar" 
-                        value="<?= $img ?>"
+                        value="<?= htmlspecialchars($img) ?>"
                         <?= ($currentAvatar === $img) ? 'checked' : '' ?>
                     >
-                    <img src="./images/avatars/<?= $img ?>" alt="Avatar">
+                    <img src="./images/avatars/<?= htmlspecialchars($img) ?>" alt="Avatar <?= htmlspecialchars($img) ?>">
                 </label>
             <?php endforeach; ?>
         </div>
 
         <button class="btn-save">Enregistrer</button>
     </form>
-
 </section>
 
 <?php

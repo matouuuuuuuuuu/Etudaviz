@@ -114,15 +114,26 @@
 				<img id="theme-icon" src="/images/lune.png" alt="Mode clair">
 			</button>
 
-			<?php if (isLoggedIn()): ?>
+			<?php if (isLoggedIn()):
+					$user = currentUser();
+					$currentAvatar = 'default-avatar.png';
+
+					if ($user) {
+						$stmt = $pdo->prepare("SELECT avatar FROM Utilisateur WHERE id_utilisateur = ?");
+						$stmt->execute([$user['id']]);
+						$avatar = $stmt->fetchColumn();
+						if ($avatar) {
+							$currentAvatar = $avatar;
+						}
+					}
+				?>
 				<a href="private.php">
-					<img src="/images/avatars/<?= htmlspecialchars($_SESSION['avatar'] ?? 'default-avatar.png') ?>" class="header-avatar">
+					<img src="/images/avatars/<?= htmlspecialchars($currentAvatar) ?>" class="header-avatar" alt="Avatar de l’utilisateur">
 				</a>
 			<?php else: ?>
-
 				<a href="login.php" class="btn-connexion">Connexion</a>
-
 			<?php endif; ?>
+
 		</div>
 
 
