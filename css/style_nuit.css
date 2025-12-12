@@ -3239,6 +3239,74 @@ formation-section h2 {
     left: 0;
 }
 
+/* style.css - mode nuit simple */
+.cookie-banner, .cookie-settings {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #1a1a1a; /* très sombre mais uniforme */
+    color: #ccc; /* gris clair doux, pas de blanc éclatant */
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+
+.cookie-actions button {
+    margin-left: 10px;
+    padding: 5px 10px;
+    cursor: pointer;
+    background-color: #333; /* bouton sombre */
+    color: #ccc; /* texte doux */
+    border: none;
+    border-radius: 4px;
+}
+
+.cookie-actions button:hover {
+    background-color: #444; /* léger effet hover */
+}
+
+.hidden {
+    display: none;
+}
+
+.cookie-settings {
+    flex-direction: column;
+    align-items: flex-start;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.cookie-settings h2 {
+    color: #eee;
+    margin-bottom: 10px;
+}
+
+.cookie-settings label {
+    color: #ccc;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.cookie-settings button {
+    margin-top: 10px;
+    background-color: #333;
+    color: #ccc;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.cookie-settings button:hover {
+    background-color: #444;
+}
+
+
 /* Mode nuit automatique */
 @media (prefers-color-scheme: dark) {
     .puceted-list {

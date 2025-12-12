@@ -84,28 +84,27 @@ require "./include/header.inc.php";
         </div>
     </div>
 
-    <div class="dashboard-actions" style="display: grid;">
+    <div class="dashboard-actions" style="display: grid; gap: 10px;">
         <button onclick="window.location.href='profil.php'" class="btn-primary-private">Modifier mon profil</button>
         <button onclick="window.location.href='logout.php'" class="btn-primary-private">Déconnexion</button>
     </div>
-
 </div>
 
+
 <section class="user-benefits">
-  <div class="container">
-    <h2>Vos avantages en tant que membre de la communauté Etudaviz</h2>
-    <p>En étant connecté à votre espace personnel, vous pouvez :</p>
-    <ul>
-      <li>Calculer la distance entre votre domicile et nos établissements.</li>
-      <li>Consulter les avis des autres utilisateurs.</li>
-      <li>Contribuer et partager vos expériences sur notre blog.</li>
-    </ul>
-  </div>
+    <div class="container">
+        <h2>Vos avantages en tant que membre de la communauté Etudaviz</h2>
+        <p>En étant connecté à votre espace personnel, vous pouvez :</p>
+        <ul>
+            <li>Calculer la distance entre votre domicile et nos établissements.</li>
+            <li>Consulter les avis des autres utilisateurs.</li>
+            <li>Contribuer et partager vos expériences sur notre blog.</li>
+        </ul>
+    </div>
 </section>
 
 <section class="dashboard-grid">
-
-   <div class="card bloc2">
+    <div class="card bloc2">
         <h3>Statistiques</h3>
         <ul>
             <li><strong>Connexions :</strong> <?= htmlspecialchars($nbConnexions) ?></li>
@@ -155,8 +154,6 @@ require "./include/header.inc.php";
     <?php endif; ?>
 
 </section>
-
-
 
 <?php
 require "./include/footer.inc.php";

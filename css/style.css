@@ -912,10 +912,21 @@ section:nth-child(even):not(.user-reviews-wrapper) {
 
 .mySlides {
     display: none;
-    padding: 20px 10px;
 }
 
 
+.mySlides.fade {
+    animation: fade 1s;
+}
+
+@keyframes fade {
+    from {opacity: .4} 
+    to {opacity: 1}
+}
+
+.slider-controls {
+    margin-top: 20px;
+}
 .quote-mark {
     font-size: 60px;
     font-weight: 700;
@@ -940,9 +951,7 @@ section:nth-child(even):not(.user-reviews-wrapper) {
     color: #0a6c7d;
 }
 
-.slider-controls {
-    margin-top: 20px;
-}
+
 
 .prev, .next {
     cursor: pointer;
@@ -3190,6 +3199,38 @@ section:nth-child(even):not(.user-reviews-wrapper) {
     font-weight: bold;
     position: absolute;
     left: 0;
+}
+
+/* style.css */
+.cookie-banner, .cookie-settings {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #222;
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 9999;
+}
+
+.cookie-actions button {
+    margin-left: 10px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
+}
+
+.cookie-settings {
+    flex-direction: column;
+    align-items: flex-start;
+    max-height: 300px;
+    overflow-y: auto;
 }
 
 
