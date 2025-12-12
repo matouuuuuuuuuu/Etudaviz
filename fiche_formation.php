@@ -144,11 +144,12 @@ require "./include/header.inc.php";
           </div>
             <p id="distanceResult" class="distance-result"></p>
           <?php else: ?>
-            <div class="distance-locked">
-              <p>🔒 Cette fonctionnalité est réservée à nos abonnés.</p>
-              <a href="/login.php" class="btn-login">Se connecter</a>
-              <a href="/abonnement.php" class="btn-subscribe">Découvrir les offres</a>
-            </div>
+             <p style="margin-top:20px;">
+              🔒 Vous devez être connecté pour déposer un avis.<br>
+              <a href="login.php">Se connecter</a> — 
+              <a href="inscription.php">Créer un compte</a>
+          </p>
+
           <?php endif; ?>
       </div>
     <?php endif; ?>
@@ -162,27 +163,33 @@ require "./include/header.inc.php";
     <div class="avis-wrapper">
         <?php foreach ($avis as $a): ?>
             <div class="avis-card">
+              <div class="avis-top">
+                  <div class="avis-info">
+                      <h4 class="avis-title"><?= htmlspecialchars($a['titre_avis']) ?></h4>
+                      <p class="avis-author">
+                          <img src="/images/avatars/default-avatar.png" class="avis-avatar" alt="avatar">
+                          <span>Par <strong><?= htmlspecialchars($a['pseudo']) ?></strong></span>
+                      </p>
+                  </div>
+              </div>
 
-                <div class="avis-top">
-                    <div class="avis-info">
-                        <h4 class="avis-title"><?= htmlspecialchars($a['titre_avis']) ?></h4>
-                        <p class="avis-author">
-                            <img src="/images/avatars/default-avatar.png" class="avis-avatar" alt="avatar">
-                            <span>Par <strong><?= htmlspecialchars($a['pseudo']) ?></strong></span>
-                        </p>
-                    </div>
-                </div>
+              <p class="avis-description">
+                  <?= nl2br(htmlspecialchars($a['description'])) ?>
+              </p>
 
-                <p class="avis-description">
-                    <?= nl2br(htmlspecialchars($a['description'])) ?>
-                </p>
+              <?php 
+                  $moyenne = getMoyenneAvisSur10($pdo, $a['id_avis']); 
+                  if ($moyenne !== null): 
+              ?>
+                  <p class="avis-note">⭐ Note moyenne : <?= htmlspecialchars($moyenne) ?>/10</p>
+              <?php endif; ?>
 
-                <div class="avis-meta">
-                    <span>📅 Expérience : <strong><?= htmlspecialchars($a['date_experience']) ?></strong></span>
-                    <span>🕒 Publié le : <strong><?= htmlspecialchars($a['date_publication']) ?></strong></span>
-                </div>
+              <div class="avis-meta">
+                  <span>📅 Expérience : <strong><?= htmlspecialchars($a['date_experience']) ?></strong></span>
+                  <span>🕒 Publié le : <strong><?= htmlspecialchars($a['date_publication']) ?></strong></span>
+              </div>
+          </div>
 
-            </div>
         <?php endforeach; ?>
     </div>
   <?php else: ?>
@@ -195,7 +202,6 @@ require "./include/header.inc.php";
 
     <h4 class="avis-form-title">Déposer un avis</h4>
       <div class="avis-form-wrapper">
-
         <form action="ajouter_avis.php" method="POST" class="avis-form">
             <input type="hidden" name="id_formation" value="<?= $etab['id'] ?>">
 
@@ -214,8 +220,26 @@ require "./include/header.inc.php";
                 <textarea name="description" id="description" rows="4" required></textarea>
             </div>
 
+            <!-- AJOUT DES CRITERES -->
+            <div class="avis-form-group">
+                <label>Clarté du cours (0-5)</label>
+                <input type="number" name="note[clarte]" min="0" max="5" required>
+            </div>
+
+            <div class="avis-form-group">
+                <label>Qualité de l'enseignement (0-5)</label>
+                <input type="number" name="note[qualite_professeur]" min="0" max="5" required>
+            </div>
+
+            <div class="avis-form-group">
+                <label>Ambiance générale(0-5)</label>
+                <input type="number" name="note[ambiance]" min="0" max="5" required>
+            </div>
+            <!-- FIN DES CRITERES -->
+
             <button type="submit" class="avis-submit-btn">Envoyer mon avis</button>
         </form>
+
       </div>
     <?php else: ?>
 

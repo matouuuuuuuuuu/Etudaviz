@@ -2,36 +2,63 @@
 require "./include/functions.inc.php"; 
 ensureSession();
 
+// Vérification de connexion
 if (!isLoggedIn()) {
     header("Location: login.php");
     exit;
 }
 
+// Récupération de l'utilisateur courant
 $user = currentUser();
-$mesAvis = getAvisByUser($user['id']);
+$userId = $user['id'] ?? null;
 
-
-if (!isset($_SESSION['user'])) {
+// Sécurité : si la session n'existe pas, redirection
+if (!$userId) {
     header("Location: index.php");
     exit();
 }
 
-$userId = $_SESSION['user']['id'] ?? null; 
+// Met à jour les statistiques de connexion
+updateUserLoginStats($pdo, $userId);
+
+// Récupération des avis de l'utilisateur
+$mesAvis = getAvisByUser($userId);
+$recentActivity = getRecentActivities($pdo, $userId, 5);
+
+// Initialisation des variables
 $dbError = null;
 $userReviews = [];
+$currentAvatar = 'default-avatar.png';
 
+// Récupération de l'avatar depuis la base
+$stmt = $pdo->prepare("SELECT avatar, last_login, login_count FROM Utilisateur WHERE id_utilisateur = ?");
+$stmt->execute([$userId]);
+$stats = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if ($stats) {
+    if (!empty($stats['avatar'])) {
+        $currentAvatar = $stats['avatar'];
+    }
+    $nbConnexions = $stats['login_count'] ?? 0;
+    $derniereConnexion = $stats['last_login'] ?? 'Aucune connexion';
+} else {
+    $nbConnexions = 0;
+    $derniereConnexion = 'Aucune connexion';
+}
+
+// Titre et description de la page
 $title = "Page privée";
 $description = "Espace personnel utilisateur";
 $h1 = "Mon tableau de bord";
-$currentAvatar = $_SESSION['avatar'] ?? 'default-avatar.png';
-
 
 require "./include/header.inc.php";
 ?>
 
+
+
 <div class="dashboard-header">
     <div class="user-info">
-        <img src="images/avatars/<?= htmlspecialchars($currentAvatar) ?>" class="avatar" alt="avatar par défault de l utilisateur">
+        <img src="images/avatars/<?= htmlspecialchars($currentAvatar) ?>" class="avatar" alt="Avatar de l’utilisateur">
         <div>
             <h2>Bonjour <?= htmlspecialchars(getPseudo()) ?> 👋</h2>
             <p>Dernière connexion : <span id="date-connexion">nouvelle visite</span></p>
@@ -78,28 +105,30 @@ require "./include/header.inc.php";
 
 <section class="dashboard-grid">
 
-    <div class="card bloc1">
+   <div class="card bloc2">
         <h3>Statistiques</h3>
         <ul>
-            <li><strong>Connexions : a poursuivre avec la BD</strong></li>
-            <li><strong>Dernière action :</strong> a poursuivre avec la BD</li>
+            <li><strong>Connexions :</strong> <?= htmlspecialchars($nbConnexions) ?></li>
+            <li><strong>Dernière connexion :</strong> <?= htmlspecialchars($derniereConnexion) ?></li>
         </ul>
     </div>
 
-    <div class="card bloc2">
-        <h3>Activité récente</h3>
-        <div class="timeline">
-            <p>📌 Consultation d’une formation (il y a 2h)</p>
-            <p>📄 Mise à jour du profil (hier)</p>
-        </div>
-    </div>
 
     <div class="card bloc3">
-        <h3>Recommandations pour vous</h3>
-        <ul>
-            <li>👉 Formation : "Trouver son orientation"</li>
-            <li>👉 Article : "Bien rédiger son CV"</li>
-        </ul>
+        <h3>Activité récente</h3>
+        <div class="puceted-list">
+            <?php if (!empty($recentActivity)): ?>
+                <?php foreach ($recentActivity as $act): ?>
+                    <p>
+                        <?= $act['type'] === 'avis' ? '📌 Avis publié : ' : '🖼️ Image uploadée : ' ?>
+                        <?= htmlspecialchars($act['description']) ?> 
+                        (<?= htmlspecialchars($act['date_action']) ?>)
+                    </p>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p>Aucune activité récente.</p>
+            <?php endif; ?>
+        </div>
     </div>
 
 </section>

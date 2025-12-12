@@ -210,12 +210,6 @@ function getNombrePartenaires() {
 }
 
 
-
-
-
-
-
-
 /**
  * Construit les paramètres d'appel à l'API Parcoursup (fr-esr-cartographie_formations_parcoursup)
  * avec gestion étendue du type "Université" qui regroupe plusieurs sous-types (Licence, BUT, etc.)
@@ -1444,6 +1438,71 @@ function resetPasswordWithToken(PDO $pdo, int $idUtilisateur, string $token, str
     ]);
 
     return $stmt->rowCount() === 1;
+}
+
+/**
+ * Met à jour la date de dernière connexion et le nombre total de connexions pour un utilisateur.
+ *
+ * @param PDO $pdo L'objet PDO connecté à la base de données.
+ * @param int $userId L'ID de l'utilisateur connecté.
+ * @return void
+ */
+function updateUserLoginStats(PDO $pdo, int $userId): void {
+    $stmt = $pdo->prepare("
+        UPDATE Utilisateur 
+        SET last_login = NOW(), login_count = login_count + 1
+        WHERE id_utilisateur = ?
+    ");
+    $stmt->execute([$userId]);
+}
+
+/**
+ * Récupère les activités récentes d'un utilisateur (avis et images)
+ *
+ * @param PDO $pdo
+ * @param int $userId
+ * @param int $limit Nombre d'activités à récupérer
+ * @return array
+ */
+function getRecentActivities(PDO $pdo, int $userId, int $limit = 5): array {
+    $limit = (int) $limit; // sécurisation
+
+    $sql = "
+        SELECT 'avis' AS type, titre_avis AS description, date_publication AS date_action
+        FROM Avis
+        WHERE id_utilisateur = ?
+        UNION ALL
+        SELECT 'image', url_image AS description, date_upload AS date_action
+        FROM Image
+        WHERE id_avis IN (SELECT id_avis FROM Avis WHERE id_utilisateur = ?)
+        ORDER BY date_action DESC
+        LIMIT $limit
+    ";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$userId, $userId]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+/**
+ * Retourne la note moyenne sur 10 pour un avis donné
+ *
+ * @param PDO $pdo L'objet PDO de la base de données
+ * @param int $idAvis L'identifiant de l'avis
+ * @return float|null La moyenne sur 10 ou null si pas de notes
+ */
+function getMoyenneAvisSur10(PDO $pdo, int $idAvis): ?float
+{
+    $stmt = $pdo->prepare("SELECT valeur FROM Note_Critere WHERE id_avis = ?");
+    $stmt->execute([$idAvis]);
+    $notes = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+    if (!empty($notes)) {
+        $moyenne10 = round((array_sum($notes) / count($notes)) * 2, 1);
+        return $moyenne10;
+    }
+
+    return null; // pas de notes
 }
 
 
