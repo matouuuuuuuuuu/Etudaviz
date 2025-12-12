@@ -728,27 +728,42 @@ function sendVerificationMail(string $to, string $pseudo, string $link): bool {
     }
 }
 
+function verifRecaptchaV3(string $token, string $expectedAction): bool
+{
+    if ($token === '') return false;
 
-function captchaInit(): void {
-    ensureSession();
-    $a = random_int(1, 9);
-    $b = random_int(1, 9);
-    $_SESSION['captcha_result']   = $a + $b;
-    $_SESSION['captcha_question'] = "$a + $b";
-}
+    $postFields = http_build_query([
+        'secret'   => RECAPTCHA_SECRET_KEY,
+        'response' => $token,
+        'remoteip' => $_SERVER['REMOTE_ADDR'] ?? null,
+    ]);
 
-function captchaQuestion(): string {
-    ensureSession();
-    return $_SESSION['captcha_question'] ?? "2 + 2";
-}
+    $ch = curl_init('https://www.google.com/recaptcha/api/siteverify');
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_POST           => true,
+        CURLOPT_POSTFIELDS     => $postFields,
+        CURLOPT_TIMEOUT        => 5,
+    ]);
 
-function captchaCheck(string $answer): bool {
-    ensureSession();
-    if (!isset($_SESSION['captcha_result'])) {
-        return false;
+    $response = curl_exec($ch);
+    curl_close($ch);
+
+    if (!$response) return false;
+
+    $json = json_decode($response, true);
+    if (!is_array($json) || empty($json['success'])) return false;
+
+    if (($json['action'] ?? '') !== $expectedAction) return false;
+    if (($json['score'] ?? 0) < RECAPTCHA_MIN_SCORE) return false;
+
+    if (defined('RECAPTCHA_ALLOWED_HOSTS') && !empty($json['hostname'])) {
+        if (!in_array($json['hostname'], RECAPTCHA_ALLOWED_HOSTS, true)) return false;
     }
-    return (int)$answer === (int)$_SESSION['captcha_result'];
+
+    return true;
 }
+
 
 function searchEtablissements(string $query): array {
     $raw = getEtablissementsSupPublics([
@@ -765,6 +780,48 @@ function searchEtablissements(string $query): array {
     return $results;
 }
 
+function checkStatutCompte(?string $statut, string $context = 'login'): ?string
+{
+    $statut = strtolower(trim((string)$statut));
+
+    return match ($statut) {
+        'actif' => null,
+
+        'inactif' => ($context === 'reset_password')
+            ? "Votre compte n'est pas activé. Activez d'abord votre compte via l'email reçu, puis réessayez."
+            : "Votre compte n'est pas encore activé. Merci de cliquer sur le lien d'activation reçu par email.",
+
+        'suspendu' =>
+            "Votre compte est suspendu car vous n’avez pas respecté nos règles. "
+            . "Si vous pensez qu’il s’agit d’une erreur, contactez l’administration via le formulaire de contact du site.",
+
+        default =>
+            "Statut de compte inconnu. Contactez l'administration via le formulaire de contact du site.",
+    };
+}
+
+
+
+function forbiddenMotPseudo(string $pseudo, string $pathTxt): bool
+{
+    if (!is_readable($pathTxt)) return false;
+
+    $liste = file($pathTxt, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    if ($liste === false) return false;
+
+    $p = mb_strtolower(trim($pseudo), 'UTF-8');
+    if ($p === '') return false;
+
+    foreach ($liste as $mot) {
+        $mot = trim($mot);
+        if ($mot === '' || str_starts_with($mot, '#')) continue;
+
+        if (mb_stripos($p, mb_strtolower($mot, 'UTF-8'), 0, 'UTF-8') !== false) {
+            return true;
+        }
+    }
+    return false;
+}
 
 /**
  * Valide les champs d'inscription.
@@ -774,35 +831,47 @@ function validateRegistrationInput(
     string $pseudo,
     string $mail,
     string $password,
-    string $password2,
-    string $captchaAnswer
+    string $password2
 ): ?string {
-    // Champs vides
-    if ($pseudo === '' || $mail === '' || $password === '' || $password2 === '' || $captchaAnswer === '') {
+
+    if ($pseudo === '' || $mail === '' || $password === '' || $password2 === '') {
         return "Veuillez remplir tous les champs.";
     }
 
-    // Pseudo : uniquement des lettres, longueur 2 à 12
     if (!preg_match('/^[A-Za-z]{2,12}$/', $pseudo)) {
         return "Le pseudo doit contenir uniquement des lettres et faire entre 2 et 12 caractères.";
     }
 
-    // Mail valide
+    $pathTxt = dirname(__DIR__) . '/data/list-mots-interdits.txt';
+    if (forbiddenMotPseudo($pseudo, $pathTxt)) {
+        return "Ce pseudo n'est pas autorisé.";
+    }
+
     if (!filter_var($mail, FILTER_VALIDATE_EMAIL)) {
         return "Adresse mail invalide.";
     }
 
-    // Mots de passe identiques
     if ($password !== $password2) {
         return "Les mots de passe ne correspondent pas.";
     }
 
-    // Captcha
-    if (!captchaCheck($captchaAnswer)) {
-        return "Captcha incorrect.";
+    if (strlen($password) < 8) {
+        return "Le mot de passe doit faire au moins 8 caractères.";
     }
 
-    return null; 
+    if (!preg_match('/[A-Za-z]/', $password)) {
+        return "Le mot de passe doit contenir au moins une lettre.";
+    }
+
+    if (!preg_match('/[\*\/\-]/', $password)) {
+        return "Le mot de passe doit contenir au moins un caractère spécial parmi * / -.";
+    }
+
+    if (!preg_match('/[0-9]/', $password)) {
+    return "Le mot de passe doit contenir au moins un chiffre.";
+    }
+
+    return null;
 }
 
 /**
@@ -1119,13 +1188,6 @@ function cleanDescription($txt) {
     return strip_tags($txt);
 }
 
-
-
-
-
-
-
-
 /**
  * Génère un token d'activation (de compte) et le stocke en base pour l'utilisateur donné.
  * Retourne le token ou null en cas d'erreur.
@@ -1273,12 +1335,116 @@ function getAvisByUser(int $id_utilisateur): array {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-
-
 function getPseudo() {
     if (isset($_SESSION['user']['pseudo'])) {
         return $_SESSION['user']['pseudo'];
     }
     return '';
 }
+
+function findUserByEmail(PDO $pdo, string $mail): ?array
+{
+    $sql = "SELECT id_utilisateur, pseudo, mail, statut_compte
+            FROM Utilisateur
+            WHERE mail = :mail
+            LIMIT 1";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['mail' => $mail]);
+    $u = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    return $u ?: null;
+}
+
+function createPasswordResetToken(PDO $pdo, int $idUtilisateur): ?string
+{
+    $token = bin2hex(random_bytes(32));
+
+    $sql = "UPDATE Utilisateur
+            SET token_activation = :token
+            WHERE id_utilisateur = :id";
+
+    $stmt = $pdo->prepare($sql);
+    $ok = $stmt->execute([
+        'token' => $token,
+        'id'    => $idUtilisateur,
+    ]);
+
+    return $ok ? $token : null;
+}
+
+function sendPasswordResetMail(string $to, string $pseudo, string $link): bool
+{
+    global $mail_host, $mail_port, $mail_username, $mail_password, $mail_from, $mail_from_name;
+
+    $mail = new PHPMailer(true);
+
+    try {
+        $mail->isSMTP();
+        $mail->Host       = $mail_host;
+        $mail->SMTPAuth   = true;
+        $mail->Username   = $mail_username;
+        $mail->Password   = $mail_password;
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+        $mail->Port       = $mail_port;
+        $mail->CharSet    = 'UTF-8';
+
+        $mail->setFrom($mail_from, $mail_from_name);
+        $mail->addAddress($to, $pseudo);
+
+        $mail->Subject = 'Réinitialisation de votre mot de passe Etudaviz';
+
+        $textBody = "Bonjour $pseudo,\n\n"
+                  . "Vous avez demandé à réinitialiser votre mot de passe.\n"
+                  . "Cliquez sur le lien suivant :\n$link\n\n"
+                  . "Si vous n'êtes pas à l'origine de cette demande, ignorez ce message.\n";
+
+        $htmlBody = "<p>Bonjour <strong>$pseudo</strong>,</p>"
+                  . "<p>Vous avez demandé à réinitialiser votre mot de passe.</p>"
+                  . "<p><a href=\"$link\">Réinitialiser mon mot de passe</a></p>"
+                  . "<p>Si vous n'êtes pas à l'origine de cette demande, ignorez ce message.</p>";
+
+        $mail->isHTML(true);
+        $mail->Body    = $htmlBody;
+        $mail->AltBody = $textBody;
+
+        $mail->send();
+        return true;
+
+    } catch (Exception $e) {
+        return false;
+    }
+}
+
+function findUserByToken(PDO $pdo, string $token): ?array
+{
+    $sql = "SELECT id_utilisateur, pseudo, mail, statut_compte
+            FROM Utilisateur
+            WHERE token_activation = :token
+            LIMIT 1";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['token' => $token]);
+    $u = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $u ?: null;
+}
+
+function resetPasswordWithToken(PDO $pdo, int $idUtilisateur, string $token, string $newPassword): bool
+{
+    $hash = password_hash($newPassword, PASSWORD_DEFAULT);
+
+    $sql = "UPDATE Utilisateur
+            SET mot_de_passe = :hash,
+                token_activation = NULL
+            WHERE id_utilisateur = :id
+              AND token_activation = :token";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        'hash'  => $hash,
+        'id'    => $idUtilisateur,
+        'token' => $token,
+    ]);
+
+    return $stmt->rowCount() === 1;
+}
+
+
 ?>
