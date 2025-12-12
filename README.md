@@ -116,7 +116,7 @@ Cette structure permet une séparation claire des préoccupations : logique mét
 
 ## Auteurs
 
-- Dihya Mokri
+- Dyhia Mokri
 - Loris Beguin
 - Léa Bonacorsi
 - Mathis Albrun
