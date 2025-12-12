@@ -1471,16 +1471,12 @@ function getRecentActivities(PDO $pdo, int $userId, int $limit = 5): array {
         SELECT 'avis' AS type, titre_avis AS description, date_publication AS date_action
         FROM Avis
         WHERE id_utilisateur = ?
-        UNION ALL
-        SELECT 'image', url_image AS description, date_upload AS date_action
-        FROM Image
-        WHERE id_avis IN (SELECT id_avis FROM Avis WHERE id_utilisateur = ?)
         ORDER BY date_action DESC
         LIMIT $limit
     ";
 
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([$userId, $userId]);
+    $stmt->execute([$userId]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
