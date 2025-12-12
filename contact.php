@@ -84,7 +84,6 @@ require "./include/header.inc.php";
     </div>
 </div>
 
-<!-- ✅ reCAPTCHA v3 -->
 <script src="https://www.google.com/recaptcha/api.js?render=<?= RECAPTCHA_SITE_KEY ?>"></script>
 <script>
   const form = document.getElementById('contact-form');
