@@ -14,6 +14,39 @@
     if ($partenaires==NULL) {
         $partenaires = 1000;
     }
+
+    $etablissements = getEtablissementsSupPublics(['limit' => 15]);
+   $resultats = [];
+foreach ($etablissements as $record) {
+    $formatted = formatEtablissement($record['fields'], $record['recordid']);
+    if ($formatted) {
+        // ⚡ Vérifier si coordonnees est une string ou un array
+        $latitude = null;
+        $longitude = null;
+
+        if (!empty($formatted['coordonnees'])) {
+            if (is_string($formatted['coordonnees'])) {
+                // format "lat,lon"
+                $coords = explode(',', $formatted['coordonnees']);
+                if (count($coords) === 2) {
+                    $latitude = (float) trim($coords[0]);
+                    $longitude = (float) trim($coords[1]);
+                }
+            } elseif (is_array($formatted['coordonnees']) && count($formatted['coordonnees']) === 2) {
+                // format [lat, lon]
+                $latitude = (float) $formatted['coordonnees'][0];
+                $longitude = (float) $formatted['coordonnees'][1];
+            }
+        }
+
+        $formatted['latitude'] = $latitude;
+        $formatted['longitude'] = $longitude;
+
+        $resultats[] = $formatted;
+    }
+}
+
+
     $title = "Page d'accueil - Etudaviz";
     $description = "Etudaviz - Trouve ta voie : découvre les formations, les témoignages étudiants et les guides d’orientation pour construire ton avenir.";
     $h1 = "Bienvenue sur Etudaviz";
@@ -165,6 +198,9 @@
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+  window.mapMarkers = <?= json_encode($resultats, JSON_HEX_TAG) ?>;
+</script>
 <script src="./js/map.js"></script>
 <script src="./js/slides.js"></script>
 
