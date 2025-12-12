@@ -18,8 +18,7 @@ $debouches = getDebouchesDepuisOnisep(
     $etab['nom'] ?? '',
     $etab['code_formation'] ?? null
 );
-// Plus tard, tu remplaceras ceci par ton vrai système de session
-$user_is_subscribed = false; // true si abonné connecté
+$user_is_subscribed = false; 
 
 $title = "Détails - " . ($etab['nom'] ?? 'Formation');
 $h1    = $etab['nom'] ?? 'Formation';
@@ -36,13 +35,10 @@ require "./include/header.inc.php";
       $etablissement = $etab['etablissement'] ?? '';
       $discipline = '';
 
-      // Si le nom contient un tiret, on prend la partie après pour isoler la spécialité
       if (!empty($fl) && strpos($fl, '-') !== false) {
           $parts = explode('-', $fl, 2);
           $discipline = trim($parts[1]);
       }
-
-      // ✅ Texte d’intro dynamique selon le type de formation
       $introTexte = "";
       switch (true) {
         case stripos($tf, 'BTS') !== false:
