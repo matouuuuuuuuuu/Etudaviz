@@ -9,7 +9,6 @@ ensureSession();
 
 $erreur = '';
 
-// ----- TRAITEMENT DU FORMULAIRE AVANT TOUT HTML -----
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $identifiant = trim($_POST['identifiant'] ?? '');
@@ -28,7 +27,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } else {
                 loginUser($user);
 
-                // REDIRECTION AVANT LE HEADER HTML
                 header('Location: index.php');
                 exit;
             }
@@ -42,7 +40,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Maintenant qu'on a fait tout le PHP → on peut afficher le HTML
 require "./include/header.inc.php";
 ?>
 
