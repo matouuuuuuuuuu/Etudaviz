@@ -48,7 +48,7 @@ Etudaviz est une plateforme web dédiée à l'orientation étudiante, permettant
 
 ## Support
 
-Pour toute question ou problème, contactez-nous via la page [contact.php](contact.php) ou par email à contact@etudaviz.fr.
+Pour toute question ou problème, contactez-nous via la page [contact.php](contact.php) ou par email à etudaviz@alwaysdata.net.
 
 ## Remerciements
 
