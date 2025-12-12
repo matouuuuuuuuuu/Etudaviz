@@ -735,7 +735,7 @@ function verifRecaptchaV3(string $token, string $expectedAction): bool
     $postFields = http_build_query([
         'secret'   => RECAPTCHA_SECRET_KEY,
         'response' => $token,
-        'remoteip' => $_SERVER['REMOTE_ADDR'] ?? null, 
+        'remoteip' => $_SERVER['REMOTE_ADDR'] ?? null,
     ]);
 
     $ch = curl_init('https://www.google.com/recaptcha/api/siteverify');
@@ -752,19 +752,18 @@ function verifRecaptchaV3(string $token, string $expectedAction): bool
     if (!$response) return false;
 
     $json = json_decode($response, true);
-    if (!is_array($json) || empty($json['success'])) return false; 
+    if (!is_array($json) || empty($json['success'])) return false;
 
-    // v3 : score + action
     if (($json['action'] ?? '') !== $expectedAction) return false;
     if (($json['score'] ?? 0) < RECAPTCHA_MIN_SCORE) return false;
 
-    // (optionnel) check hostname
     if (defined('RECAPTCHA_ALLOWED_HOSTS') && !empty($json['hostname'])) {
         if (!in_array($json['hostname'], RECAPTCHA_ALLOWED_HOSTS, true)) return false;
     }
 
     return true;
 }
+
 
 function searchEtablissements(string $query): array {
     $raw = getEtablissementsSupPublics([
