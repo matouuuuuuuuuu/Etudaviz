@@ -10,12 +10,9 @@ $canonical = "https://etudaviz.alwaysdata.net/contact.php";
 require "./include/functions.inc.php";
 require "../config/bdconnect.php";
 require "../config/config-mail.inc.php";
+require "../config/recaptcha.inc.php";
 
 ensureSession();
-
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    captchaInit();
-}
 
 $erreur  = "";
 $message = "";
@@ -26,18 +23,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $mail    = trim($_POST['mail'] ?? '');
     $sujet   = trim($_POST['sujet'] ?? '');
     $contenu = trim($_POST['message'] ?? '');
-    $captcha = trim($_POST['captcha'] ?? '');
 
-    if ($nom === '' || $mail === '' || $sujet === '' || $contenu === '' || $captcha === '') {
+    $recaptchaToken = trim($_POST['g-recaptcha-response'] ?? '');
+
+    if ($nom === '' || $mail === '' || $sujet === '' || $contenu === '') {
         $erreur = "Veuillez remplir tous les champs.";
     } elseif (!filter_var($mail, FILTER_VALIDATE_EMAIL)) {
         $erreur = "Adresse mail invalide.";
-    } elseif (!captchaCheck($captcha)) {
-        $erreur = "Captcha incorrect.";
+    } elseif (!verifRecaptchaV3($recaptchaToken, 'contact')) {
+        $erreur = "Vérification anti-robot échouée.";
     } else {
         if (sendContactMail($mail, $nom, $sujet, $contenu)) {
             $message = "Merci, votre message a bien été envoyé.";
-            captchaInit(); 
         } else {
             $erreur = "Impossible d'envoyer votre message pour le moment. Merci de réessayer plus tard.";
         }
@@ -62,9 +59,8 @@ require "./include/header.inc.php";
                 <?= htmlspecialchars($message) ?>
             </div>
         <?php endif; ?>
-        <?php $captchaQuestion = captchaQuestion(); ?>
 
-        <form method="POST">
+        <form method="POST" id="contact-form">
             <label for="nom" class="visually-hidden">Votre nom</label>
             <input type="text" id="nom" name="nom" placeholder="Votre nom" required>
 
@@ -77,19 +73,32 @@ require "./include/header.inc.php";
             <label for="message" class="visually-hidden">Votre message</label>
             <textarea id="message" name="message" placeholder="Votre message..." rows="5" required></textarea>
 
-            <label for="captcha">
-                Captcha : combien font <?= htmlspecialchars($captchaQuestion) ?> ?
-            </label>
-            <input type="text" id="captcha" name="captcha" required>
+            <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
 
             <button type="submit">Envoyer</button>
         </form>
 
-
         <div class="login-links">
-            <a  style="color:black;" href="index.php">Retour à l'accueil</a>
+            <a style="color:black;" href="index.php">Retour à l'accueil</a>
         </div>
     </div>
 </div>
+
+<!-- ✅ reCAPTCHA v3 -->
+<script src="https://www.google.com/recaptcha/api.js?render=<?= RECAPTCHA_SITE_KEY ?>"></script>
+<script>
+  const form = document.getElementById('contact-form');
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    grecaptcha.ready(function () {
+      grecaptcha.execute("<?= RECAPTCHA_SITE_KEY ?>", {action: "contact"}).then(function (token) {
+        document.getElementById('g-recaptcha-response').value = token;
+        form.submit();
+      });
+    });
+  });
+</script>
 
 <?php require "./include/footer.inc.php"; ?>
