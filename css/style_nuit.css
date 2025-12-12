@@ -165,7 +165,9 @@ th {
   padding: 10px;
   background-color: rgba(15, 90, 79, 0.95);
   border-radius: 90px;
+
 }
+
 
 /* ----- GROUPE DE RECHERCHE ----- */
 
@@ -841,7 +843,7 @@ section:nth-child(even):not(.user-reviews-wrapper) {
   display: block;
   margin-top: 10px;
   font-size: 13px;
-  color: #0F5A4F; /* vert-bleuté */
+  color: #E5E7EB; 
   text-decoration: none;
   transition: color 0.3s;
 }
@@ -3608,7 +3610,8 @@ nav ul.menu {
   }
 
   .login-box a {
-    font-size: 12px;
+    font-size: 12px;;
+
   }
 
   /* ---------- SECTION RESULTATS ---------- */
@@ -4155,3 +4158,11 @@ nav ul.menu {
     }
 }
 
+
+body .login-box a {
+  color: #E5E7EB !important;
+}
+
+body .login-box a:hover {
+  color: #38BDF8 !important;
+}

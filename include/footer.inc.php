@@ -36,8 +36,12 @@
         </div>
     </div>
 </footer>
-<script src="/js/theme.js"></script>
+<a href="#" class="fleche back-to-top" aria-label="Retour en haut">
+  <img src="/images/fleche.png" alt="Retour en haut">
+</a>
 
+<script src="/js/theme.js"></script>
+<script src="/js/back-to-top.js"></script>
 </body>
 </html>
 
