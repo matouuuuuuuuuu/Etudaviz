@@ -1,0 +1,6 @@
+User-agent: *
+
+Disallow: /data/
+Disallow: /include/
+
+Sitemap: https://etudaviz.alwaysdata.net/sitemap.xml

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- Page d'accueil -->
+  <url>
+    <loc>https://etudaviz.alwaysdata.net/index.php</loc>
+    <lastmod>2025-12-01</lastmod>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Formations -->
+  <url>
+    <loc>https://etudaviz.alwaysdata.net/formations.php</loc>
+    <lastmod>2025-12-01</lastmod>
+    <priority>0.9</priority>
+  </url>
+
+  <!--Orientations -->
+  <url>
+    <loc>https://etudaviz.alwaysdata.net/orientation.php</loc>
+    <lastmod>2025-12-01</lastmod>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- A propos -->
+  <url>
+    <loc>https://etudaviz.alwaysdata.net/apropos.php</loc>
+    <lastmod>2025-12-01</lastmod>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- Contact -->
+  <url>
+    <loc>https://etudaviz.alwaysdata.net/contact.php</loc>
+    <lastmod>2025-12-01</lastmod>
+    <priority>0.5</priority>
+  </url>
+
+  <!-- Page de connexion -->
+  <url>
+    <loc>https://etudaviz.alwaysdata.net/login.php</loc>
+    <lastmod>2025-12-01</lastmod>
+    <priority>0.3</priority>
+  </url>
+
+</urlset>
