@@ -174,17 +174,11 @@ function renderMetierCard(array $m): string
 {
     $html = '<div class="etab-card" style="position:relative;">';
 
-    // Titre + lien fiche métier
     $html .= '<h3><a href="fiche_metier.php?uri=' . urlencode($m['uri']) . '">'
            . ucfirstUtf8(htmlspecialchars($m['title'])) . '</a></h3>';
-
-
-    // Code ISCO
     if (!empty($m['isco'])) {
         $html .= '<p><strong>Code ISCO :</strong> ' . htmlspecialchars($m['isco']) . '</p>';
     }
-
-    // Compétences clés
     if (!empty($m['essentialSkills'])) {
         $html .= '<p><strong>Compétences clés :</strong> '
                . htmlspecialchars(implode(', ', $m['essentialSkills']))
@@ -214,7 +208,6 @@ function getDBConnection() {
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         return $pdo;
     } catch (PDOException $e) {
-        // Si la base n'est pas accessible, on renvoie null
         return null;
     }
 }
@@ -228,14 +221,14 @@ function getDBConnection() {
  */
 function getTauxSatisfaction() {
     $pdo = getDBConnection();
-    if (!$pdo) return null; // fallback si pas de BDD
+    if (!$pdo) return null; 
 
     try {
         $query = $pdo->query("SELECT AVG(satisfaction) AS taux FROM avis");
         $result = $query->fetch(PDO::FETCH_ASSOC);
         return round($result['taux'], 1);
     } catch (Exception $e) {
-        return null; // sécurité supplémentaire
+        return null; 
     }
 }
 
@@ -313,7 +306,6 @@ function buildEtablissementsApiParams(array $options = []): array
         }
     }
 
-    // Gestion "type"
     $typeFacets = [];
     if (!empty($options['type'])) {
         $type = trim($options['type']);
@@ -492,12 +484,9 @@ function getRegionsDepuisAPI(): array
  */
 function formatEtablissement(array $fields, string $recordid = null): array
 {
-    //  Sécurité : sans ID API fiable → on ignore
     if (empty($recordid)) {
         return [];
     }
-
-    // NETTOYAGE DU NOM DE FORMATION 
     $rawNom = $fields['fl'] ?? $fields['nm'] ?? 'Nom inconnu';
 
     $splitters = ['|', ' / ', ' ; ', 'L1 -', 'L2 -', 'L3 -'];
@@ -614,7 +603,6 @@ function getEtablissementById(string $id): ?array {
  * @version 1.0
  */
 function getDebouchesDepuisOnisep(string $intitule, ?string $code = null): ?array {
-    // 1) si on a un code formation (ou un libellé exact), tenter refine exact
     $base = [
         'dataset' => 'fr-esr-onisep',
         'rows'    => 1,
@@ -626,9 +614,7 @@ function getDebouchesDepuisOnisep(string $intitule, ?string $code = null): ?arra
         $attempts[] = array_merge($base, ['refine.code_formation' => $code]);
     }
     if ($intitule) {
-        // tentative refine exact sur libellé si le dataset le prévoit
         $attempts[] = array_merge($base, ['refine.fl' => $intitule]);
-        // fallback plein texte
         $attempts[] = array_merge($base, ['q' => $intitule]);
     }
 
@@ -647,45 +633,11 @@ function getDebouchesDepuisOnisep(string $intitule, ?string $code = null): ?arra
     return null;
 }
 
-
 /**
- * Demande un token d’accès OAuth2 à l’API France Travail (client_credentials).
+ * Assure qu'une session PHP est démarrée.
  *
- * Envoie une requête POST à l’endpoint OAuth2 et retourne la réponse décodée (JSON).
- *
- * @return array|null Réponse JSON décodée (access_token, expires_in, etc.) ou null si réponse invalide.
- *
- * @author  Etudaviz
- * @version 1.0
- */
-function getFranceTravailAccessToken() {
-    $clientId = "PAR_malbrunalwaysdatanet_de07e6739e2412366eaa75b683e3ebf844107c6173c733fd44b9d0822420edef";
-    $clientSecret = "d9d31cae50ebca6fa275c3aaa543b9bbfbc74a910cd123e27f03bf6e6e78b13a";
-
-    $url = "https://entreprise.francetravail.fr/connexion/oauth2/access_token?realm=/partenaire";
-
-    $postFields = http_build_query([
-        "grant_type" => "client_credentials",
-        "client_id" => $clientId,
-        "client_secret" => $clientSecret,
-        "scope" => "api_rome-metiersv1"
-    ]);
-
-    $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);
-
-    $response = curl_exec($ch);
-    curl_close($ch);
-
-    return json_decode($response, true);
-}
-
-/**
- * Démarre une session PHP si aucune session n’est déjà active.
- *
- * Utile pour garantir l’accès à $_SESSION sans provoquer d’erreur.
+ * Vérifie si une session est déjà active et la démarre si nécessaire,
+ * afin de pouvoir utiliser $_SESSION sans erreur.
  *
  * @return void
  *
@@ -1123,8 +1075,6 @@ function isPseudoOrMailUsed(PDO $pdo, string $pseudo, string $mail): bool {
  */
 function createUser(PDO $pdo, string $pseudo, string $mail, string $password): ?int {
     $hash = password_hash($password, PASSWORD_DEFAULT);
-
-    // Le compte est créé comme "inactif"
     $sql = "INSERT INTO Utilisateur (pseudo, mail, mot_de_passe, date_inscription, statut_compte)
             VALUES (:pseudo, :mail, :mot_de_passe, NOW(), 'inactif')";
 
@@ -1173,15 +1123,12 @@ function getFormationUniqueKey(array $f): string {
  * @version 1.0
  */
 function mergeFormationRecords(array $old, array $new): array {
-
-    // Comparer les années
     $oldYear = intval($old['annee'] ?? 0);
     $newYear = intval($new['annee'] ?? 0);
 
     $keep = $newYear >= $oldYear ? $new : $old;
     $other = $newYear >= $oldYear ? $old : $new;
 
-    // Fusion des champs à liste
     if (!empty($other['amg'])) {
         $keep['amg'] = implode('|', array_unique(array_filter(array_merge(
             explode('|', $keep['amg'] ?? ''),
@@ -1273,7 +1220,6 @@ function escoSearch(string $query, int $limit = 4, int $offset = 0): array {
  * @version 1.0
  */
 function escoTranslateToFrench(string $text): string {
-    // Simple trado automatique avec l’API LibreTranslate
     $url = "https://libretranslate.de/translate";
 
     $payload = [
@@ -1294,7 +1240,7 @@ function escoTranslateToFrench(string $text): string {
     $context  = stream_context_create($options);
     $result = @file_get_contents($url, false, $context);
 
-    if ($result === false) return $text; // fallback EN si API HS
+    if ($result === false) return $text; 
 
     $json = json_decode($result, true);
     return $json["translatedText"] ?? $text;
@@ -1325,75 +1271,40 @@ function escoGetMetier(string $uri): ?array {
 
     $data = json_decode($json, true);
     if (!$data) return null;
-
-
-    /* ---------------------------------------------------------
-        Extract raw text from ESCO structure
-    --------------------------------------------------------- */
     $extractText = function($value) {
 
-        // Cas normal : string
+        
         if (is_string($value)) {
             return $value;
         }
-
-        // Cas tableau : peut contenir "literal"
         if (is_array($value)) {
             if (isset($value["literal"])) {
                 return $value["literal"];
             }
-
-            // parfois tableau indexé → texte dans [0]
             return implode(" ", array_filter($value, fn($v) => is_string($v)));
         }
 
         return "";
     };
-
-
-    /* ---------------------------------------------------------
-        Clean description helper
-    --------------------------------------------------------- */
     $cleanDescription = function($txt) {
-
         if (!is_string($txt)) return "";
-
         $txt = trim(strip_tags($txt));
-
-        // valeurs invalides fréquemment renvoyées
         $invalid = ["plain/text", "text/plain", "literal", "string", "null"];
 
         if (in_array(strtolower($txt), $invalid)) {
             return "";
         }
-
-        // éviter les faux textes
         if (strlen($txt) < 20) {
             return "";
         }
-
         return $txt;
     };
-
-
-    /* ---------------------------------------------------------
-        ISCO
-    --------------------------------------------------------- */
     $isco = $data["code"] ?? "";
-
-
-    /* ---------------------------------------------------------
-        DESCRIPTION
-    --------------------------------------------------------- */
     $description = "";
-
-    // 1) DESCRIPTION FR
     if (isset($data["description"]["fr"])) {
         $raw = $extractText($data["description"]["fr"]);
         $description = $cleanDescription($raw);
     }
-
-    // 2) Fallback EN
     if (empty($description) && isset($data["description"]["en"])) {
         $rawEN = $extractText($data["description"]["en"]);
         $cleanEN = $cleanDescription($rawEN);
@@ -1402,16 +1313,9 @@ function escoGetMetier(string $uri): ?array {
             $description = escoTranslateToFrench($cleanEN);
         }
     }
-
-    // 3) Fallback final
     if (empty($description)) {
         $description = "Ce métier est associé au code ISCO {$isco} et regroupe différentes activités professionnelles nécessitant des compétences spécialisées.";
     }
-
-
-    /* ---------------------------------------------------------
-        SYNONYMES
-    --------------------------------------------------------- */
     $alt = [];
     if (!empty($data["alternativeLabel"])) {
         foreach ($data["alternativeLabel"] as $lbl) {
@@ -1420,11 +1324,6 @@ function escoGetMetier(string $uri): ?array {
             }
         }
     }
-
-
-    /* ---------------------------------------------------------
-        COMPÉTENCES
-    --------------------------------------------------------- */
     $skillsEssential = [];
     if (!empty($data["_links"]["hasEssentialSkill"])) {
         foreach ($data["_links"]["hasEssentialSkill"] as $s) {
@@ -1434,7 +1333,6 @@ function escoGetMetier(string $uri): ?array {
         }
     }
     $skillsEssential = array_slice($skillsEssential, 0, 3);
-
     $skillsOptional = [];
     if (!empty($data["_links"]["hasOptionalSkill"])) {
         foreach ($data["_links"]["hasOptionalSkill"] as $s) {
@@ -1444,8 +1342,6 @@ function escoGetMetier(string $uri): ?array {
         }
     }
     $skillsOptional = array_slice($skillsOptional, 0, 3);
-
-
     return [
         "title"           => $data["preferredLabel"]["fr"] ?? "Métier",
         "isco"            => $isco,
@@ -1471,14 +1367,11 @@ function cleanDescription($txt) {
 
     $txt = trim($txt);
 
-    // Supprimer les valeurs parasites type "plain/text"
     $invalid = ["plain/text", "text/plain", "plain", "string", "null"];
 
     if (in_array(strtolower($txt), $invalid)) {
         return "";
     }
-
-    // Si la description est trop courte → non pertinente
     if (strlen($txt) < 20) {
         return "";
     }
@@ -1498,7 +1391,6 @@ function cleanDescription($txt) {
  * @version 1.0
  */
 function createActivationToken(PDO $pdo, int $idUtilisateur): ?string {
-    // 64 caractères hexadécimaux
     $token = bin2hex(random_bytes(32));
 
     $sql = "UPDATE Utilisateur
@@ -1906,7 +1798,7 @@ function updateUserLoginStats(PDO $pdo, int $userId): void {
  * @version 1.0
  */
 function getRecentActivities(PDO $pdo, int $userId, int $limit = 5): array {
-    $limit = (int) $limit; // sécurisation
+    $limit = (int) $limit; 
 
     $sql = "
         SELECT 'avis' AS type, titre_avis AS description, date_publication AS date_action
@@ -1946,7 +1838,7 @@ function getMoyenneAvisSur10(PDO $pdo, int $idAvis): ?float
         return $moyenne10;
     }
 
-    return null; // pas de notes
+    return null; 
 }
 
 ?>

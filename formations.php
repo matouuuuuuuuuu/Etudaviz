@@ -6,7 +6,7 @@ $regionChoisie = $_GET['region'] ?? '';
 $departementChoisi = $_GET['departement'] ?? '';
 $typeChoisi = $_GET['type'] ?? '';
 $search = $_GET['search'] ?? '';
-$limit = 6; // <= essentiel pour le test du bouton
+$limit = 6; // 
 
 // Données pour le formulaire
 $regions = getRegionsDepuisAPI();
@@ -38,7 +38,6 @@ if (isset($etablissements['error'])) {
         $formatted = formatEtablissement($record['fields'], $record['recordid']);
         if (empty($formatted)) continue;
 
-        // ✅ Clé métier pour éviter les doublons visuels
         $cle = mb_strtolower(
             trim($formatted['nom']) . '|' .
             trim($formatted['ville']) . '|' .
@@ -46,7 +45,7 @@ if (isset($etablissements['error'])) {
         );
 
         if (isset($indexUnicite[$cle])) {
-            continue; // ✅ doublon ignoré
+            continue; 
         }
 
         $indexUnicite[$cle] = true;
@@ -174,27 +173,22 @@ require "./include/header.inc.php";
             button.addEventListener('click', function () {
                 const page = parseInt(button.dataset.page) || 2;
 
-                // Met à jour le texte du bouton pendant le chargement
                 button.disabled = true;
                 button.textContent = "Chargement...";
 
-                // Construit l'URL avec tous les filtres actuels + nouvelle page
                 const params = new URLSearchParams(window.location.search);
                 params.set('page', page);
 
                 fetch('load-etablissements.php?' + params.toString())
                     .then(res => res.text())
                     .then(html => {
-                        // Injecte les nouveaux résultats
                         list.insertAdjacentHTML('beforeend', html);
 
-                        // Réactive le bouton si des résultats existent
                         if (html.trim() !== '') {
                             button.dataset.page = page + 1;
                             button.disabled = false;
                             button.textContent = "Voir plus";
                         } else {
-                            // Sinon on masque le bouton
                             button.style.display = 'none';
                         }
                     })
@@ -222,7 +216,6 @@ require "./include/header.inc.php";
                 modal.classList.add('hidden');
             });
 
-            // Fermer la modale si clic en dehors du contenu
             modal.addEventListener('click', (e) => {
                 if (e.target === modal) {
                     modal.classList.add('hidden');
