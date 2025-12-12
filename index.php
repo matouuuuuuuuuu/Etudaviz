@@ -9,7 +9,7 @@
                 $satisfaction= 98;
     }
     if ($avis==NULL) {
-       $avis= 1000;
+        $avis= 1000;
     }
     if ($partenaires==NULL) {
         $partenaires = 1000;
@@ -45,11 +45,8 @@
                         <a href="metiers.php" class="btn-profil metiers">Je veux découvrir des métiers</a>
                     </div>
             </div>
-
         </div>
     </section>
-
-
     <section class="trust-section">
         <div class="trust-intro">
             <h2>Pourquoi faire confiance à <span>Etudaviz</span> ?</h2>
@@ -58,34 +55,29 @@
             Ici, chaque outil, chaque témoignage, chaque donnée a un seul but : t’accompagner dans ton choix d’orientation en toute confiance.
             </p>
         </div>
-
         <div class="trust-highlights">
             <div class="highlight">
             <i class="fas fa-graduation-cap"></i>
             <h3>+1500 formations vérifiées</h3>
             <p style="text-align: center">Des cursus actualisés et évalués pour te donner une vision claire du supérieur.</p>
             </div>
-
             <div class="highlight">
             <i class="fas fa-user-check"></i>
             <h3>Des témoignages authentiques</h3>
             <p style="text-align: center">Des retours réels d’étudiants pour t’aider à te projeter dans la bonne voie.</p>
             </div>
-
             <div class="highlight">
             <i class="fas fa-lightbulb"></i>
             <h3>Des conseils neutres</h3>
             <p style="text-align: center">Nos recommandations sont 100 % indépendantes : ici, pas de pub déguisée.</p>
             </div>
         </div>
-
         <div class="trust-quote">
             <blockquote>
             “On ne choisit pas un avenir au hasard. On le construit, pas à pas.”
             </blockquote>
             <cite>— L’équipe Etudaviz</cite>
         </div>
-
         <div class="trust-footer">
             <a href="apropos.php" class="btn-primary">Découvrir notre démarche</a>
             <a href="contact.php" class="btn-secondary">Nous poser une question</a>
@@ -99,8 +91,6 @@
             </div>
         </div>
     </section>
-
-
     <section class="map-section">
         <h2 class="map-title">Explorer les formations sur la carte 🗺️</h2>
             <p class="map-intro">
@@ -109,8 +99,6 @@
             </p>
             <div id="map"></div>
     </section>
-
-
     <section class="services">
         <h2 class="services-title">Explore les rubriques clés 🧭</h2>
         <div class="service-block">
@@ -123,7 +111,6 @@
                     <img src="./images/formations.jpg" alt="Salle de cours avec étudiants">
                 </div>
         </div>
-
         <div class="service-block">
             <div class="service-image">
                 <img src="./images/orientation.jpg" alt="Conseil orientation">
@@ -134,7 +121,6 @@
                     <a href="orientation.php" class="btn-link">En savoir plus →</a>
             </div>
         </div>
-
         <div class="service-block">
             <div class="service-text">
                 <h3>Avis d’étudiants</h3>
@@ -146,55 +132,47 @@
             </div>
         </div>
     </section>
-
     <section class="avis">
-    <h2>Ce qu’en disent les étudiants 🎓</h2>
-
-    <div class="slideshow-container">
-
-        <?php if (!empty($latestAvis)): ?>
-            <?php foreach ($latestAvis as $a): ?>
-                <div class="mySlides fade">
-                    <span class="quote-mark">“</span>
-
-                    <p class="quote">
-                        <?= nl2br(htmlspecialchars($a['description'])) ?>
-                    </p>
-
-                    <p class="author">
-                        — <?= htmlspecialchars($a['pseudo']) ?>
-                        <?php if (!empty($a['date_experience'])): ?>
-                            , expérience : <?= htmlspecialchars($a['date_experience']) ?>
-                        <?php endif; ?>
-                    </p>
-                </div>
-            <?php endforeach; ?>
-        <?php else: ?>
-
+        <h2>Ce qu’en disent les étudiants 🎓</h2>
+        <div class="slideshow-container">
+            <?php if (!empty($latestAvis)): ?>
+                <?php foreach ($latestAvis as $a): ?>
+                    <div class="mySlides fade">
+                        <span class="quote-mark">“</span>
+                        <p class="quote">
+                            <?= nl2br(htmlspecialchars($a['description'])) ?>
+                        </p>
+                        <p class="author">
+                            — <?= htmlspecialchars($a['pseudo']) ?>
+                            <?php if (!empty($a['date_experience'])): ?>
+                                , expérience : <?= htmlspecialchars($a['date_experience']) ?>
+                            <?php endif; ?>
+                        </p>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
             <div class="mySlides fade">
                 <span class="quote-mark">“</span>
                 <p class="quote">Aucun avis pour le moment. Revenez bientôt !</p>
             </div>
-
-        <?php endif; ?>
-
-        <div class="slider-controls">
-            <span class="prev">‹</span>
-            <span class="next">›</span>
+            <?php endif; ?>
+            <div class="slider-controls">
+                <span class="prev">‹</span>
+                <span class="next">›</span>
+            </div>
         </div>
-
-    </div>
 </section>
-
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="./js/map.js"></script>
+<script src="./js/slides.js"></script>
+
 <script>
     const etablissementsAleatoires = <?= json_encode($etablissementsAleatoires, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) ?>;
 </script>
 <script src="./js/counter.js"></script>
 
 <?php
-  require "./include/footer.inc.php";
+    require "./include/footer.inc.php";
 ?>

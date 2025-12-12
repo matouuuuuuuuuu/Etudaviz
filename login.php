@@ -3,17 +3,13 @@ $title = "Connexion à votre compte Etudaviz";
 $description = "Page permettant de se connecter à votre compte Etudaviz";
 $h1 = "Connexion à votre espace Etudaviz";
 
-
-
 require "./include/functions.inc.php"; 
 require "../config/bdconnect.php";    
-
 ensureSession();
-
-require "./include/header.inc.php";
 
 $erreur = '';
 
+// ----- TRAITEMENT DU FORMULAIRE AVANT TOUT HTML -----
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $identifiant = trim($_POST['identifiant'] ?? '');
@@ -22,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($identifiant !== '' && $password !== '') {
 
         $user = verifyLoginDb($identifiant, $password);
+
         if ($user !== null) {
 
             $erreurStatut = checkStatutCompte($user['statut_compte'] ?? null);
@@ -30,6 +27,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $erreur = $erreurStatut;
             } else {
                 loginUser($user);
+
+                // REDIRECTION AVANT LE HEADER HTML
                 header('Location: index.php');
                 exit;
             }
@@ -42,7 +41,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $erreur = "Veuillez remplir tous les champs.";
     }
 }
+
+// Maintenant qu'on a fait tout le PHP → on peut afficher le HTML
+require "./include/header.inc.php";
 ?>
+
 
 <div class="login-container">
     <div class="login-box">
