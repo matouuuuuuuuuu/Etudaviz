@@ -1,8 +1,7 @@
 <?php
-
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+ini_set('display_errors', '0');
+ini_set('display_startup_errors', '0');
 
 $title = "Inscription au site Etudaviz";
 $description = "Créer un compte Etudaviz";
@@ -10,59 +9,58 @@ $h1 = "Créer votre compte Etudaviz";
 $canonical = "https://etudaviz.alwaysdata.net/inscription.php";
 
 require "./include/functions.inc.php";
-require "../config/bdconnect.php";         
-require "../config/config-mail.inc.php";    
+require "../config/bdconnect.php";
+require "../config/config-mail.inc.php";
+require "../config/recaptcha.inc.php";
+
 ensureSession();
 
 $erreur = "";
 $message = "";
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    captchaInit();
-}
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    $pseudo     = trim($_POST['pseudo'] ?? '');
-    $mail       = trim($_POST['mail'] ?? '');
-    $password   = $_POST['password'] ?? '';
-    $password2  = $_POST['password2'] ?? '';
-    $captchaAns = trim($_POST['captcha'] ?? '');
+    $pseudo    = trim($_POST['pseudo'] ?? '');
+    $mail      = trim($_POST['mail'] ?? '');
+    $password  = $_POST['password'] ?? '';
+    $password2 = $_POST['password2'] ?? '';
 
-    $erreur = validateRegistrationInput($pseudo, $mail, $password, $password2, $captchaAns);
+    $recaptchaToken = trim($_POST['g-recaptcha-response'] ?? '');
 
-    if ($erreur === null) {
-        if (isPseudoOrMailUsed($pdo, $pseudo, $mail)) {
-            $erreur = "Ce pseudo ou cet email est déjà utilisé.";
-        } else {
-            $idUtilisateur = createUser($pdo, $pseudo, $mail, $password);
+    if (!verifRecaptchaV3($recaptchaToken, 'signup')) {
+        $erreur = "Vérification anti-robot échouée.";
+    } else {
 
-            if ($idUtilisateur === null) {
-                $erreur = "Erreur lors de la création du compte.";
+        $erreur = validateRegistrationInput($pseudo, $mail, $password, $password2);
+
+        if ($erreur === null) {
+            if (isPseudoOrMailUsed($pdo, $pseudo, $mail)) {
+                $erreur = "Ce pseudo ou cet email est déjà utilisé.";
             } else {
-                // Générer un token d'activation et envoyer un mail avec le lien
-                $token = createActivationToken($pdo, $idUtilisateur);
+                $idUtilisateur = createUser($pdo, $pseudo, $mail, $password);
 
-                if ($token === null) {
-                    $erreur = "Compte créé, mais impossible de générer le lien d'activation. Contactez l'administrateur.";
+                if ($idUtilisateur === null) {
+                    $erreur = "Erreur lors de la création du compte.";
                 } else {
-                    $baseUrl = "https://" . $_SERVER['HTTP_HOST'];
-                    $lienActivation = $baseUrl . "/activation.php?token=" . urlencode($token);
+                    $token = createActivationToken($pdo, $idUtilisateur);
 
-                    if (sendVerificationMail($mail, $pseudo, $lienActivation)) {
-                        $message = "Compte créé ! Un email d'activation vous a été envoyé.";
+                    if ($token === null) {
+                        $erreur = "Compte créé, mais impossible de générer le lien d'activation. Contactez l'administrateur.";
                     } else {
-                        $message = "Compte créé, mais impossible d'envoyer l'email d'activation.";
+                        $baseUrl = "https://" . $_SERVER['HTTP_HOST'];
+                        $lienActivation = $baseUrl . "/activation.php?token=" . urlencode($token);
+
+                        if (sendVerificationMail($mail, $pseudo, $lienActivation)) {
+                            $message = "Compte créé ! Un email d'activation vous a été envoyé.";
+                        } else {
+                            $message = "Compte créé, mais impossible d'envoyer l'email d'activation.";
+                        }
                     }
                 }
-                captchaInit();
             }
         }
     }
-
 }
-
-$captchaQuestion = captchaQuestion();
 
 require "./include/header.inc.php";
 ?>
@@ -83,7 +81,7 @@ require "./include/header.inc.php";
             </div>
         <?php endif; ?>
 
-        <form method="POST">
+        <form method="POST" id="signup-form">
             <label for="pseudo" class="visually-hidden">Pseudo</label>
             <input type="text" id="pseudo" name="pseudo" placeholder="Pseudo" required>
 
@@ -96,19 +94,31 @@ require "./include/header.inc.php";
             <label for="password2" class="visually-hidden">Confirmation du mot de passe</label>
             <input type="password" id="password2" name="password2" placeholder="Confirmation du mot de passe" required>
 
-            <label for="captcha">
-                Captcha : combien font <?= htmlspecialchars($captchaQuestion) ?> ?
-            </label>
-            <input type="text" name="captcha" id="captcha" required>
+            <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
 
             <button type="submit">Créer mon compte</button>
         </form>
-
 
         <div class="login-links">
             <a style="color:black;" href="login.php">J'ai déjà un compte. Me connecter</a>
         </div>
     </div>
 </div>
+
+<script src="https://www.google.com/recaptcha/api.js?render=<?= RECAPTCHA_SITE_KEY ?>"></script>
+<script>
+  const form = document.getElementById('signup-form');
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    grecaptcha.ready(function () {
+      grecaptcha.execute("<?= RECAPTCHA_SITE_KEY ?>", {action: "signup"}).then(function (token) {
+        document.getElementById('g-recaptcha-response').value = token;
+        form.submit();
+      });
+    });
+  });
+</script>
 
 <?php require "./include/footer.inc.php"; ?>

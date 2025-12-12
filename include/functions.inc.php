@@ -728,26 +728,42 @@ function sendVerificationMail(string $to, string $pseudo, string $link): bool {
     }
 }
 
+function verifRecaptchaV3(string $token, string $expectedAction): bool
+{
+    if ($token === '') return false;
 
-function captchaInit(): void {
-    ensureSession();
-    $a = random_int(1, 9);
-    $b = random_int(1, 9);
-    $_SESSION['captcha_result']   = $a + $b;
-    $_SESSION['captcha_question'] = "$a + $b";
-}
+    $postFields = http_build_query([
+        'secret'   => RECAPTCHA_SECRET_KEY,
+        'response' => $token,
+        'remoteip' => $_SERVER['REMOTE_ADDR'] ?? null, 
+    ]);
 
-function captchaQuestion(): string {
-    ensureSession();
-    return $_SESSION['captcha_question'] ?? "2 + 2";
-}
+    $ch = curl_init('https://www.google.com/recaptcha/api/siteverify');
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_POST           => true,
+        CURLOPT_POSTFIELDS     => $postFields,
+        CURLOPT_TIMEOUT        => 5,
+    ]);
 
-function captchaCheck(string $answer): bool {
-    ensureSession();
-    if (!isset($_SESSION['captcha_result'])) {
-        return false;
+    $response = curl_exec($ch);
+    curl_close($ch);
+
+    if (!$response) return false;
+
+    $json = json_decode($response, true);
+    if (!is_array($json) || empty($json['success'])) return false; 
+
+    // v3 : score + action
+    if (($json['action'] ?? '') !== $expectedAction) return false;
+    if (($json['score'] ?? 0) < RECAPTCHA_MIN_SCORE) return false;
+
+    // (optionnel) check hostname
+    if (defined('RECAPTCHA_ALLOWED_HOSTS') && !empty($json['hostname'])) {
+        if (!in_array($json['hostname'], RECAPTCHA_ALLOWED_HOSTS, true)) return false;
     }
-    return (int)$answer === (int)$_SESSION['captcha_result'];
+
+    return true;
 }
 
 function searchEtablissements(string $query): array {
@@ -816,40 +832,44 @@ function validateRegistrationInput(
     string $pseudo,
     string $mail,
     string $password,
-    string $password2,
-    string $captchaAnswer
+    string $password2
 ): ?string {
-    // Champs vides
-    if ($pseudo === '' || $mail === '' || $password === '' || $password2 === '' || $captchaAnswer === '') {
+
+    if ($pseudo === '' || $mail === '' || $password === '' || $password2 === '') {
         return "Veuillez remplir tous les champs.";
     }
 
-    // Pseudo : uniquement des lettres, longueur 2 à 12
     if (!preg_match('/^[A-Za-z]{2,12}$/', $pseudo)) {
         return "Le pseudo doit contenir uniquement des lettres et faire entre 2 et 12 caractères.";
     }
 
     $pathTxt = dirname(__DIR__) . '/data/list-mots-interdits.txt';
     if (forbiddenMotPseudo($pseudo, $pathTxt)) {
-    return "Ce pseudo n'est pas autorisé.";
+        return "Ce pseudo n'est pas autorisé.";
     }
 
-    // Mail valide
     if (!filter_var($mail, FILTER_VALIDATE_EMAIL)) {
         return "Adresse mail invalide.";
     }
 
-    // Mots de passe identiques
     if ($password !== $password2) {
         return "Les mots de passe ne correspondent pas.";
     }
 
-    // Captcha
-    if (!captchaCheck($captchaAnswer)) {
-        return "Captcha incorrect.";
+
+    if (strlen($password) < 8) {
+        return "Le mot de passe doit faire au moins 8 caractères.";
     }
 
-    return null; 
+    if (!preg_match('/[A-Za-z]/', $password)) {
+        return "Le mot de passe doit contenir au moins une lettre.";
+    }
+
+    if (!preg_match('/[\*\/\-]/', $password)) {
+        return "Le mot de passe doit contenir au moins un caractère spécial parmi * / -.";
+    }
+
+    return null;
 }
 
 /**
