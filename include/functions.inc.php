@@ -3,6 +3,18 @@ include __DIR__ . "/../../config/bdconnect.php";
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
+/**
+ * Incrémente et retourne un compteur de visites stocké dans un fichier texte.
+ *
+ * Le compteur est enregistré dans `counter.txt` (dans le même dossier que ce script).
+ * Si le fichier n'existe pas, il est créé avec la valeur initiale "0".
+ * La fonction lit ensuite la valeur, l'incrémente, puis réécrit la nouvelle valeur.
+ *
+ * @return int Nombre de visites après incrémentation.
+ *
+ * @author Etudaviz
+ * @version 1.0
+ */
 function incrementCounter(): int {
     $file = __DIR__ . '/counter.txt';
     if (!file_exists($file)) file_put_contents($file, '0');
@@ -13,11 +25,30 @@ function incrementCounter(): int {
     return $visites;
 }
 
-
+/**
+ * Retourne la date courante formatée.
+ *
+ * @param string $format Format compatible avec `date()` (ex: "d/m/Y", "Y-m-d H:i").
+ *
+ * @return string Date courante sous forme de chaîne formatée.
+ *
+ * @author Etudaviz
+ * @version 1.0
+ */
 function getCurrentDate(string $format = "d/m/Y"): string {
     return date($format);
 }
 
+/**
+ * Met en majuscule le premier caractère d'une chaîne UTF-8.
+ *
+ * @param string $str Chaîne à transformer (encodée en UTF-8).
+ *
+ * @return string Chaîne avec la première lettre en majuscule.
+ *
+ * @author Etudaviz
+ * @version 1.0
+ */
 function ucfirstUtf8(string $str): string {
     return mb_strtoupper(mb_substr($str, 0, 1)) . mb_substr($str, 1);
 }
@@ -35,7 +66,7 @@ function ucfirstUtf8(string $str): string {
  * @return array Liste des départements correspondant à la région spécifiée.
  *               Retourne un tableau vide si le fichier est introuvable ou invalide.
  *
- * @author  Étudaviz
+ * @author  Etudaviz
  * @version 2.0
  */
 
@@ -77,7 +108,7 @@ function loadDepartements(string $regionName, string $csvPath): array
  *
  * @return string Code HTML prêt à être inséré dans la page.
  *
- * @author  Étudaviz
+ * @author  Etudaviz
  * @version 2.0
  */
 function renderEtablissementCard(array $etab): string
@@ -116,24 +147,44 @@ function renderEtablissementCard(array $etab): string
     return $html;
 }
 
-
-
-
+/**
+ * Génère le code HTML d’une carte “métier” pour afficher un résultat dans une liste.
+ *
+ * La carte affiche :
+ * - le titre du métier (avec un lien vers `fiche_metier.php` via le paramètre `uri`)
+ * - le code ISCO (si disponible)
+ * - les compétences clés (si disponibles)
+ *
+ * Les champs affichés sont échappés avec `htmlspecialchars()` pour éviter les injections HTML,
+ * et l’URI est encodée avec `urlencode()` pour produire une URL valide.
+ *
+ * @param array $m Données du métier.
+ *                Clés attendues :
+ *                - 'uri' (string) : URI/identifiant du métier utilisé dans l’URL
+ *                - 'title' (string) : intitulé du métier
+ *                - 'isco' (string|null) : code ISCO (optionnel)
+ *                - 'essentialSkills' (array|null) : liste de compétences (optionnel)
+ *
+ * @return string HTML de la carte métier.
+ *
+ * @author  Etudaviz
+ * @version 1.0
+ */
 function renderMetierCard(array $m): string
 {
     $html = '<div class="etab-card" style="position:relative;">';
 
-    // ✅ Titre + lien fiche métier
+    // Titre + lien fiche métier
     $html .= '<h3><a href="fiche_metier.php?uri=' . urlencode($m['uri']) . '">'
            . ucfirstUtf8(htmlspecialchars($m['title'])) . '</a></h3>';
 
 
-    // ✅ Code ISCO
+    // Code ISCO
     if (!empty($m['isco'])) {
         $html .= '<p><strong>Code ISCO :</strong> ' . htmlspecialchars($m['isco']) . '</p>';
     }
 
-    // ✅ Compétences clés
+    // Compétences clés
     if (!empty($m['essentialSkills'])) {
         $html .= '<p><strong>Compétences clés :</strong> '
                . htmlspecialchars(implode(', ', $m['essentialSkills']))
@@ -145,40 +196,56 @@ function renderMetierCard(array $m): string
     return $html;
 }
 
-
-
-
-
+/**
+ * Ouvre une connexion PDO à la base de données MySQL de l’application.
+ *
+ * La connexion cible la base `etudaviz` sur `localhost` avec l’encodage UTF-8.
+ * En cas d’échec (identifiants invalides, service indisponible, etc.), la fonction
+ * renvoie `null` afin de permettre un fonctionnement en mode dégradé.
+ *
+ * @return PDO|null Instance PDO si la connexion réussit, sinon `null`.
+ *
+ * @author  Etudaviz
+ * @version 1.0
+ */
 function getDBConnection() {
     try {
         $pdo = new PDO("mysql:host=localhost;dbname=etudaviz;charset=utf8", "root", ""); 
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         return $pdo;
     } catch (PDOException $e) {
-        // ⚠️ Si la base n'est pas accessible, on renvoie null
+        // Si la base n'est pas accessible, on renvoie null
         return null;
     }
 }
 
 /**
- * Retourne le taux de satisfaction (%) des utilisateurs
- * Si la BDD n’est pas disponible, renvoie NULL
+ * Calcule et retourne le taux de satisfaction moyen des utilisateurs.
+ * @return float|null Taux de satisfaction moyen (en %) arrondi à 1 décimale, ou `null` en cas d’échec.
+ *
+ * @author  Etudaviz
+ * @version 1.0
  */
 function getTauxSatisfaction() {
     $pdo = getDBConnection();
-    if (!$pdo) return null; // 🧩 fallback si pas de BDD
+    if (!$pdo) return null; // fallback si pas de BDD
 
     try {
         $query = $pdo->query("SELECT AVG(satisfaction) AS taux FROM avis");
         $result = $query->fetch(PDO::FETCH_ASSOC);
         return round($result['taux'], 1);
     } catch (Exception $e) {
-        return null; // 🔒 sécurité supplémentaire
+        return null; // sécurité supplémentaire
     }
 }
 
 /**
- * Retourne le nombre d’avis utilisateurs
+ * Retourne le nombre total d’avis utilisateurs.
+ *
+ * @return int|null Nombre d’avis, ou null si la BDD n’est pas accessible / erreur SQL.
+ *
+ * @author  Etudaviz
+ * @version 1.0
  */
 function getNombreAvis() {
     $pdo = getDBConnection();
@@ -194,7 +261,12 @@ function getNombreAvis() {
 }
 
 /**
- * Retourne le nombre de partenaires institutionnels
+ * Retourne le nombre total de partenaires institutionnels.
+ *
+ * @return int|null Nombre de partenaires, ou null si la BDD n’est pas accessible / erreur SQL.
+ *
+ * @author  Etudaviz
+ * @version 1.0
  */
 function getNombrePartenaires() {
     $pdo = getDBConnection();
@@ -209,13 +281,15 @@ function getNombrePartenaires() {
     }
 }
 
-
 /**
  * Construit les paramètres d'appel à l'API Parcoursup (fr-esr-cartographie_formations_parcoursup)
  * avec gestion étendue du type "Université" qui regroupe plusieurs sous-types (Licence, BUT, etc.)
  *
  * @param array $options
  * @return array
+ * 
+ * @author  Etudaviz
+ * @version 1.0
  */
 function buildEtablissementsApiParams(array $options = []): array
 {
@@ -265,6 +339,19 @@ function buildEtablissementsApiParams(array $options = []): array
     return ['base' => $base, 'refine_tf' => $typeFacets];
 }
 
+/**
+ * Récupère la liste des établissements d’enseignement supérieur publics via l’API OpenData.
+ *
+ * Construit les paramètres à partir de $options (dont les facettes `refine.tf`),
+ * appelle l’API, puis retourne la liste des enregistrements (`records`).
+ *
+ * @param array $options Options de filtre/recherche utilisées pour construire la requête API.
+ *
+ * @return array Liste des établissements (records) ou un tableau contenant une clé 'error' en cas d’échec.
+ *
+ * @author  Etudaviz
+ * @version 1.0
+ */
 function getEtablissementsSupPublics(array $options = []): array
 {
     $built = buildEtablissementsApiParams($options);
@@ -283,7 +370,6 @@ function getEtablissementsSupPublics(array $options = []): array
 }
 
 
-
 /**
  * Effectue un appel HTTP à une API Open Data et renvoie la réponse décodée en tableau associatif.
  *
@@ -297,7 +383,7 @@ function getEtablissementsSupPublics(array $options = []): array
  *                     - les données JSON décodées en cas de succès ;
  *                     - ou un élément ['error' => 'message d’erreur'] en cas d’échec.
  *
- * @author  Étudaviz
+ * @author  Etudaviz
  * @version 2.0
  */
 function callOpenDataApi(string $url): array {
@@ -336,9 +422,6 @@ function callOpenDataApi(string $url): array {
 }
 
 
-
-
-
 /**
  * Récupère la liste des régions disponibles dans le jeu de données ONISEP.
  *
@@ -350,7 +433,7 @@ function callOpenDataApi(string $url): array {
  * @return array Liste des régions extraites du dataset ONISEP.
  *               Retourne un tableau vide si la requête échoue ou qu’aucune région n’est trouvée.
  *
- * @author  Étudaviz
+ * @author  Etudaviz
  * @version 2.0 Migration vers l’API ONISEP
  */
 function getRegionsDepuisAPI(): array
@@ -373,10 +456,6 @@ function getRegionsDepuisAPI(): array
 
     return array_column($data['facet_groups'][0]['facets'], 'name');
 }
-
-
-
-
 
 
 /**
@@ -408,17 +487,17 @@ function getRegionsDepuisAPI(): array
  *               - string 'region'        : région
  *               - array  'coordonnees'   : coordonnées GPS (si disponibles)
  *
- * @author  Étudaviz
+ * @author  Etudaviz
  * @version 2.1 Adaptation au dataset Parcoursup
  */
 function formatEtablissement(array $fields, string $recordid = null): array
 {
-    // ❗ Sécurité : sans ID API fiable → on ignore
+    //  Sécurité : sans ID API fiable → on ignore
     if (empty($recordid)) {
         return [];
     }
 
-    // ===== ✅ NETTOYAGE DU NOM DE FORMATION =====
+    // NETTOYAGE DU NOM DE FORMATION 
     $rawNom = $fields['fl'] ?? $fields['nm'] ?? 'Nom inconnu';
 
     $splitters = ['|', ' / ', ' ; ', 'L1 -', 'L2 -', 'L3 -'];
@@ -436,11 +515,10 @@ function formatEtablissement(array $fields, string $recordid = null): array
 
     $nom = trim($rawNom);
 
-    // ===== ✅ DÉTECTION BADGE LAS / DOUBLE DIPLÔME (CORRIGÉE) =====
     $badge = null;
 
     $searchZone = strtolower(
-        ($fields['aut'] ?? '') . ' ' .          // ✅ LAS est ICI dans ton API
+        ($fields['aut'] ?? '') . ' ' .         
         ($fields['libelle_long'] ?? '') . ' ' .
         ($fields['fl'] ?? '') . ' ' .
         ($fields['parcours'] ?? '')
@@ -454,13 +532,10 @@ function formatEtablissement(array $fields, string $recordid = null): array
         $badge = 'Double diplôme';
     }
 
-    // ===== TYPE =====
     $type = $fields['tf'] ?? 'Type inconnu';
 
-    // ===== ÉTABLISSEMENT =====
     $etablissement = $fields['etab_nom'] ?? 'Établissement non précisé';
 
-    // ===== ADRESSE =====
     $adresseParts = [];
     if (!empty($fields['commune']))     $adresseParts[] = $fields['commune'];
     if (!empty($fields['departement'])) $adresseParts[] = $fields['departement'];
@@ -492,8 +567,6 @@ function formatEtablissement(array $fields, string $recordid = null): array
 }
 
 
-
-
 /**
  * Récupère les informations détaillées d’une formation à partir de son identifiant ONISEP.
  *
@@ -508,7 +581,7 @@ function formatEtablissement(array $fields, string $recordid = null): array
  * @return array|null Tableau associatif contenant les informations détaillées de la formation,
  *                    ou null si aucune correspondance n’est trouvée.
  *
- * @author  Étudaviz
+ * @author  Etudaviz
  * @version 2.0 Migration vers le dataset ONISEP
  */
 function getEtablissementById(string $id): ?array {
@@ -526,7 +599,20 @@ function getEtablissementById(string $id): ?array {
     return null;
 }
 
-
+/**
+ * Récupère des informations de débouchés depuis le dataset ONISEP (OpenData Education).
+ *
+ * La fonction essaie plusieurs stratégies de recherche (par code formation si fourni,
+ * puis par libellé exact, puis en plein texte) et retourne les champs utiles si un résultat est trouvé.
+ *
+ * @param string      $intitule Intitulé de la formation (utilisé pour la recherche).
+ * @param string|null $code     Code formation (si disponible) pour une recherche plus précise.
+ *
+ * @return array|null Tableau contenant 'secteur', 'debouches' et 'poursuite_etudes', ou null si aucun résultat.
+ *
+ * @author  Etudaviz
+ * @version 1.0
+ */
 function getDebouchesDepuisOnisep(string $intitule, ?string $code = null): ?array {
     // 1) si on a un code formation (ou un libellé exact), tenter refine exact
     $base = [
@@ -555,13 +641,11 @@ function getDebouchesDepuisOnisep(string $intitule, ?string $code = null): ?arra
                 'secteur'          => $f['secteur'] ?? null,
                 'debouches'        => $f['debouches'] ?? null,
                 'poursuite_etudes' => $f['poursuite_etudes'] ?? null,
-                // tu peux aussi exposer 'competences' si dispo : $f['competences'] ?? null,
             ];
         }
     }
     return null;
 }
-
 
 
 function ensureSession(): void {
@@ -573,7 +657,15 @@ function ensureSession(): void {
 
 /**
  * Enregistre l'utilisateur en session après une connexion réussie.
- * $user doit contenir au moins id_utilisateur, pseudo, mail.
+ *
+ * Le tableau $user doit contenir au minimum : id_utilisateur, pseudo, mail.
+ *
+ * @param array $user Données utilisateur (issues de la BDD).
+ *
+ * @return void
+ *
+ * @author  Etudaviz
+ * @version 1.0
  */
 function loginUser(array $user): void {
     ensureSession();
@@ -586,7 +678,14 @@ function loginUser(array $user): void {
 }
 
 /**
- * Supprime les infos de session de l'utilisateur.
+ * Déconnecte l'utilisateur et supprime les données de session.
+ *
+ * Vide la session, supprime le cookie de session (si utilisé), puis détruit la session.
+ *
+ * @return void
+ *
+ * @author  Etudaviz
+ * @version 1.0
  */
 function logoutUser(): void {
     ensureSession();
@@ -608,7 +707,12 @@ function logoutUser(): void {
 }
 
 /**
- * Retourne les infos de l'utilisateur connecté, ou null si personne.
+ * Retourne les informations de l'utilisateur actuellement connecté.
+ *
+ * @return array|null Tableau des infos utilisateur (id, pseudo, mail) ou null si personne n'est connecté.
+ *
+ * @author  Etudaviz
+ * @version 1.0
  */
 function currentUser(): ?array {
     ensureSession();
@@ -616,18 +720,30 @@ function currentUser(): ?array {
 }
 
 /**
- * True si quelqu’un est connecté.
+ * Indique si un utilisateur est connecté.
+ *
+ * @return bool True si une session utilisateur existe, sinon false.
+ *
+ * @author  Etudaviz
+ * @version 1.0
  */
 function isLoggedIn(): bool {
     return currentUser() !== null;
 }
 
 /**
- * Vérifie le login en base de données.
- * $identifiant = pseudo OU mail
- * $password = mot de passe tapé par l'utilisateur
+ * Vérifie les identifiants de connexion dans la base de données.
  *
- * Retourne le tableau utilisateur (sans le mot de passe) si OK, sinon null.
+ * $identifiant correspond au pseudo OU à l'email.
+ * La fonction compare le mot de passe saisi avec le hash stocké en base.
+ *
+ * @param string $identifiant Pseudo ou email de l'utilisateur.
+ * @param string $password    Mot de passe saisi par l'utilisateur.
+ *
+ * @return array|null Tableau utilisateur (sans mot de passe) si OK, sinon null.
+ *
+ * @author  Etudaviz
+ * @version 1.0
  */
 function verifyLoginDb(string $identifiant, string $password): ?array {
     global $pdo;
@@ -653,6 +769,18 @@ function verifyLoginDb(string $identifiant, string $password): ?array {
     return $user;
 }
 
+/**
+ * Envoie un email de vérification (activation de compte) via PHPMailer.
+ *
+ * @param string $to     Adresse email du destinataire.
+ * @param string $pseudo Nom/pseudo du destinataire (pour personnalisation).
+ * @param string $link   Lien d’activation à inclure dans le message.
+ *
+ * @return bool True si l'email a été envoyé, sinon false.
+ *
+ * @author  Etudaviz
+ * @version 1.0
+ */
 function sendVerificationMail(string $to, string $pseudo, string $link): bool {
     global $mail_host, $mail_port, $mail_username, $mail_password, $mail_from, $mail_from_name;
 
@@ -696,6 +824,20 @@ function sendVerificationMail(string $to, string $pseudo, string $link): bool {
     }
 }
 
+/**
+ * Vérifie un token reCAPTCHA v3 côté serveur.
+ *
+ * Effectue une requête vers l'API Google, vérifie le succès, l'action attendue
+ * et un score minimum (RECAPTCHA_MIN_SCORE). Optionnellement, vérifie le hostname.
+ *
+ * @param string $token          Token reCAPTCHA envoyé par le client.
+ * @param string $expectedAction Action attendue (champ "action" retourné par Google).
+ *
+ * @return bool True si la vérification est valide, sinon false.
+ *
+ * @author  Etudaviz
+ * @version 1.0
+ */
 function verifRecaptchaV3(string $token, string $expectedAction): bool
 {
     if ($token === '') return false;
@@ -732,7 +874,19 @@ function verifRecaptchaV3(string $token, string $expectedAction): bool
     return true;
 }
 
-
+/**
+ * Recherche des établissements (enseignement sup public) via l’API OpenData.
+ *
+ * Appelle `getEtablissementsSupPublics()` avec une requête texte et une limite,
+ * puis formate chaque résultat via `formatEtablissement()`.
+ *
+ * @param string $query Texte de recherche.
+ *
+ * @return array Liste des établissements formatés (tableau vide si erreur ou aucun résultat).
+ *
+ * @author  Etudaviz
+ * @version 1.0
+ */
 function searchEtablissements(string $query): array {
     $raw = getEtablissementsSupPublics([
         "search" => $query,
@@ -748,6 +902,19 @@ function searchEtablissements(string $query): array {
     return $results;
 }
 
+/**
+ * Vérifie le statut d’un compte et renvoie un message adapté au contexte.
+ *
+ * Retourne `null` si le compte est "actif", sinon un message explicatif pour l’utilisateur.
+ *
+ * @param string|null $statut  Statut du compte (ex: actif, inactif, suspendu).
+ * @param string      $context Contexte d’utilisation (ex: 'login', 'reset_password').
+ *
+ * @return string|null Message à afficher si statut bloquant, sinon null.
+ *
+ * @author  Etudaviz
+ * @version 1.0
+ */
 function checkStatutCompte(?string $statut, string $context = 'login'): ?string
 {
     $statut = strtolower(trim((string)$statut));
@@ -769,7 +936,21 @@ function checkStatutCompte(?string $statut, string $context = 'login'): ?string
 }
 
 
-
+/**
+ * Détecte si un pseudo contient un mot interdit (liste dans un fichier texte).
+ *
+ * Le fichier peut contenir des lignes vides et des commentaires (lignes commençant par #).
+ * La vérification est faite en insensible à la casse (UTF-8) et recherche un mot interdit
+ * comme sous-chaîne dans le pseudo.
+ *
+ * @param string $pseudo   Pseudo à vérifier.
+ * @param string $pathTxt  Chemin vers le fichier de mots interdits.
+ *
+ * @return bool True si le pseudo contient un mot interdit, sinon false.
+ *
+ * @author  Etudaviz
+ * @version 1.0
+ */
 function forbiddenMotPseudo(string $pseudo, string $pathTxt): bool
 {
     if (!is_readable($pathTxt)) return false;
@@ -793,7 +974,19 @@ function forbiddenMotPseudo(string $pseudo, string $pathTxt): bool
 
 /**
  * Valide les champs d'inscription.
- * Retourne un message d'erreur ou null si tout est OK.
+ *
+ * Vérifie : champs remplis, format pseudo, pseudo autorisé (mots interdits),
+ * email valide, cohérence des mots de passe et règles de complexité.
+ *
+ * @param string $pseudo    Pseudo saisi.
+ * @param string $mail      Email saisi.
+ * @param string $password  Mot de passe.
+ * @param string $password2 Confirmation du mot de passe.
+ *
+ * @return string|null Message d’erreur si invalide, sinon null.
+ *
+ * @author  Etudaviz
+ * @version 1.0
  */
 function validateRegistrationInput(
     string $pseudo,
@@ -843,7 +1036,16 @@ function validateRegistrationInput(
 }
 
 /**
- * Vérifie si le pseudo ou l’email est déjà utilisé en base.
+ * Vérifie si un pseudo ou un email est déjà utilisé en base de données.
+ *
+ * @param PDO    $pdo    Connexion PDO.
+ * @param string $pseudo Pseudo à tester.
+ * @param string $mail   Email à tester.
+ *
+ * @return bool True si le pseudo ou l’email existe déjà, sinon false.
+ *
+ * @author  Etudaviz
+ * @version 1.0
  */
 function isPseudoOrMailUsed(PDO $pdo, string $pseudo, string $mail): bool {
     $sql = "SELECT COUNT(*) AS nb 
@@ -860,8 +1062,20 @@ function isPseudoOrMailUsed(PDO $pdo, string $pseudo, string $mail): bool {
 }
 
 /**
- * Crée un utilisateur en base et retourne son id_utilisateur,
- * ou null en cas d'erreur.
+ * Crée un utilisateur en base et retourne son identifiant.
+ *
+ * Le mot de passe est hashé via `password_hash()` et le compte est créé avec
+ * le statut "inactif" (activation par email).
+ *
+ * @param PDO    $pdo      Connexion PDO.
+ * @param string $pseudo   Pseudo de l'utilisateur.
+ * @param string $mail     Email de l'utilisateur.
+ * @param string $password Mot de passe en clair (sera hashé).
+ *
+ * @return int|null id_utilisateur si succès, sinon null.
+ *
+ * @author  Etudaviz
+ * @version 1.0
  */
 function createUser(PDO $pdo, string $pseudo, string $mail, string $password): ?int {
     $hash = password_hash($password, PASSWORD_DEFAULT);
@@ -884,12 +1098,36 @@ function createUser(PDO $pdo, string $pseudo, string $mail, string $password): ?
     return (int)$pdo->lastInsertId();
 }
 
+/**
+ * Construit une clé unique pour identifier une formation (code + UAI).
+ *
+ * @param array $f Tableau contenant au minimum 'code_formation' et/ou 'etab_uai'.
+ *
+ * @return string Clé unique au format "code-uai".
+ *
+ * @author  Etudaviz
+ * @version 1.0
+ */
 function getFormationUniqueKey(array $f): string {
     $code = $f['code_formation'] ?? '';
     $uai  = $f['etab_uai'] ?? '';
     return $code . '-' . $uai;
 }
 
+/**
+ * Fusionne deux enregistrements de formation et conserve le plus récent.
+ *
+ * Compare l'année (`annee`) et garde le record ayant l'année la plus élevée.
+ * Fusionne ensuite certains champs à listes (ex: 'amg') sans doublons.
+ *
+ * @param array $old Enregistrement existant.
+ * @param array $new Nouvel enregistrement.
+ *
+ * @return array Enregistrement fusionné.
+ *
+ * @author  Etudaviz
+ * @version 1.0
+ */
 function mergeFormationRecords(array $old, array $new): array {
 
     // Comparer les années
@@ -910,8 +1148,21 @@ function mergeFormationRecords(array $old, array $new): array {
     return $keep;
 }
 
-
-
+/**
+ * Recherche des métiers dans l’API ESCO (type occupation) et retourne des infos simplifiées.
+ *
+ * Fait une recherche texte, puis appelle l’API de détail pour récupérer le code ISCO
+ * et jusqu’à 2 compétences essentielles.
+ *
+ * @param string $query  Texte de recherche (min 2 caractères).
+ * @param int    $limit  Nombre max de résultats.
+ * @param int    $offset Décalage (pagination).
+ *
+ * @return array Liste de métiers (title, uri, isco, essentialSkills).
+ *
+ * @author  Etudaviz
+ * @version 1.0
+ */
 function escoSearch(string $query, int $limit = 4, int $offset = 0): array {
     if (strlen($query) < 2) return [];
 
@@ -965,9 +1216,20 @@ function escoSearch(string $query, int $limit = 4, int $offset = 0): array {
     return $results;
 }
 
-
+/**
+ * Traduit un texte anglais vers le français via l’API LibreTranslate.
+ *
+ * En cas d’échec de l’API, renvoie le texte original (fallback).
+ *
+ * @param string $text Texte à traduire (supposé en anglais).
+ *
+ * @return string Texte traduit en français (ou texte d'origine si erreur).
+ *
+ * @author  Etudaviz
+ * @version 1.0
+ */
 function escoTranslateToFrench(string $text): string {
-    // ⭐ Simple trado automatique avec l’API LibreTranslate (gratuite)
+    // Simple trado automatique avec l’API LibreTranslate
     $url = "https://libretranslate.de/translate";
 
     $payload = [
@@ -994,6 +1256,21 @@ function escoTranslateToFrench(string $text): string {
     return $json["translatedText"] ?? $text;
 }
 
+/**
+ * Récupère le détail d’un métier depuis l’API ESCO à partir de son URI.
+ *
+ * Appelle l’endpoint ESCO (occupation), extrait les champs utiles (titre, code ISCO,
+ * description, synonymes, compétences essentielles/optionnelles) et applique des fallbacks
+ * si certaines données sont absentes.
+ *
+ * @param string $uri URI ESCO du métier.
+ *
+ * @return array|null Données du métier (title, isco, description, altLabels, skillsEssential, skillsOptional)
+ *                    ou null si l’API ne répond pas / JSON invalide.
+ *
+ * @author  Etudaviz
+ * @version 1.0
+ */
 function escoGetMetier(string $uri): ?array {
 
     $url = "https://ec.europa.eu/esco/api/resource/occupation?uri=" 
@@ -1135,7 +1412,16 @@ function escoGetMetier(string $uri): ?array {
     ];
 }
 
-
+/**
+ * Nettoie une description (suppression tags + valeurs parasites + longueur minimale).
+ *
+ * @param mixed $txt Texte à nettoyer.
+ *
+ * @return string Description nettoyée (ou chaîne vide si invalide).
+ *
+ * @author  Etudaviz
+ * @version 1.0
+ */
 function cleanDescription($txt) {
     if (!is_string($txt)) return "";
 
@@ -1157,8 +1443,15 @@ function cleanDescription($txt) {
 }
 
 /**
- * Génère un token d'activation (de compte) et le stocke en base pour l'utilisateur donné.
- * Retourne le token ou null en cas d'erreur.
+ * Génère un token d’activation de compte et le stocke en base pour un utilisateur donné.
+ *
+ * @param PDO $pdo          Connexion PDO.
+ * @param int $idUtilisateur ID de l’utilisateur.
+ *
+ * @return string|null Token généré (64 caractères hex) ou null en cas d’erreur.
+ *
+ * @author  Etudaviz
+ * @version 1.0
  */
 function createActivationToken(PDO $pdo, int $idUtilisateur): ?string {
     // 64 caractères hexadécimaux
@@ -1182,7 +1475,20 @@ function createActivationToken(PDO $pdo, int $idUtilisateur): ?string {
 }
 
 /**
- * Envoie un mail de contact à l'adresse du site.
+ * Envoie un mail de contact à l’adresse du site via PHPMailer.
+ *
+ * Le message est envoyé à l’adresse du site ($mail_from) et le champ Reply-To est défini
+ * avec l’email de l’utilisateur pour pouvoir lui répondre directement.
+ *
+ * @param string $fromMail    Email de l’expéditeur (utilisateur).
+ * @param string $fromName    Nom/pseudo de l’expéditeur.
+ * @param string $subject     Sujet saisi.
+ * @param string $messageText Message saisi.
+ *
+ * @return bool True si envoyé, sinon false.
+ *
+ * @author  Etudaviz
+ * @version 1.0
  */
 function sendContactMail(string $fromMail, string $fromName, string $subject, string $messageText): bool {
     global $mail_host, $mail_port, $mail_username, $mail_password, $mail_from, $mail_from_name;
@@ -1228,6 +1534,16 @@ function sendContactMail(string $fromMail, string $fromName, string $subject, st
     }
 }
 
+/**
+ * Récupère les avis actifs d’une formation (avec le pseudo de l’auteur).
+ *
+ * @param mixed $id_formation Identifiant de la formation.
+ *
+ * @return array Liste des avis (triés du plus récent au plus ancien).
+ *
+ * @author  Etudaviz
+ * @version 1.0
+ */
 function getAvisByFormationId($id_formation) {
     global $pdo;
 
@@ -1244,7 +1560,16 @@ function getAvisByFormationId($id_formation) {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-
+/**
+ * Récupère les derniers avis actifs (avec le pseudo de l’auteur).
+ *
+ * @param int $limit Nombre maximum d’avis à retourner.
+ *
+ * @return array Liste des avis (triés du plus récent au plus ancien).
+ *
+ * @author  Etudaviz
+ * @version 1.0
+ */
 function getLatestAvis(int $limit = 10): array {
     global $pdo;
 
@@ -1264,6 +1589,14 @@ function getLatestAvis(int $limit = 10): array {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+/**
+ * Récupère tous les avis actifs, avec quelques champs sélectionnés et le pseudo de l’auteur.
+ *
+ * @return array Liste des avis (triés du plus récent au plus ancien).
+ *
+ * @author  Etudaviz
+ * @version 1.0
+ */
 function getAvisParFormation(): array {
     global $pdo;
     $sql = "
@@ -1288,6 +1621,16 @@ function getAvisParFormation(): array {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+/**
+ * Récupère les avis d’un utilisateur.
+ *
+ * @param int $id_utilisateur ID de l’utilisateur.
+ *
+ * @return array Liste des avis de l’utilisateur (triés du plus récent au plus ancien).
+ *
+ * @author  Etudaviz
+ * @version 1.0
+ */
 function getAvisByUser(int $id_utilisateur): array {
     global $pdo;
 
@@ -1303,6 +1646,14 @@ function getAvisByUser(int $id_utilisateur): array {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+/**
+ * Retourne le pseudo de l’utilisateur connecté (depuis la session).
+ *
+ * @return string Pseudo si connecté, sinon chaîne vide.
+ *
+ * @author  Etudaviz
+ * @version 1.0
+ */
 function getPseudo() {
     if (isset($_SESSION['user']['pseudo'])) {
         return $_SESSION['user']['pseudo'];
@@ -1310,6 +1661,17 @@ function getPseudo() {
     return '';
 }
 
+/**
+ * Recherche un utilisateur en base à partir de son email.
+ *
+ * @param PDO    $pdo  Connexion PDO.
+ * @param string $mail Email à rechercher.
+ *
+ * @return array|null Infos utilisateur (id_utilisateur, pseudo, mail, statut_compte) ou null si introuvable.
+ *
+ * @author  Etudaviz
+ * @version 1.0
+ */
 function findUserByEmail(PDO $pdo, string $mail): ?array
 {
     $sql = "SELECT id_utilisateur, pseudo, mail, statut_compte
@@ -1323,6 +1685,17 @@ function findUserByEmail(PDO $pdo, string $mail): ?array
     return $u ?: null;
 }
 
+/**
+ * Génère un token de réinitialisation de mot de passe et le stocke en base.
+ *
+ * @param PDO $pdo           Connexion PDO.
+ * @param int $idUtilisateur ID de l’utilisateur.
+ *
+ * @return string|null Token généré (64 hex) ou null en cas d’échec.
+ *
+ * @author  Etudaviz
+ * @version 1.0
+ */
 function createPasswordResetToken(PDO $pdo, int $idUtilisateur): ?string
 {
     $token = bin2hex(random_bytes(32));
@@ -1340,6 +1713,18 @@ function createPasswordResetToken(PDO $pdo, int $idUtilisateur): ?string
     return $ok ? $token : null;
 }
 
+/**
+ * Envoie un email de réinitialisation de mot de passe via PHPMailer.
+ *
+ * @param string $to     Adresse email du destinataire.
+ * @param string $pseudo Pseudo du destinataire.
+ * @param string $link   Lien de réinitialisation à inclure.
+ *
+ * @return bool True si envoyé, sinon false.
+ *
+ * @author  Etudaviz
+ * @version 1.0
+ */
 function sendPasswordResetMail(string $to, string $pseudo, string $link): bool
 {
     global $mail_host, $mail_port, $mail_username, $mail_password, $mail_from, $mail_from_name;
@@ -1383,6 +1768,17 @@ function sendPasswordResetMail(string $to, string $pseudo, string $link): bool
     }
 }
 
+/**
+ * Recherche un utilisateur à partir d’un token (activation / reset).
+ *
+ * @param PDO    $pdo   Connexion PDO.
+ * @param string $token Token à vérifier.
+ *
+ * @return array|null Infos utilisateur si trouvé, sinon null.
+ *
+ * @author  Etudaviz
+ * @version 1.0
+ */
 function findUserByToken(PDO $pdo, string $token): ?array
 {
     $sql = "SELECT id_utilisateur, pseudo, mail, statut_compte
@@ -1395,6 +1791,21 @@ function findUserByToken(PDO $pdo, string $token): ?array
     return $u ?: null;
 }
 
+/**
+ * Réinitialise le mot de passe d’un utilisateur à partir d’un token valide.
+ *
+ * Met à jour le hash du mot de passe et invalide le token (mis à NULL).
+ *
+ * @param PDO    $pdo          Connexion PDO.
+ * @param int    $idUtilisateur ID de l’utilisateur.
+ * @param string $token        Token de réinitialisation.
+ * @param string $newPassword  Nouveau mot de passe (en clair, sera hashé).
+ *
+ * @return bool True si la mise à jour a bien été effectuée, sinon false.
+ *
+ * @author  Etudaviz
+ * @version 1.0
+ */
 function resetPasswordWithToken(PDO $pdo, int $idUtilisateur, string $token, string $newPassword): bool
 {
     $hash = password_hash($newPassword, PASSWORD_DEFAULT);
@@ -1415,11 +1826,17 @@ function resetPasswordWithToken(PDO $pdo, int $idUtilisateur, string $token, str
 }
 
 /**
- * Met à jour la date de dernière connexion et le nombre total de connexions pour un utilisateur.
+ * Met à jour les statistiques de connexion d’un utilisateur.
  *
- * @param PDO $pdo L'objet PDO connecté à la base de données.
- * @param int $userId L'ID de l'utilisateur connecté.
+ * Met à jour la date de dernière connexion (NOW()) et incrémente le compteur de connexions.
+ *
+ * @param PDO $pdo     Connexion PDO.
+ * @param int $userId  ID de l’utilisateur connecté.
+ *
  * @return void
+ *
+ * @author  Etudaviz
+ * @version 1.0
  */
 function updateUserLoginStats(PDO $pdo, int $userId): void {
     $stmt = $pdo->prepare("
@@ -1431,12 +1848,18 @@ function updateUserLoginStats(PDO $pdo, int $userId): void {
 }
 
 /**
- * Récupère les activités récentes d'un utilisateur (avis et images)
+ * Récupère les activités récentes d’un utilisateur (avis, etc.).
  *
- * @param PDO $pdo
- * @param int $userId
- * @param int $limit Nombre d'activités à récupérer
- * @return array
+ * Retourne une liste d’actions triées de la plus récente à la plus ancienne.
+ *
+ * @param PDO $pdo     Connexion PDO.
+ * @param int $userId  ID de l’utilisateur.
+ * @param int $limit   Nombre d’activités à retourner.
+ *
+ * @return array Liste des activités (type, description, date_action).
+ *
+ * @author  Etudaviz
+ * @version 1.0
  */
 function getRecentActivities(PDO $pdo, int $userId, int $limit = 5): array {
     $limit = (int) $limit; // sécurisation
@@ -1455,11 +1878,18 @@ function getRecentActivities(PDO $pdo, int $userId, int $limit = 5): array {
 }
 
 /**
- * Retourne la note moyenne sur 10 pour un avis donné
+ * Calcule la note moyenne sur 10 pour un avis donné.
  *
- * @param PDO $pdo L'objet PDO de la base de données
- * @param int $idAvis L'identifiant de l'avis
- * @return float|null La moyenne sur 10 ou null si pas de notes
+ * La moyenne est calculée à partir des notes des critères (table Note_Critere),
+ * puis convertie sur 10 (x2) et arrondie à 1 décimale.
+ *
+ * @param PDO $pdo    Connexion PDO.
+ * @param int $idAvis ID de l’avis.
+ *
+ * @return float|null Moyenne sur 10, ou null si aucune note.
+ *
+ * @author  Etudaviz
+ * @version 1.0
  */
 function getMoyenneAvisSur10(PDO $pdo, int $idAvis): ?float
 {
@@ -1474,6 +1904,5 @@ function getMoyenneAvisSur10(PDO $pdo, int $idAvis): ?float
 
     return null; // pas de notes
 }
-
 
 ?>
