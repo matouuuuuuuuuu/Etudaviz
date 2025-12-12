@@ -219,7 +219,7 @@ th {
 
 .btn-connexion {
   padding: 8px 18px;
-  background: #E5E7EB; 
+  background:#5F7D8A; 
   color: white;
   text-decoration: none;
   border-radius: 25px;
@@ -571,7 +571,7 @@ section:nth-child(even):not(.user-reviews-wrapper) {
 
 /* Bouton principal (chaud) */
 .hero-buttons .btn-primary {
-  background: linear-gradient(135deg, #F94144, #F3722C);
+  background: linear-gradient(135deg, #E63946, #D97706);
 }
 
 .hero-buttons .btn-primary:hover {
@@ -661,10 +661,10 @@ section:nth-child(even):not(.user-reviews-wrapper) {
 }
 
 /* Couleurs par profil (associées à ta palette) */
-.btn-profil.lyceen   { background: #d63537; } /* rouge */
-.btn-profil.etudiant { background: #e07a17; } /* orange */
-.btn-profil.cpge     { background: #d9a90f; } /* jaune */
-.btn-profil.metiers  { background: #43AA8B; } /* vert-bleuté */
+.btn-profil.lyceen   { background: #C53030; } /* rouge */
+.btn-profil.etudiant { background: #D97706; } /* orange */
+.btn-profil.cpge     { background: #CA8A04; } /* jaune */
+.btn-profil.metiers  { background: #0F766E; } /* vert-bleuté */
 
 .btn-profil.lyceen,
 .btn-profil.etudiant,
@@ -1018,7 +1018,7 @@ section:nth-child(even):not(.user-reviews-wrapper) {
   ========================================================= */
   
 .map-section {
-  max-width: auto;
+  max-width: 100%;
   margin: 0 auto;
   text-align: center;
   background: #020617;
@@ -1291,8 +1291,8 @@ section:nth-child(even):not(.user-reviews-wrapper) {
 /* === FICHE FORMATION === */
 
 .formation-detail {
-  max-width: auto;
-  margin: 15px auto;
+  max-width: 1200px;
+  margin: 15px ;
 }
 
 .formation-section {
@@ -3069,7 +3069,7 @@ formation-section h2 {
 .user-reviews-section {
   max-width: 1200px;
   margin: 0 auto;
-  justify-content: justify;
+  justify-content: center;
   text-align: center;
   border-top: 1px solid #e5ebf8;
   box-sizing: border-box;
@@ -3386,7 +3386,7 @@ formation-section h2 {
 
   /* ---------- BOUTON CONNEXION ---------- */
   .btn-connexion {
-     width: 100%;
+  width: 100%;
   max-width: 280px;
   text-align: center;
   }
